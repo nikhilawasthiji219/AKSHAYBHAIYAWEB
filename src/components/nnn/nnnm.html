@@ -1,0 +1,1263 @@
+from pathlib import Path
+import base64, zipfile, shutil, os
+
+base = Path("/mnt/data/shastri-akshay-ui-exact")
+base.mkdir(exist_ok=True)
+
+photo = Path("/mnt/data/WhatsApp Image 2026-09-05 at 6.40.34 AM (1).jpeg")
+photo_b64 = base64.b64encode(photo.read_bytes()).decode()
+
+html = r"""
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>शास्त्री अक्षय अवस्थी जी | वैदिक कर्मकांड एवं धार्मिक अनुष्ठान</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Serif+Devanagari:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --paper: #fffaf0;
+            --cream: #fbf0d5;
+            --cream2: #f7e7bf;
+            --saffron: #d85f0d;
+            --orange: #ed7a16;
+            --gold: #c99c45;
+            --gold2: #ead196;
+            --brown: #54230e;
+            --ink: #3b2519;
+            --muted: #806950;
+            --deep: #321207;
+            --line: #e6cc91;
+            --white: #fffef8;
+            --green: #22a85a;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            font-family: "Noto Sans Devanagari", sans-serif;
+            background:
+                radial-gradient(circle at 18% 10%, #fff 0 2px, transparent 3px) 0 0/40px 40px,
+                linear-gradient(#fffaf2, #f8edcf);
+            font-size: 15px
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        .container {
+            width: min(1280px, 94%);
+            margin: auto
+        }
+
+        header {
+            height: 74px;
+            background: #fffdf8eF;
+            border-bottom: 1px solid var(--line);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav {
+            height: 74px;
+            display: flex;
+            align-items: center;
+            gap: 20px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 300px
+        }
+
+        .brand .seal {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            display: grid;
+            place-items: center;
+            background: #fff4d1;
+            color: var(--saffron);
+            font: 700 24px serif
+        }
+
+        .brand strong {
+            display: block;
+            color: var(--brown);
+            font: 800 16px "Noto Serif Devanagari"
+        }
+
+        .brand span {
+            display: block;
+            color: #7b6047;
+            font-size: 10px
+        }
+
+        .links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+            flex: 1;
+            font-size: 12px;
+            font-weight: 800;
+            color: #603d24
+        }
+
+        .links a:hover {
+            color: var(--saffron)
+        }
+
+        .head-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px
+        }
+
+        .numbers {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--brown)
+        }
+
+        .head-cta {
+            padding: 8px 14px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--orange), var(--saffron));
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            min-height: 640px;
+            background:
+                linear-gradient(90deg, rgba(255, 248, 225, .98) 0%, rgba(255, 247, 221, .84) 43%, rgba(104, 42, 10, .22) 100%),
+                radial-gradient(circle at 70% 10%, #ffe5a3, transparent 34%),
+                linear-gradient(125deg, #b4661d, #f7d486 45%, #7c2b0d 100%);
+        }
+
+        .hero:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(90deg, transparent 0 54%, rgba(89, 32, 8, .25)),
+                radial-gradient(ellipse at 83% 84%, rgba(255, 227, 150, .25), transparent 38%);
+        }
+
+        .temple-lines {
+            position: absolute;
+            inset: auto 0 0;
+            height: 230px;
+            opacity: .18;
+            background:
+                repeating-linear-gradient(90deg, transparent 0 70px, #fff0b5 71px 73px, transparent 74px 140px),
+                linear-gradient(180deg, transparent, #5a1b0a);
+        }
+
+        .hero-inner {
+            min-height: 640px;
+            display: grid;
+            grid-template-columns: 1.12fr .88fr;
+            align-items: center;
+            position: relative;
+            z-index: 2
+        }
+
+        .hero-copy {
+            padding: 70px 0 45px
+        }
+
+        .hero-kicker {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--saffron);
+            margin-bottom: 10px
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: "Noto Serif Devanagari", serif
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 5vw, 67px);
+            line-height: 1.06;
+            color: var(--brown);
+            margin: 0
+        }
+
+        .hero h2 {
+            font-size: 24px;
+            line-height: 1.35;
+            color: var(--brown);
+            margin: 12px 0
+        }
+
+        .hero-desc {
+            font-size: 17px;
+            line-height: 1.9;
+            max-width: 650px;
+            color: #563b27
+        }
+
+        .hero-location {
+            font-weight: 800;
+            color: var(--brown);
+            margin: 17px 0
+        }
+
+        .actions {
+            display: flex;
+            gap: 11px;
+            flex-wrap: wrap
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 24px;
+            padding: 11px 17px;
+            background: var(--saffron);
+            border: 1px solid #be5109;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 800;
+            box-shadow: 0 10px 20px #7e2c0f1a
+        }
+
+        .btn.light {
+            background: #fff8e8;
+            color: var(--brown);
+            border-color: var(--gold);
+            box-shadow: none
+        }
+
+        .portrait-wrap {
+            align-self: end;
+            justify-self: end;
+            width: min(455px, 94%);
+            padding: 14px;
+            position: relative
+        }
+
+        .portrait-wrap:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: 2px solid var(--gold);
+            border-radius: 45% 45% 5% 5%/22% 22% 5% 5%;
+            transform: rotate(-1deg)
+        }
+
+        .portrait {
+            width: 100%;
+            height: 590px;
+            object-fit: cover;
+            object-position: center top;
+            border-radius: 42% 42% 4% 4%/20% 20% 4% 4%;
+            border: 6px solid #fff4da;
+            box-shadow: 0 28px 60px #43170840
+        }
+
+        .stats {
+            background: var(--paper);
+            border-top: 1px solid #fff;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        .stat {
+            min-height: 105px;
+            padding: 17px 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            border-right: 1px solid var(--line)
+        }
+
+        .stat:last-child {
+            border: 0
+        }
+
+        .stat-icon {
+            flex: none;
+            width: 45px;
+            height: 45px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: #fff1ce;
+            color: var(--saffron);
+            font-size: 20px
+        }
+
+        .stat b {
+            display: block;
+            font: 800 16px "Noto Serif Devanagari";
+            color: var(--brown)
+        }
+
+        .stat small {
+            display: block;
+            font-size: 10px;
+            color: var(--muted);
+            line-height: 1.5
+        }
+
+        .section {
+            padding: 72px 0
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 28px
+        }
+
+        .heading .orn {
+            color: var(--saffron);
+            font-size: 17px
+        }
+
+        .heading h2 {
+            margin: 2px 0 5px;
+            font-size: 34px;
+            color: var(--brown)
+        }
+
+        .heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px
+        }
+
+        .service {
+            min-height: 145px;
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 12px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            box-shadow: 0 6px 18px #7341160a;
+            transition: .25s
+        }
+
+        .service:hover {
+            transform: translateY(-5px);
+            border-color: var(--saffron);
+            box-shadow: 0 15px 28px #73320c16
+        }
+
+        .service-icon {
+            height: 44px;
+            font-size: 29px;
+            color: var(--saffron)
+        }
+
+        .service-name {
+            font-size: 11px;
+            font-weight: 800;
+            line-height: 1.35;
+            color: #4b2b18
+        }
+
+        .service-cta {
+            font-size: 9px;
+            background: var(--saffron);
+            color: #fff;
+            border-radius: 14px;
+            padding: 5px 8px;
+            font-weight: 800
+        }
+
+        .special {
+            margin-top: 18px;
+            border-radius: 16px;
+            overflow: hidden;
+            padding: 35px 28px;
+            background:
+                linear-gradient(90deg, #4a1608dd, #792709e8),
+                radial-gradient(circle at 86% 50%, #f0a04455, transparent 25%);
+            color: white;
+            position: relative;
+            border: 1px solid #d39e45
+        }
+
+        .special:after {
+            content: "ॐ   🔱";
+            position: absolute;
+            right: 25px;
+            bottom: -36px;
+            font-size: 120px;
+            color: #fff1
+        }
+
+        .special h2 {
+            margin: 0 0 5px;
+            color: #ffe2a5;
+            font-size: 29px
+        }
+
+        .special p {
+            max-width: 700px;
+            margin: 0 0 16px;
+            color: #ffe7c8;
+            font-size: 13px
+        }
+
+        .about {
+            display: grid;
+            grid-template-columns: .75fr 1.25fr;
+            gap: 50px;
+            align-items: center
+        }
+
+        .about-photo {
+            height: 500px;
+            width: 100%;
+            object-fit: cover;
+            object-position: center top;
+            border-radius: 22px;
+            border: 6px solid #fff4d8;
+            outline: 1px solid var(--gold);
+            box-shadow: 0 15px 35px #5c2d1215
+        }
+
+        .about h2 {
+            font-size: 40px;
+            color: var(--brown);
+            margin: 0 0 4px
+        }
+
+        .about-title {
+            font-weight: 700;
+            color: #5b3b24;
+            margin-bottom: 22px
+        }
+
+        .detail {
+            border-top: 1px solid var(--line)
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 125px 1fr;
+            gap: 10px;
+            padding: 13px 0;
+            border-bottom: 1px solid var(--line);
+            font-size: 13px
+        }
+
+        .detail-row b {
+            color: var(--brown)
+        }
+
+        .about-quote {
+            margin: 22px 0;
+            padding: 13px 17px;
+            border-left: 3px solid var(--gold);
+            background: #fff8e8;
+            color: #70533e;
+            font-family: "Noto Serif Devanagari"
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px
+        }
+
+        .gallery-item {
+            height: 145px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #e6ad53, #73260c);
+            position: relative
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .gallery-placeholder {
+            display: grid;
+            place-items: center;
+            height: 100%;
+            color: #fff;
+            text-align: center;
+            font-weight: 800;
+            font-size: 11px;
+            padding: 8px;
+            background: linear-gradient(135deg, #efad41, #7d2b0e)
+        }
+
+        .blogs {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px
+        }
+
+        .blog {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: hidden
+        }
+
+        .blog-thumb {
+            height: 115px;
+            background: linear-gradient(135deg, #f0c16e, #8b320e);
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-size: 32px
+        }
+
+        .blog-body {
+            padding: 13px
+        }
+
+        .blog-tag {
+            font-size: 9px;
+            color: var(--saffron);
+            font-weight: 800
+        }
+
+        .blog h3 {
+            font-size: 15px;
+            line-height: 1.4;
+            margin: 5px 0;
+            color: var(--brown)
+        }
+
+        .blog p {
+            font-size: 10px;
+            color: var(--muted);
+            margin: 0 0 7px
+        }
+
+        .read {
+            font-size: 10px;
+            color: var(--saffron);
+            font-weight: 800
+        }
+
+        .testimonial {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 30px;
+            text-align: center
+        }
+
+        .testimonial .om {
+            font-size: 38px;
+            color: var(--gold)
+        }
+
+        .testimonial p {
+            color: var(--muted);
+            font-family: "Noto Serif Devanagari";
+            font-size: 15px
+        }
+
+        .testimonial small {
+            color: #896d55
+        }
+
+        .contact {
+            display: grid;
+            grid-template-columns: .82fr 1.18fr;
+            gap: 26px
+        }
+
+        .contact-card {
+            border-radius: 18px;
+            padding: 30px;
+            color: #ffe9c5;
+            background: linear-gradient(135deg, #381307, #6e230b);
+            border: 1px solid #b16e2b
+        }
+
+        .contact-card h2 {
+            color: #ffe2a1;
+            font-size: 29px;
+            margin: 0 0 15px
+        }
+
+        .contact-line {
+            padding: 11px 0;
+            border-bottom: 1px solid #ffffff15;
+            font-size: 12px
+        }
+
+        .form {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 28px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 13px
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px
+        }
+
+        .field.full {
+            grid-column: 1/-1
+        }
+
+        .field label {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--brown)
+        }
+
+        input,
+        select,
+        textarea {
+            font: inherit;
+            font-size: 12px;
+            padding: 10px 11px;
+            border: 1px solid #dfc78d;
+            border-radius: 8px;
+            background: #fffdf7;
+            outline: none
+        }
+
+        textarea {
+            min-height: 95px
+        }
+
+        .checks {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            font-size: 10px
+        }
+
+        footer {
+            background: #2a1005;
+            color: #d9be8f;
+            padding: 42px 0 18px
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 45px
+        }
+
+        .footer-grid h3 {
+            color: #f1cf79;
+            margin: 0 0 10px;
+            font-size: 18px
+        }
+
+        .footer-grid p {
+            font-size: 11px;
+            margin: 5px 0
+        }
+
+        .copy {
+            border-top: 1px solid #ffffff14;
+            margin-top: 28px;
+            padding-top: 14px;
+            text-align: center;
+            font-size: 9px
+        }
+
+        .mobile-bottom {
+            display: none
+        }
+
+        @media(max-width:1050px) {
+            .services {
+                grid-template-columns: repeat(4, 1fr)
+            }
+
+            .gallery {
+                grid-template-columns: repeat(3, 1fr)
+            }
+
+            .blogs {
+                grid-template-columns: repeat(3, 1fr)
+            }
+
+            .links {
+                display: none
+            }
+
+            .brand {
+                flex: 1
+            }
+        }
+
+        @media(max-width:720px) {
+            body {
+                padding-bottom: 56px
+            }
+
+            .nav {
+                height: 66px
+            }
+
+            .top {
+                height: 66px
+            }
+
+            .brand {
+                min-width: 0
+            }
+
+            .brand strong {
+                font-size: 13px
+            }
+
+            .brand span {
+                font-size: 8px
+            }
+
+            .head-right {
+                display: none
+            }
+
+            .hero-inner {
+                grid-template-columns: 1fr
+            }
+
+            .hero {
+                text-align: center
+            }
+
+            .hero-copy {
+                padding: 52px 0 22px
+            }
+
+            .hero h1 {
+                font-size: 40px
+            }
+
+            .hero h2 {
+                font-size: 19px
+            }
+
+            .hero-desc {
+                font-size: 14px
+            }
+
+            .actions {
+                justify-content: center
+            }
+
+            .portrait-wrap {
+                justify-self: center;
+                width: min(340px, 92%)
+            }
+
+            .portrait {
+                height: 425px
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .stat {
+                padding: 13px 10px;
+                min-height: 92px
+            }
+
+            .stat:nth-child(2) {
+                border-right: 0
+            }
+
+            .services {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .about {
+                grid-template-columns: 1fr
+            }
+
+            .about-photo {
+                height: 420px
+            }
+
+            .detail-row {
+                grid-template-columns: 95px 1fr
+            }
+
+            .gallery {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .gallery-item {
+                height: 145px
+            }
+
+            .blogs {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .contact {
+                grid-template-columns: 1fr
+            }
+
+            .form {
+                grid-template-columns: 1fr
+            }
+
+            .field.full {
+                grid-column: auto
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr
+            }
+
+            .section {
+                padding: 55px 0
+            }
+
+            .heading h2 {
+                font-size: 29px
+            }
+
+            .mobile-bottom {
+                position: fixed;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 150;
+                background: #2a1005;
+                border-top: 1px solid var(--gold)
+            }
+
+            .mobile-bottom a {
+                padding: 8px 4px;
+                text-align: center;
+                color: #ffe4a5;
+                font-size: 10px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="top">
+        <div class="container nav">
+            <a class="brand" href="#home">
+                <div class="seal">ॐ</div>
+                <div><strong>शास्त्री अक्षय अवस्थी जी</strong><span>वैदिक कर्मकांड एवं धार्मिक अनुष्ठान आचार्य</span>
+                </div>
+            </a>
+            <nav class="links"><a href="#home">होम</a><a href="#about">हमारे बारे में</a><a
+                    href="#services">सेवाएँ</a><a href="#custom">विशेष अनुष्ठान</a><a href="#gallery">गैलरी</a><a
+                    href="#blogs">ब्लॉग</a><a href="#contact">संपर्क</a></nav>
+            <div class="head-right">
+                <div class="numbers">◉ 9300096938 | 8982102113</div><a href="#contact" class="head-cta">पूजन/अनुष्ठान के
+                    लिए संपर्क करें</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="temple-lines"></div>
+        <div class="container hero-inner">
+            <div class="hero-copy">
+                <div class="hero-kicker">॥ श्री महाकालेश्वर तीर्थ, उज्जैन ॥</div>
+                <h1>शास्त्री अक्षय अवस्थी जी</h1>
+                <h2>वैदिक कर्मकांड एवं धार्मिक अनुष्ठान आचार्य</h2>
+                <p class="hero-desc">वैदिक परंपराओं एवं शास्त्रोक्त विधि-विधान से पूजन, संस्कार एवं धार्मिक अनुष्ठान</p>
+                <div class="hero-location">📍 श्री महाकालेश्वर तीर्थ, उज्जैन</div>
+                <div class="actions"><a class="btn" href="#contact">पूजन/अनुष्ठान के लिए संपर्क करें</a><a
+                        class="btn light" href="#custom">विशेष पूजन के लिए संपर्क करें</a></div>
+            </div>
+            <div class="portrait-wrap"><img class="portrait" src="data:image/jpeg;base64,PHOTO"
+                    alt="शास्त्री अक्षय अवस्थी जी"></div>
+        </div>
+    </section>
+
+    <div class="stats">
+        <div class="container stats-grid">
+            <div class="stat">
+                <div class="stat-icon">ॐ</div>
+                <div><b>15+ Years</b><small>वैदिक कर्मकांड एवं धार्मिक अनुष्ठान का अनुभव</small></div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon">📜</div>
+                <div><b>Education</b><small>शास्त्री — व्याकरण · आचार्य — संस्कृत</small></div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon">📍</div>
+                <div><b>Location</b><small>उज्जैन — श्री महाकालेश्वर तीर्थ</small></div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon">🪷</div>
+                <div><b>Vedic Expertise</b><small>धार्मिक अनुष्ठान एवं संस्कार</small></div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section" id="services">
+        <div class="container">
+            <div class="heading">
+                <div class="orn">✦</div>
+                <h2>हमारी प्रमुख सेवाएँ</h2>
+                <p>वैदिक परंपराओं एवं शास्त्रोक्त विधि-विधान के अनुसार पूजन, संस्कार एवं धार्मिक अनुष्ठान</p>
+            </div>
+            <div class="services">
+                <div class="service">
+                    <div class="service-icon">🔥</div>
+                    <div class="service-name">दुर्गा अर्चन</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+                <div class="service">
+                    <div class="service-icon">🪔</div>
+                    <div class="service-name">मंगलभात पूजा</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+                <div class="service">
+                    <div class="service-icon">🔱</div>
+                    <div class="service-name">कालसर्प दोष निवारण</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+                <div class="service">
+                    <div class="service-icon">ॐ</div>
+                    <div class="service-name">रुद्राभिषेक</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+                <div class="service">
+                    <div class="service-icon">ॐ</div>
+                    <div class="service-name">महामृत्युंजय जाप</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+                <div class="service">
+                    <div class="service-icon">🔥</div>
+                    <div class="service-name">महारुद्र प्रयोग</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+                <div class="service">
+                    <div class="service-icon">🌺</div>
+                    <div class="service-name">नवचंडी अनुष्ठान</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+                <div class="service">
+                    <div class="service-icon">🪔</div>
+                    <div class="service-name">शतचंडी यज्ञ एवं अनुष्ठान</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+                <div class="service">
+                    <div class="service-icon">🙏</div>
+                    <div class="service-name">मंगल पूजन</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+                <div class="service">
+                    <div class="service-icon">☀️</div>
+                    <div class="service-name">नवग्रह शांति</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+                <div class="service">
+                    <div class="service-icon">🏠</div>
+                    <div class="service-name">वास्तु शांति एवं गृह शांति</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+                <div class="service">
+                    <div class="service-icon">💍</div>
+                    <div class="service-name">कुंभ विवाह</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+                <div class="service">
+                    <div class="service-icon">🌿</div>
+                    <div class="service-name">अर्क विवाह</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+                <div class="service">
+                    <div class="service-icon">🛕</div>
+                    <div class="service-name">प्राण प्रतिष्ठा</div>
+                    <div class="service-cta">Contact for Booking</div>
+                </div>
+            </div>
+            <div class="special" id="custom">
+                <h2>Special Anushthan / Custom Puja</h2>
+                <p>यजमान अपनी आवश्यकता एवं संकल्प के अनुसार विशेष पूजन या अनुष्ठान के लिए संपर्क कर सकते हैं।</p><a
+                    class="btn" href="#contact">अपने विशेष पूजन/अनुष्ठान के लिए संपर्क करें</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <div class="container about">
+            <img class="about-photo" src="data:image/jpeg;base64,PHOTO" alt="शास्त्री अक्षय अवस्थी जी">
+            <div>
+                <div class="hero-kicker">आचार्य परिचय</div>
+                <h2>शास्त्री अक्षय अवस्थी जी</h2>
+                <div class="about-title">वैदिक कर्मकांड एवं धार्मिक अनुष्ठान आचार्य</div>
+                <div class="detail">
+                    <div class="detail-row"><b>शिक्षा</b><span>शास्त्री — व्याकरण | आचार्य — संस्कृत</span></div>
+                    <div class="detail-row"><b>अनुभव</b><span>15+ वर्ष</span></div>
+                    <div class="detail-row"><b>विशेषज्ञता</b><span>वैदिक कर्मकांड, धार्मिक अनुष्ठान, दुर्गा अर्चन,
+                            महारुद्र प्रयोग, नवचंडी, शतचंडी यज्ञ, रुद्राभिषेक, महामृत्युंजय जाप, नवग्रह शांति, मंगल
+                            पूजन, प्राण प्रतिष्ठा एवं विभिन्न वैदिक संस्कार।</span></div>
+                </div>
+                <div class="about-quote">“वेदों के प्रकाश से, धर्म के मार्ग पर…”</div><a class="btn"
+                    href="#contact">आचार्य से संपर्क करें</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="gallery">
+        <div class="container">
+            <div class="heading">
+                <div class="orn">✦</div>
+                <h2>हमारी गैलरी</h2>
+                <p>केवल वास्तविक पूजा-अनुष्ठान एवं अनुमोदित तस्वीरें यहाँ जोड़ी जाएँगी।</p>
+            </div>
+            <div class="gallery">
+                <div class="gallery-item"><img src="data:image/jpeg;base64,PHOTO" alt="आचार्य"></div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">रुद्राभिषेक<br>फोटो जोड़ें</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">महामृत्युंजय जाप<br>फोटो जोड़ें</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">नवचंडी अनुष्ठान<br>फोटो जोड़ें</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">शतचंडी यज्ञ<br>फोटो जोड़ें</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">दुर्गा अर्चन<br>फोटो जोड़ें</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">महारुद्र प्रयोग<br>फोटो जोड़ें</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">प्राण प्रतिष्ठा<br>फोटो जोड़ें</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">विवाह एवं संस्कार<br>फोटो जोड़ें</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">महाकालेश्वर / उज्जैन<br>फोटो जोड़ें</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">यजमानों के साथ<br>फोटो जोड़ें</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">अन्य अनुष्ठान<br>फोटो जोड़ें</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="blogs">
+        <div class="container">
+            <div class="heading">
+                <div class="orn">✦</div>
+                <h2>वैदिक ज्ञान एवं धार्मिक जानकारी</h2>
+                <p>धार्मिक परंपराओं और वैदिक अनुष्ठानों से संबंधित जानकारी</p>
+            </div>
+            <div class="blogs">
+                <div class="blog">
+                    <div class="blog-thumb">ॐ</div>
+                    <div class="blog-body">
+                        <div class="blog-tag">वैदिक ज्ञान</div>
+                        <h3>उज्जैन में रुद्राभिषेक का धार्मिक महत्व</h3>
+                        <p>रुद्राभिषेक से जुड़ी परंपरा और धार्मिक जानकारी।</p><a class="read" href="#">Read More →</a>
+                    </div>
+                </div>
+                <div class="blog">
+                    <div class="blog-thumb">🔱</div>
+                    <div class="blog-body">
+                        <div class="blog-tag">वैदिक ज्ञान</div>
+                        <h3>महामृत्युंजय जाप का महत्व</h3>
+                        <p>मंत्र जाप से संबंधित प्रमाणित जानकारी यहाँ प्रकाशित होगी।</p><a class="read" href="#">Read
+                            More →</a>
+                    </div>
+                </div>
+                <div class="blog">
+                    <div class="blog-thumb">🌺</div>
+                    <div class="blog-body">
+                        <div class="blog-tag">अनुष्ठान</div>
+                        <h3>नवचंडी अनुष्ठान क्यों कराया जाता है?</h3>
+                        <p>नवचंडी से संबंधित धार्मिक जानकारी।</p><a class="read" href="#">Read More →</a>
+                    </div>
+                </div>
+                <div class="blog">
+                    <div class="blog-thumb">🏠</div>
+                    <div class="blog-body">
+                        <div class="blog-tag">गृह शांति</div>
+                        <h3>गृह शांति एवं वास्तु शांति का महत्व</h3>
+                        <p>गृह शांति से संबंधित जानकारी।</p><a class="read" href="#">Read More →</a>
+                    </div>
+                </div>
+                <div class="blog">
+                    <div class="blog-thumb">🛕</div>
+                    <div class="blog-body">
+                        <div class="blog-tag">संस्कार</div>
+                        <h3>प्राण प्रतिष्ठा की वैदिक विधि एवं महत्व</h3>
+                        <p>प्राण प्रतिष्ठा के बारे में जानकारी।</p><a class="read" href="#">Read More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="heading">
+                <div class="orn">✦</div>
+                <h2>यजमानों के वास्तविक अनुभव</h2>
+                <p>वास्तविक reviews उपलब्ध होने के बाद यहाँ प्रदर्शित किए जाएँगे।</p>
+            </div>
+            <div class="testimonial">
+                <div class="om">ॐ</div>
+                <p>यजमानों के वास्तविक अनुभव शीघ्र जोड़े जाएंगे।</p><small>काल्पनिक testimonial का उपयोग नहीं किया गया
+                    है।</small>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="contact">
+        <div class="container contact">
+            <div class="contact-card">
+                <div class="hero-kicker" style="color:#e9bf6c">संपर्क करें</div>
+                <h2>पूजन/अनुष्ठान के लिए संपर्क करें</h2>
+                <div class="contact-line">📞 9300096938</div>
+                <div class="contact-line">📞 8982102113</div>
+                <div class="contact-line">✉️ awasthiakshay749@gmail.com</div>
+                <div class="contact-line">📍 श्री महाकालेश्वर तीर्थ, उज्जैन, मध्य प्रदेश</div>
+                <div class="contact-line">D21A, हाटकेश्वर विहार कॉलोनी, चिंतामण रोड, उज्जैन, मध्य प्रदेश</div>
+                <div class="contact-line">कर्मक्षेत्र: अवंतिका क्षेत्र, रामघाट, उज्जैन</div>
+                <br><a class="btn" href="https://wa.me/919300096938" target="_blank">WhatsApp पर संपर्क करें</a>
+            </div>
+            <form class="form"
+                onsubmit="event.preventDefault();alert('आपकी enquiry प्राप्त हो गई है। शीघ्र संपर्क किया जाएगा।')">
+                <div class="field"><label>नाम *</label><input required placeholder="अपना नाम"></div>
+                <div class="field"><label>मोबाइल नंबर *</label><input required pattern="[0-9]{10}"
+                        placeholder="10 अंकों का नंबर"></div>
+                <div class="field"><label>जन्म तिथि</label><input type="date"></div>
+                <div class="field"><label>जन्म समय</label><input type="time"></div>
+                <div class="field full"><label>आवश्यक पूजा / सेवा *</label><select required>
+                        <option value="">सेवा चुनें</option>
+                        <option>दुर्गा अर्चन</option>
+                        <option>मंगलभात पूजा</option>
+                        <option>कालसर्प दोष निवारण</option>
+                        <option>रुद्राभिषेक</option>
+                        <option>महामृत्युंजय जाप</option>
+                        <option>महारुद्र प्रयोग</option>
+                        <option>नवचंडी अनुष्ठान</option>
+                        <option>शतचंडी यज्ञ एवं अनुष्ठान</option>
+                        <option>मंगल पूजन</option>
+                        <option>नवग्रह शांति</option>
+                        <option>वास्तु शांति एवं गृह शांति</option>
+                        <option>कुंभ विवाह</option>
+                        <option>अर्क विवाह</option>
+                        <option>प्राण प्रतिष्ठा</option>
+                        <option>Custom Puja</option>
+                    </select></div>
+                <div class="field full"><label>संदेश</label><textarea placeholder="अपनी आवश्यकता लिखें"></textarea>
+                </div>
+                <div class="field full checks"><label><input type="checkbox"> Request Custom Puja</label><label><input
+                            type="checkbox"> Booking System</label></div>
+                <div class="field full"><button type="submit" class="btn" style="width:max-content">पूजन/अनुष्ठान के लिए
+                        संपर्क करें</button></div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <h3>शास्त्री अक्षय अवस्थी जी</h3>
+                <p>वैदिक कर्मकांड एवं धार्मिक अनुष्ठान आचार्य</p>
+                <p>वैदिक परंपराओं एवं शास्त्रोक्त विधि-विधान से पूजन, संस्कार एवं धार्मिक अनुष्ठान</p>
+            </div>
+            <div>
+                <h3>Quick Links</h3>
+                <p><a href="#about">आचार्य परिचय</a></p>
+                <p><a href="#services">सेवाएँ</a></p>
+                <p><a href="#gallery">गैलरी</a></p>
+                <p><a href="#blogs">ब्लॉग</a></p>
+            </div>
+            <div>
+                <h3>संपर्क</h3>
+                <p>9300096938</p>
+                <p>8982102113</p>
+                <p>awasthiakshay749@gmail.com</p>
+                <p>उज्जैन, मध्य प्रदेश</p>
+            </div>
+        </div>
+        <div class="container copy">© 2026 शास्त्री अक्षय अवस्थी जी — वैदिक कर्मकांड एवं धार्मिक अनुष्ठान</div>
+    </footer>
+    <div class="mobile-bottom"><a href="#home">⌂<br>होम</a><a href="#services">🪔<br>सेवाएँ</a><a
+            href="https://wa.me/919300096938" target="_blank">💬<br>WhatsApp</a></div>
+</body>
+
+</html>
+"""
+html = html.replace("PHOTO", photo_b64)
+path = base / "index.html"
+path.write_text(html, encoding="utf-8")
+
+zip_path = Path("/mnt/data/shastri-akshay-ui-matching-image.zip")
+with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
+z.write(path, "index.html")
+
+print(path)
+print(zip_path)

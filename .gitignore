@@ -1,0 +1,12 @@
+# Dependencies and build output
+node_modules/
+dist/
+tsconfig.tsbuildinfo
+*.log
+
+# Large local source assets (optimized versions live in public/)
+/photo/
+/Recording *.mp4
+/*.pdf
+/*.zip
+/*.png

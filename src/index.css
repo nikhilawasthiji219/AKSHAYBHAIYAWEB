@@ -1,0 +1,698 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: #FFF8E8;
+    color: #2B2118;
+    font-family: "Noto Serif Devanagari", Georgia, serif;
+  }
+}
+
+/* Marquee Ticker Animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom Traditional Vedic Aesthetics */
+.vedic-gold-border {
+  border: 1px solid #C89B3C;
+  position: relative;
+}
+
+.vedic-gold-border::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 1px dashed rgba(200, 155, 60, 0.4);
+  pointer-events: none;
+}
+
+.vedic-arch-frame {
+  border-top-left-radius: 140px;
+  border-top-right-radius: 140px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  box-shadow: 0 10px 30px -5px rgba(200, 155, 60, 0.4), 0 0 0 4px #FFF8E8, 0 0 0 7px #C89B3C;
+}
+
+.vedic-gold-heading {
+  color: #3B1D0B;
+  text-shadow: 0 1px 2px rgba(200, 155, 60, 0.2);
+}
+
+.subtle-pattern-bg {
+  background-color: #FFF8E8;
+  background-image: radial-gradient(#C89B3C 0.75px, transparent 0.75px), radial-gradient(#E87512 0.75px, #FFF8E8 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+  background-opacity: 0.05;
+}
+
+.special-anushthan-bg {
+  background: radial-gradient(circle at center, #641E12 0%, #3B1D0B 75%, #251006 100%);
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #E6C66A 0%, #C89B3C 50%, #E6C66A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================================
+   ENHANCED UI STYLES FROM website-ui-design
+   ========================================================== */
+
+/* Section heading with sacred stars */
+.section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 45px 20px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #d85f0d;
+  margin-bottom: 25px;
+}
+
+.section-heading h2 {
+  font-size: 27px;
+  color: #4a170c;
+  margin: 0;
+  font-weight: 700;
+  font-family: "Noto Serif Devanagari", serif;
+}
+
+/* Elastic Accordion Gallery */
+.gallery-section {
+  background: #fffdf8;
+  border: 1px solid #efd9b4;
+  border-radius: 16px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px #7838140a;
+}
+
+.elastic-gallery {
+  display: flex;
+  gap: 10px;
+  height: 365px;
+  margin-top: 14px;
+}
+
+.elastic-panel {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e8c98e;
+  border-radius: 14px;
+  padding: 0;
+  background: #5f240d;
+  cursor: pointer;
+  transition: flex 0.65s cubic-bezier(0.25, 1, 0.5, 1), filter 0.45s ease;
+  filter: saturate(0.85) brightness(0.82);
+  text-align: left;
+}
+
+.elastic-panel.is-active {
+  flex: 3.8;
+  filter: saturate(1.05) brightness(1);
+  box-shadow: 0 10px 25px rgba(200, 155, 60, 0.25);
+  border-color: #c94f08;
+}
+
+.elastic-panel img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.elastic-panel:not(.is-active) img {
+  transform: scale(1.12);
+}
+
+.elastic-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #32100600 35%, #321006f0 100%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.elastic-panel.is-active .elastic-shade {
+  opacity: 1;
+}
+
+.elastic-copy {
+  position: absolute;
+  left: 22px;
+  right: 16px;
+  bottom: 20px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.35s 0.18s, transform 0.35s 0.18s;
+  z-index: 2;
+}
+
+.elastic-panel.is-active .elastic-copy {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.elastic-copy small {
+  color: #ffd98b;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.elastic-copy strong {
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.1;
+  font-family: "Noto Serif Devanagari", serif;
+  color: #fffdf5;
+}
+
+.elastic-copy em {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-style: normal;
+  color: #ffeed0;
+  margin-top: 4px;
+}
+
+.elastic-collapsed {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff6de;
+  font-weight: bold;
+  font-size: 14px;
+  opacity: 0.9;
+  z-index: 2;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+.elastic-panel.is-active .elastic-collapsed {
+  opacity: 0;
+}
+
+/* 3D Interactive Flip Blog Cards */
+.article-flip-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  align-items: stretch;
+}
+
+.article-card {
+  position: relative;
+  min-height: 250px;
+  padding: 0;
+  border: 1px solid #e8c98e;
+  border-radius: 14px;
+  background: #fff8eb;
+  overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+  isolation: isolate;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(100, 30, 18, 0.1);
+}
+
+.article-card .article-image {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  margin: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.28;
+  transition: transform 0.8s ease, opacity 0.5s ease;
+  z-index: -1;
+}
+
+.article-card.is-active .article-image {
+  opacity: 0.52;
+  transform: scale(1.08);
+}
+
+.article-face {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  padding: 18px;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.article-front {
+  min-height: 250px;
+}
+
+.article-front small {
+  color: #a33c13;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.article-front h3 {
+  color: #54210f;
+  font-size: 16px;
+  line-height: 1.3;
+  margin: 8px 0;
+  font-family: "Noto Serif Devanagari", serif;
+  font-weight: 700;
+}
+
+.article-front span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #c65313;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.article-back {
+  position: absolute;
+  inset: 0;
+  justify-content: center;
+  background: linear-gradient(135deg, #7f270d, #c85011);
+  color: #fff;
+  opacity: 0;
+  transform: rotateY(90deg);
+  transform-origin: left center;
+  padding: 18px;
+  z-index: 3;
+}
+
+.article-card.is-active .article-front {
+  opacity: 0;
+  transform: translateX(-18px);
+}
+
+.article-card.is-active .article-back {
+  opacity: 1;
+  transform: rotateY(0);
+  transition-delay: 0.08s;
+}
+
+.article-back small {
+  color: #ffd68b;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.article-back h3 {
+  font-size: 17px;
+  line-height: 1.25;
+  margin: 6px 0 8px;
+  font-family: "Noto Serif Devanagari", serif;
+}
+
+.article-back p {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #fff1d2;
+  margin: 0 0 12px;
+}
+
+.article-number {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffffff44;
+}
+
+/* Floating Animated Diya */
+.floating-diya {
+  position: fixed;
+  right: 24px;
+  bottom: 84px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffd76e 0 9%, #ee791d 28%, #a82e0b 70%);
+  box-shadow: 0 0 0 5px #fff4d966, 0 0 26px #f1952f;
+  z-index: 49;
+  animation: diyaPulse 3s ease-in-out infinite;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.floating-diya:hover,
+.floating-diya:focus-visible {
+  transform: scale(1.12);
+  outline: 3px solid #ffd98b;
+  outline-offset: 4px;
+}
+
+.diya-chat-hint {
+  position: absolute;
+  right: 58px;
+  top: 15px;
+  background: #682817;
+  color: #fff9ea;
+  padding: 5px 9px;
+  border-radius: 12px;
+  font: 700 11px "Noto Serif Devanagari", serif;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(5px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.floating-diya:hover .diya-chat-hint,
+.floating-diya:focus-visible .diya-chat-hint {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.diya-flame {
+  position: absolute;
+  width: 14px;
+  height: 22px;
+  left: 19px;
+  top: 5px;
+  border-radius: 60% 40% 60% 40%;
+  background: #fff4ad;
+  box-shadow: 0 0 12px 5px #ffc23c;
+  transform: rotate(12deg);
+  animation: flameFlicker 1.2s ease-in-out infinite alternate;
+}
+
+.diya-bowl {
+  position: absolute;
+  left: 9px;
+  bottom: 10px;
+  width: 34px;
+  height: 15px;
+  background: linear-gradient(#ffbd48, #b94311);
+  border-radius: 0 0 22px 22px;
+  box-shadow: 0 4px 0 #7c250d;
+}
+
+/* Floating Flower Petals */
+.flower-orbit {
+  position: fixed;
+  top: 25%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: #dd6819;
+  font-size: 22px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.45;
+  animation: flowerFloat 6s ease-in-out infinite;
+}
+
+.flower-orbit-left {
+  left: 14px;
+}
+
+.flower-orbit-right {
+  right: 14px;
+  animation-delay: -2s;
+}
+
+.flower-orbit span:nth-child(2) {
+  font-size: 14px;
+  color: #e5a52d;
+}
+
+@keyframes diyaPulse {
+  50% {
+    transform: translateY(-5px);
+    box-shadow: 0 0 0 5px #fff4d966, 0 0 38px #f1952f;
+  }
+}
+
+@keyframes flameFlicker {
+  to {
+    transform: rotate(-8deg) scale(1.12);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes flowerFloat {
+  50% {
+    transform: translateY(12px) rotate(4deg);
+  }
+}
+
+/* Scroll reveal helper — animation based so element hover transitions stay intact */
+.reveal {
+  opacity: 0;
+}
+
+.reveal.is-visible {
+  animation: revealUp 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 800px) {
+  .elastic-gallery {
+    height: 420px;
+    gap: 6px;
+  }
+
+  .elastic-panel {
+    border-radius: 10px;
+  }
+
+  .elastic-panel.is-active {
+    flex: 3;
+  }
+
+  .elastic-copy {
+    left: 12px;
+    right: 10px;
+    bottom: 14px;
+  }
+
+  .elastic-copy strong {
+    font-size: 18px;
+  }
+
+  .article-flip-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .floating-diya {
+    bottom: 68px;
+    right: 16px;
+    width: 46px;
+    height: 46px;
+  }
+
+  .flower-orbit {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .article-flip-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile: elastic gallery becomes a vertical accordion so panels stay tappable */
+@media (max-width: 640px) {
+  .elastic-gallery {
+    flex-direction: column;
+    height: auto;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .elastic-panel {
+    flex: none;
+    height: 64px;
+    transition: height 0.55s cubic-bezier(0.25, 1, 0.5, 1), filter 0.45s ease;
+  }
+
+  .elastic-panel.is-active {
+    flex: none;
+    height: 250px;
+  }
+
+  .elastic-collapsed {
+    display: none;
+  }
+
+  .elastic-shade {
+    opacity: 0.85;
+  }
+
+  .elastic-copy {
+    opacity: 1;
+    transform: none;
+    left: 12px;
+    right: 12px;
+    bottom: 50%;
+    translate: 0 50%;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .elastic-copy small,
+  .elastic-copy em {
+    display: none;
+  }
+
+  .elastic-copy strong {
+    font-size: 15px;
+  }
+
+  .elastic-panel.is-active .elastic-copy {
+    bottom: 14px;
+    translate: 0 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .elastic-panel.is-active .elastic-copy small {
+    display: block;
+  }
+
+  .elastic-panel.is-active .elastic-copy em {
+    display: flex;
+  }
+
+  .elastic-panel.is-active .elastic-copy strong {
+    font-size: 18px;
+  }
+}
+
+/* Ken Burns breathing for hero backdrop */
+.kenburns {
+  animation: kenburns 22s ease-in-out infinite alternate;
+  transform-origin: 50% 40%;
+  will-change: transform;
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1) translateY(0);
+  }
+  to {
+    transform: scale(1.09) translateY(-1.5%);
+  }
+}
+
+/* Light sweep across primary CTAs on hover/press */
+.cta-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 45%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.65s ease;
+  pointer-events: none;
+}
+
+.cta-shimmer:hover::after,
+.cta-shimmer:focus-visible::after {
+  left: 120%;
+}
+
+/* Staggered cascade for reveal children inside grids */
+.stagger > .reveal.is-visible:nth-child(1) { animation-delay: 0.04s; }
+.stagger > .reveal.is-visible:nth-child(2) { animation-delay: 0.1s; }
+.stagger > .reveal.is-visible:nth-child(3) { animation-delay: 0.16s; }
+.stagger > .reveal.is-visible:nth-child(4) { animation-delay: 0.22s; }
+.stagger > .reveal.is-visible:nth-child(5) { animation-delay: 0.28s; }
+.stagger > .reveal.is-visible:nth-child(6) { animation-delay: 0.34s; }
+.stagger > .reveal.is-visible:nth-child(7) { animation-delay: 0.4s; }
+.stagger > .reveal.is-visible:nth-child(8) { animation-delay: 0.46s; }
+.stagger > .reveal.is-visible:nth-child(9) { animation-delay: 0.52s; }
+.stagger > .reveal.is-visible:nth-child(10) { animation-delay: 0.58s; }
+.stagger > .reveal.is-visible:nth-child(11) { animation-delay: 0.64s; }
+.stagger > .reveal.is-visible:nth-child(12) { animation-delay: 0.7s; }
+.stagger > .reveal.is-visible:nth-child(13) { animation-delay: 0.76s; }
+.stagger > .reveal.is-visible:nth-child(14) { animation-delay: 0.82s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-visible,
+  .stagger > .reveal.is-visible {
+    opacity: 1;
+    animation: none;
+  }
+
+  .kenburns,
+  .floating-diya,
+  .diya-flame,
+  .flower-orbit,
+  .animate-marquee {
+    animation: none;
+  }
+}
