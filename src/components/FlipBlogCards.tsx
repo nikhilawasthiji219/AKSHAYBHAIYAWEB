@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-import { BLOGS_DATA } from '../data/blogs';
+import { useCMS } from '../lib/cmsStore';
 import { Blog } from '../types';
 
 interface FlipBlogCardsProps {
@@ -9,46 +9,17 @@ interface FlipBlogCardsProps {
 }
 
 export const FlipBlogCards: React.FC<FlipBlogCardsProps> = ({ onSelectBlog }) => {
+  const cms = useCMS();
   const [active, setActive] = useState(0);
 
-  const articles = [
-    {
-      ...BLOGS_DATA[0],
-      category: 'शिव आराधना',
-      title: 'उज्जैन में रुद्राभिषेक का धार्मिक महत्व',
-      excerpt: 'श्री महाकालेश्वर दक्षिणमुखी ज्योतिर्लिंग होने से मृत्युभय का नाश करते हैं। नमक-चमक रुद्राष्टाध्यायी से अभिषेक अति पुण्यकारी है।'
-    },
-    {
-      ...BLOGS_DATA[1],
-      category: 'वैदिक ज्ञान',
-      title: 'महामृत्युंजय जाप का महत्व',
-      excerpt: 'आयु, आरोग्य और संकट निवारण हेतु महर्षि वशिष्ठ प्रोक्त संजीवनी महामंत्र जप एवं दशांश हवन का शास्त्रोक्त विधान।'
-    },
-    {
-      ...BLOGS_DATA[2],
-      category: 'शक्ति उपासना',
-      title: 'नवचंडी अनुष्ठान क्यों कराया जाता है?',
-      excerpt: 'दुर्गा सप्तशती के ९ संपूर्ण संपुटित पाठों से समस्त शत्रु बाधा, कार्य बाधा व पितृ दोष शांत होते हैं।'
-    },
-    {
-      ...BLOGS_DATA[3],
-      category: 'गृह संस्कार',
-      title: 'गृह शांति एवं वास्तु शांति का महत्व',
-      excerpt: 'वास्तु पुरुष, दिक्पाल एवं नवग्रह आहुति द्वारा गृह में निरंतर सुख, धन-धान्य और मानसिक शांति का स्थायी वास होता है।'
-    },
-    {
-      ...BLOGS_DATA[4],
-      category: 'वैदिक संस्कार',
-      title: 'प्राण प्रतिष्ठा की वैदिक विधि एवं महत्व',
-      excerpt: 'जलाधिवास, धान्याधिवास और नेत्रोन्मीलन द्वारा मूर्ति में चैतन्य देवत्व का संचार करने वाली सर्वोच्च वैदिक विधि।'
-    }
-  ];
+  // Read up to 5 blogs dynamically from CMS store
+  const articles = cms.blogs.slice(0, 5);
 
   return (
     <section className="section articles" id="blogs">
       <div className="section-heading">
         <span>✦</span>
-        <h2>हमारे लेख</h2>
+        <h2>{t('हमारे लेख', 'Our Articles')}</h2>
         <span>✦</span>
       </div>
 
@@ -57,7 +28,7 @@ export const FlipBlogCards: React.FC<FlipBlogCardsProps> = ({ onSelectBlog }) =>
           <button
             type="button"
             className={`reveal article-card ${active === i ? 'is-active' : ''}`}
-            key={article.title}
+            key={article.id}
             onMouseEnter={() => setActive(i)}
             onFocus={() => setActive(i)}
             onClick={() => {
@@ -68,7 +39,7 @@ export const FlipBlogCards: React.FC<FlipBlogCardsProps> = ({ onSelectBlog }) =>
             {/* Background Thumbnail Image */}
             <div
               className="article-image"
-              style={{ backgroundImage: `url(${article.featuredImage})` }}
+              style={{ backgroundImage: `url(${article.featuredImage || '/photos/acharya_havan.jpeg'})` }}
             />
 
             {/* Front Face */}
@@ -85,15 +56,15 @@ export const FlipBlogCards: React.FC<FlipBlogCardsProps> = ({ onSelectBlog }) =>
               <span className="article-number">{String(i + 1).padStart(2, '0')}</span>
               <small>{article.category}</small>
               <h3>{article.title}</h3>
-              <p>{article.excerpt}</p>
+              <p className="line-clamp-3">{article.excerpt}</p>
               <span
-                className="inline-flex items-center gap-1 font-bold text-xs text-white hover:underline mt-1"
+                className="inline-flex items-center gap-1 font-bold text-xs text-white hover:underline mt-1 cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                   onSelectBlog(article);
                 }}
               >
-                संपूर्ण लेख पढ़ें <ChevronRight size={14} />
+                {t('संपूर्ण लेख पढ़ें', 'Read Full Article')} <ChevronRight size={14} />
               </span>
             </div>
           </button>

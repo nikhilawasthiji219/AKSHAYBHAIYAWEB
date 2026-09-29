@@ -11,7 +11,7 @@ export const AcharyaProfile: React.FC<AcharyaProfileProps> = ({ onContactClick }
   return (
     <section className="py-16 bg-cream-light relative border-b border-gold/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
           <span className="text-xs font-bold text-saffron uppercase tracking-widest font-serif">
@@ -24,7 +24,7 @@ export const AcharyaProfile: React.FC<AcharyaProfileProps> = ({ onContactClick }
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          
+
           {/* Left: Authentic Client Photo in ornamental frame */}
           <div className="lg:col-span-5 flex justify-center">
             <div className="relative w-full max-w-sm">
@@ -91,10 +91,10 @@ export const AcharyaProfile: React.FC<AcharyaProfileProps> = ({ onContactClick }
                     अनुभव (Experience)
                   </h4>
                   <p className="text-sm font-serif font-bold text-maroon mt-0.5">
-                    15+ वर्ष
+                    {t('15+ वर्ष', '15+ years')}
                   </p>
                   <p className="text-xs text-charcoal/70 font-sans">
-                    वैदिक कर्मकांड एवं धार्मिक अनुष्ठान
+                    {t('वैदिक कर्मकांड एवं धार्मिक अनुष्ठान', 'Vedic Rituals and Religious Rituals')}
                   </p>
                 </div>
               </div>
@@ -104,7 +104,7 @@ export const AcharyaProfile: React.FC<AcharyaProfileProps> = ({ onContactClick }
             <div className="space-y-2 bg-cream p-4 rounded-lg border border-gold/40">
               <h4 className="text-xs font-bold uppercase tracking-wider text-saffron-dark font-sans flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-saffron" />
-                विशेषज्ञता (Vedic Expertise)
+                {t('विशेषज्ञता (Vedic Expertise)', 'Vedic Expertise')}
               </h4>
               <p className="text-sm font-serif text-charcoal leading-relaxed">
                 {ACHARYA_PROFILE.expertise}
@@ -115,7 +115,7 @@ export const AcharyaProfile: React.FC<AcharyaProfileProps> = ({ onContactClick }
             <div className="flex items-start gap-3 text-xs text-charcoal/80 font-sans">
               <MapPin className="w-4 h-4 text-saffron flex-shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold text-maroon">कर्मक्षेत्र:</span> {ACHARYA_PROFILE.contact.karmakshetra} | <span className="font-bold text-maroon">निवास:</span> {ACHARYA_PROFILE.contact.homeAddress}
+                <span className="font-bold text-maroon">{t('कर्मक्षेत्र:', 'Kshetra')}</span> {ACHARYA_PROFILE.contact.karmakshetra} | <span className="font-bold text-maroon">{t('निवास:', 'Residence')}</span> {ACHARYA_PROFILE.contact.homeAddress}
               </div>
             </div>
 
@@ -125,7 +125,7 @@ export const AcharyaProfile: React.FC<AcharyaProfileProps> = ({ onContactClick }
                 onClick={onContactClick}
                 className="px-6 py-3 rounded-lg bg-saffron hover:bg-saffron-dark text-white font-serif font-bold text-sm shadow-gold-sm hover:shadow-md transition-all flex items-center gap-2"
               >
-                <span>आचार्य से संपर्क करें</span>
+                <span>{t('आचार्य से संपर्क करें', 'Contact Acharya')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>

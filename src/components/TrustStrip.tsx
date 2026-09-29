@@ -6,7 +6,7 @@ export const TrustStrip: React.FC = () => {
     <section className="bg-[#FFF8E8] py-8 sm:py-10 border-b border-[#C89B3C]/20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          
+
           {/* Card 1: 15+ Years of Experience */}
           <div className="bg-white rounded-2xl border border-[#C89B3C]/30 p-8 shadow-sm hover:shadow-md transition-all duration-300 text-center flex flex-col items-center justify-center group hover:-translate-y-1">
             <div className="w-16 h-16 rounded-full bg-[#FFF8E8] border-2 border-[#D4AF37] flex items-center justify-center text-[#B24505] mb-4 group-hover:scale-105 transition-transform shadow-xs">
@@ -19,7 +19,7 @@ export const TrustStrip: React.FC = () => {
               YEARS OF AUTHENTIC EXPERIENCE
             </p>
             <p className="text-xs text-[#7D2918] font-serif">
-              वैदिक कर्मकांड एवं धार्मिक अनुष्ठान का अनुभव
+              {t('वैदिक कर्मकांड एवं धार्मिक अनुष्ठान का अनुभव', 'Authentic Vedic Rituals Experience')}
             </p>
           </div>
 
@@ -35,7 +35,7 @@ export const TrustStrip: React.FC = () => {
               SATISFIED YAJMANS
             </p>
             <p className="text-xs text-[#7D2918] font-serif">
-              देश-विदेश से संतुष्ट यजमान एवं संपन्न संकल्प
+              {t('देश-विदेश से संतुष्ट यजमान एवं संपन्न संकल्प', 'Satisfied Yajmans from India and abroad with successful Sankalps')}
             </p>
           </div>
 
@@ -51,7 +51,7 @@ export const TrustStrip: React.FC = () => {
               GOVERNMENT GOLD MEDALIST ACHARYA
             </p>
             <p className="text-xs text-[#7D2918] font-serif">
-              शास्त्री (व्याकरण) • आचार्य (संस्कृत) उपाधि
+              {t('शास्त्री (व्याकरण) • आचार्य (संस्कृत) उपाधि', 'Shastri (Grammar) • Acharya (Sanskrit) Degree')}
             </p>
           </div>
 

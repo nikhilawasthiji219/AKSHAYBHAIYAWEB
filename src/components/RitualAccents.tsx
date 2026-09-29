@@ -1,14 +1,17 @@
 import React from 'react';
-import { ACHARYA_PROFILE } from '../data/acharya';
+import { useCMS } from '../lib/cmsStore';
 
 export const RitualAccents: React.FC = () => {
+  const cms = useCMS();
+  const whatsappNumber = cms.profile.contact.whatsappNumber;
+
   return (
     <>
-      {/* Floating Animated Diya with Live WhatsApp Pulse */}
+      {/* Floating Animated Diya on Desktop & Tablet (hidden on mobile where MobileBottomBar handles chat) */}
       <a
-        className="floating-diya"
-        href={`https://wa.me/91${ACHARYA_PROFILE.contact.whatsappNumber}?text=${encodeURIComponent(
-          'नमस्ते आचार्य जी, मुझे उज्जैन में पूजा एवं अनुष्ठान के बारे में जानकारी चाहिए।'
+        className="floating-diya hidden md:flex"
+        href={`https://wa.me/91${whatsappNumber}?text=${encodeURIComponent(
+          t('नमस्ते आचार्य जी, मुझे उज्जैन में पूजा एवं अनुष्ठान के बारे में जानकारी चाहिए।', 'Namaste Acharya Ji, I want information about puja and anushthan in Ujjain.')
         )}`}
         target="_blank"
         rel="noreferrer"

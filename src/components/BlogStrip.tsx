@@ -19,17 +19,17 @@ export const BlogStrip: React.FC<BlogStripProps> = ({ onSelectBlog }) => {
   return (
     <section className="py-10 bg-[#FFF8E8] relative border-b border-[#C89B3C]/20" id="blogs">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Heading matching exact mockup */}
         <div className="mb-6 space-y-1">
           <div className="flex items-center gap-2">
             <span className="text-[#C94F08] text-base">☙</span>
             <h2 className="text-xl sm:text-2xl font-bold font-serif text-[#4A170C]">
-              हमारे ब्लॉग
+              {t('हमारे ब्लॉग', 'Our Blog')}
             </h2>
           </div>
           <p className="text-xs font-serif text-[#641E12]/80">
-            धार्मिक ज्ञान और वैदिक महत्व पर आधारित लेख
+            {t('धार्मिक ज्ञान और वैदिक महत्व पर आधारित लेख', 'Religious knowledge and Vedic significance based articles')}
           </p>
         </div>
 

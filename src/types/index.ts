@@ -35,6 +35,13 @@ export interface GalleryItem {
   imageUrl: string;
   caption: string;
   location?: string;
+  videoUrl?: string;
+  mediaType?: 'image' | 'video';
+}
+
+export interface GalleryCategory {
+  id: string;
+  label: string;
 }
 
 export interface ContactFormData {
@@ -46,4 +53,56 @@ export interface ContactFormData {
   message: string;
   isCustomPuja: boolean;
   isBookingSystem: boolean;
+}
+
+export interface SiteSettings {
+  announcementTicker: string;
+  isOnlinePujaActive: boolean;
+  adminPasswordHash?: string;
+}
+
+export interface AcharyaProfileType {
+  name: string;
+  englishName: string;
+  title: string;
+  tagline: string;
+  quote: string;
+  education: Array<{ degree: string; subject: string; institute: string }>;
+  experienceYears: string;
+  experienceSummary: string;
+  expertise: string;
+  contact: {
+    primaryPhone: string;
+    secondaryPhone: string;
+    whatsappNumber: string;
+    email: string;
+    city: string;
+    state: string;
+    postalLocation: string;
+    homeAddress: string;
+    karmakshetra: string;
+    landmark: string;
+    timings: string;
+  };
+  photos: {
+    hero: string;
+    havan: string;
+    temple: string;
+    portraitRed: string;
+    kurtaYellow: string;
+    dhotiWhite: string;
+    garland: string;
+    visitingCard: string;
+    serviceCard: string;
+  };
+}
+
+export interface CMSData {
+  gallery: GalleryItem[];
+  categories: GalleryCategory[];
+  blogs: Blog[];
+  services: Service[];
+  profile: AcharyaProfileType;
+  settings: SiteSettings;
+  lastUpdated: string;
 }

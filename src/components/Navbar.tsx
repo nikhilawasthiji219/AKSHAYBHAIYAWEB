@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown, Menu, X, MessageCircle } from 'lucide-react';
 import { ACHARYA_PROFILE } from '../data/acharya';
+import { useLanguage } from '../lib/languageContext';
 
 interface NavbarProps {
   currentPath: string;
@@ -8,6 +9,7 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
+  const { lang, toggleLanguage, t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -86,7 +88,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
               currentPath === '/' ? 'text-[#D9610B]' : 'text-[#3B1D0B] hover:text-[#D9610B]'
             }`}
           >
-            Home
+            {t('होम', 'Home')}
           </button>
 
           {/* 2. Services Dropdown */}
@@ -101,7 +103,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                 currentPath.startsWith('/services') ? 'text-[#D9610B]' : 'text-[#3B1D0B] hover:text-[#D9610B]'
               }`}
             >
-              <span>Services</span>
+              <span>{t('सेवाएँ', 'Services')}</span>
               <ChevronDown className="w-3.5 h-3.5 text-[#C89B3C]" />
             </button>
 
@@ -111,32 +113,32 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                   onClick={() => handleLinkClick('/services/kalsarp-dosh-nivaran')}
                   className="w-full text-left px-4 py-2 text-xs font-serif text-[#3B1D0B] hover:bg-[#FFF8E8] hover:text-[#D9610B] transition-colors"
                 >
-                  कालसर्प दोष निवारण पूजा
+                  {t('कालसर्प दोष निवारण पूजा', 'Kalsarp Dosh Nivaran Puja')}
                 </button>
                 <button
                   onClick={() => handleLinkClick('/services/mangal-bhaat-puja')}
                   className="w-full text-left px-4 py-2 text-xs font-serif text-[#3B1D0B] hover:bg-[#FFF8E8] hover:text-[#D9610B] transition-colors"
                 >
-                  मंगल भात पूजा (मंगलनाथ मंदिर)
+                  {t('मंगल भात पूजा (मंगलनाथ मंदिर)', 'Mangal Bhaat Puja (Mangalnath Temple)')}
                 </button>
                 <button
                   onClick={() => handleLinkClick('/services/rudrabhishek')}
                   className="w-full text-left px-4 py-2 text-xs font-serif text-[#3B1D0B] hover:bg-[#FFF8E8] hover:text-[#D9610B] transition-colors"
                 >
-                  रुद्राभिषेक एवं महामृत्युंजय
+                  {t('रुद्राभिषेक एवं महामृत्युंजय', 'Rudrabhishek & Mahamrityunjay')}
                 </button>
                 <button
                   onClick={() => handleLinkClick('/services/navgraha-shanti')}
                   className="w-full text-left px-4 py-2 text-xs font-serif text-[#3B1D0B] hover:bg-[#FFF8E8] hover:text-[#D9610B] transition-colors"
                 >
-                  नवग्रह शांति अनुष्ठान
+                  {t('नवग्रह शांति अनुष्ठान', 'Navgraha Shanti Anushthan')}
                 </button>
                 <div className="border-t border-[#F3E7CA] my-1"></div>
                 <button
                   onClick={() => handleLinkClick('/services')}
                   className="w-full text-left px-4 py-2 text-xs font-serif font-bold text-[#D9610B] hover:bg-[#FFF8E8] flex items-center justify-between"
                 >
-                  <span>View All Services</span>
+                  <span>{t('सभी सेवाएँ देखें', 'View All Services')}</span>
                   <span>➔</span>
                 </button>
               </div>
@@ -155,7 +157,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                 currentPath === '/special-anushthan' ? 'text-[#D9610B]' : 'text-[#3B1D0B] hover:text-[#D9610B]'
               }`}
             >
-              <span>Packages</span>
+              <span>{t('पैकेज', 'Packages')}</span>
               <ChevronDown className="w-3.5 h-3.5 text-[#C89B3C]" />
             </button>
 
@@ -165,22 +167,22 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                   onClick={() => handleLinkClick('/special-anushthan')}
                   className="w-full text-left px-4 py-2.5 text-xs font-serif text-[#3B1D0B] hover:bg-[#FFF8E8] hover:text-[#D9610B] transition-colors font-medium"
                 >
-                  Spiritual Discourse Packages
-                  <span className="block text-[11px] text-[#7D2918]">श्रीमद्भागवत, शिवपुराण, रामकथा</span>
+                  {t('आध्यात्मिक कथा पैकेज', 'Spiritual Discourse Packages')}
+                  <span className="block text-[11px] text-[#7D2918]">{t('श्रीमद्भागवत, शिवपुराण, रामकथा', 'Srimad Bhagwat, Shiv Puran, Ram Katha')}</span>
                 </button>
                 <button
                   onClick={() => handleLinkClick('/special-anushthan')}
                   className="w-full text-left px-4 py-2.5 text-xs font-serif text-[#3B1D0B] hover:bg-[#FFF8E8] hover:text-[#D9610B] transition-colors font-medium"
                 >
-                  Special Packages
-                  <span className="block text-[11px] text-[#7D2918]">शतचंडी, महारुद्र, विशेष अनुष्ठान</span>
+                  {t('विशेष पैकेज', 'Special Packages')}
+                  <span className="block text-[11px] text-[#7D2918]">{t('शतचंडी, महारुद्र, विशेष अनुष्ठान', 'Shatchandi, Maharudra, Special Anushthan')}</span>
                 </button>
                 <div className="border-t border-[#F3E7CA] my-1"></div>
                 <button
                   onClick={() => handleLinkClick('/special-anushthan')}
                   className="w-full text-left px-4 py-2 text-xs font-serif font-bold text-[#D9610B] hover:bg-[#FFF8E8] flex items-center justify-between"
                 >
-                  <span>View All Packages</span>
+                  <span>{t('सभी पैकेज देखें', 'View All Packages')}</span>
                   <span>➔</span>
                 </button>
               </div>
@@ -194,7 +196,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
               currentPath.startsWith('/blogs') ? 'text-[#D9610B]' : 'text-[#3B1D0B] hover:text-[#D9610B]'
             }`}
           >
-            Blog
+            {t('ब्लॉग', 'Blog')}
           </button>
 
           {/* 5. About Dropdown (About Mahakal / About Pandit Ji) */}
@@ -209,7 +211,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                 currentPath === '/about' ? 'text-[#D9610B]' : 'text-[#3B1D0B] hover:text-[#D9610B]'
               }`}
             >
-              <span>About</span>
+              <span>{t('परिचय', 'About')}</span>
               <ChevronDown className="w-3.5 h-3.5 text-[#C89B3C]" />
             </button>
 
@@ -219,13 +221,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                   onClick={() => handleLinkClick('/about')}
                   className="w-full text-left px-4 py-2 text-xs font-serif text-[#3B1D0B] hover:bg-[#FFF8E8] hover:text-[#D9610B] transition-colors"
                 >
-                  About Mahakal
+                  {t('महाकालेश्वर के बारे में', 'About Mahakal')}
                 </button>
                 <button
                   onClick={() => handleLinkClick('/about')}
                   className="w-full text-left px-4 py-2 text-xs font-serif text-[#3B1D0B] hover:bg-[#FFF8E8] hover:text-[#D9610B] transition-colors"
                 >
-                  About Pandit Akshay Ji
+                  {t('पंडित अक्षय जी के बारे में', 'About Pandit Akshay Ji')}
                 </button>
               </div>
             )}
@@ -240,7 +242,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
             <button
               className="flex items-center gap-1 text-sm font-serif font-semibold text-[#3B1D0B] hover:text-[#D9610B] transition-colors"
             >
-              <span>More</span>
+              <span>{t('अधिक', 'More')}</span>
               <ChevronDown className="w-3.5 h-3.5 text-[#C89B3C]" />
             </button>
 
@@ -250,40 +252,46 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                   onClick={() => handleLinkClick('/gallery')}
                   className="w-full text-left px-4 py-2 text-xs font-serif text-[#3B1D0B] hover:bg-[#FFF8E8] hover:text-[#D9610B] transition-colors"
                 >
-                  Gallery
+                  {t('गैलरी', 'Gallery')}
                 </button>
                 <button
                   onClick={() => handleLinkClick('/special-anushthan')}
                   className="w-full text-left px-4 py-2 text-xs font-serif text-[#3B1D0B] hover:bg-[#FFF8E8] hover:text-[#D9610B] transition-colors"
                 >
-                  Panchang
+                  {t('पंचांग', 'Panchang')}
                 </button>
                 <button
                   onClick={() => handleLinkClick('/about')}
                   className="w-full text-left px-4 py-2 text-xs font-serif text-[#3B1D0B] hover:bg-[#FFF8E8] hover:text-[#D9610B] transition-colors"
                 >
-                  Testimonials
+                  {t('प्रशंसापत्र', 'Testimonials')}
                 </button>
                 <button
                   onClick={() => handleLinkClick('/contact')}
                   className="w-full text-left px-4 py-2 text-xs font-serif text-[#3B1D0B] hover:bg-[#FFF8E8] hover:text-[#D9610B] transition-colors"
                 >
-                  Free Consultation
+                  {t('निशुल्क परामर्श', 'Free Consultation')}
                 </button>
                 <button
                   onClick={() => handleLinkClick('/contact')}
                   className="w-full text-left px-4 py-2 text-xs font-serif text-[#3B1D0B] hover:bg-[#FFF8E8] hover:text-[#D9610B] transition-colors"
                 >
-                  Contact Us
+                  {t('संपर्क करें', 'Contact Us')}
                 </button>
               </div>
             )}
           </div>
 
-          {/* Language Selector Pill */}
-          <div className="px-2.5 py-1 rounded-full border border-[#C89B3C] text-[#8E2800] bg-[#FFF8E8] text-xs font-bold font-serif cursor-default select-none shadow-2xs">
-            हिंदी
-          </div>
+          {/* Language Toggle Pill — fully functional */}
+          <button
+            onClick={toggleLanguage}
+            title={lang === 'hi' ? 'Switch to English' : 'हिंदी में बदलें'}
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border-2 border-[#C89B3C] text-[#8E2800] bg-[#FFF8E8] hover:bg-[#FFE8B2] text-xs font-bold font-serif cursor-pointer select-none shadow-2xs transition-all hover:scale-105 active:scale-95"
+          >
+            <span className="text-[10px]">{lang === 'hi' ? '🇮🇳' : '🇬🇧'}</span>
+            <span>{lang === 'hi' ? 'हिंदी' : 'EN'}</span>
+            <span className="text-[10px] opacity-60">⇄</span>
+          </button>
 
         </nav>
 
@@ -295,7 +303,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
             onClick={() => handleLinkClick('/contact')}
             className="bg-[#9A1B1E] hover:bg-[#7E1417] text-white px-5 py-2.5 rounded-full text-xs sm:text-[13px] font-serif font-bold shadow-sm transition-all transform hover:scale-[1.02] tracking-wide"
           >
-            Puja Book Kare
+            {t('पूजा बुक करें', 'Book Puja')}
           </button>
 
           {/* 2. Contact Us Pill Button (Dark Charcoal/Black as in video) */}
@@ -303,7 +311,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
             onClick={() => handleLinkClick('/contact')}
             className="bg-[#1F1F1F] hover:bg-[#333333] text-white px-5 py-2.5 rounded-full text-xs sm:text-[13px] font-serif font-bold shadow-sm transition-all transform hover:scale-[1.02] tracking-wide"
           >
-            Contact Us
+            {t('संपर्क करें', 'Contact Us')}
           </button>
 
         </div>
@@ -314,14 +322,17 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
             href={`https://wa.me/91${ACHARYA_PROFILE.contact.whatsappNumber}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-1.5 rounded-full text-emerald-700 bg-emerald-50 border border-emerald-300"
+            aria-label="WhatsApp पर संपर्क करें"
+            className="min-w-[44px] min-h-[44px] p-2.5 rounded-full text-emerald-700 bg-emerald-50 border border-emerald-300 flex items-center justify-center"
           >
-            <MessageCircle className="w-4 h-4" />
+            <MessageCircle className="w-5 h-5" />
           </a>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-1.5 rounded text-[#4A170C] border border-[#C89B3C]/40 focus:outline-none"
+            aria-label={mobileMenuOpen ? 'मेनू बंद करें' : 'मेनू खोलें'}
+            aria-expanded={mobileMenuOpen}
+            className="min-w-[44px] min-h-[44px] p-2.5 rounded-xl text-[#4A170C] border border-[#C89B3C]/40 focus:outline-none flex items-center justify-center"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -329,65 +340,74 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
 
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer — scrollable, 44px+ targets, single-column editorial */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#FFFDF7] border-b border-[#C89B3C]/30 px-4 pt-3 pb-5 space-y-3">
-          <div className="text-xs text-[#C94F08] font-semibold pb-2 border-b border-[#C89B3C]/20 flex justify-between">
-            <span>श्री महाकालेश्वर तीर्थ, उज्जैन</span>
+        <div className="lg:hidden bg-[#FFFDF7] border-b border-[#C89B3C]/30 px-4 pt-3 pb-5 space-y-3 max-h-[calc(100dvh-64px)] overflow-y-auto overscroll-contain">
+          <div className="text-xs text-[#C94F08] font-semibold pb-2 border-b border-[#C89B3C]/20 flex justify-between gap-2 flex-wrap">
+            <span>{t('श्री महाकालेश्वर तीर्थ, उज्जैन', 'Shri Mahakaleshwar Tirtha, Ujjain')}</span>
             <span>📞 {ACHARYA_PROFILE.contact.primaryPhone}</span>
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
+          {/* Language Toggle in mobile drawer */}
+          <button
+            onClick={toggleLanguage}
+            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-[#C89B3C]/60 bg-[#FFF8E8] text-sm font-serif font-bold text-[#8E2800]"
+          >
+            <span>{lang === 'hi' ? '🇮🇳 हिंदी में देखें' : '🇬🇧 View in English'}</span>
+            <span className="text-xs opacity-70">{lang === 'hi' ? '→ Switch to English' : '→ हिंदी में बदलें'}</span>
+          </button>
+
+          <div className="grid grid-cols-1 gap-1.5">
             <button
               onClick={() => handleLinkClick('/')}
-              className="text-left px-3 py-2 rounded text-xs font-serif font-bold text-[#3B1D0B] hover:bg-[#FFF8E8]"
+              className="text-left px-4 py-3 min-h-[48px] rounded-xl text-sm font-serif font-bold text-[#3B1D0B] hover:bg-[#FFF8E8] active:bg-[#FFF8E8]"
             >
-              होम (Home)
+              {t('होम', 'Home')}
             </button>
             <button
               onClick={() => handleLinkClick('/services')}
-              className="text-left px-3 py-2 rounded text-xs font-serif font-bold text-[#3B1D0B] hover:bg-[#FFF8E8]"
+              className="text-left px-4 py-3 min-h-[48px] rounded-xl text-sm font-serif font-bold text-[#3B1D0B] hover:bg-[#FFF8E8] active:bg-[#FFF8E8]"
             >
-              सेवाएं (Services)
+              {t('सेवाएँ', 'Services')}
             </button>
             <button
               onClick={() => handleLinkClick('/special-anushthan')}
-              className="text-left px-3 py-2 rounded text-xs font-serif font-bold text-[#3B1D0B] hover:bg-[#FFF8E8]"
+              className="text-left px-4 py-3 min-h-[48px] rounded-xl text-sm font-serif font-bold text-[#3B1D0B] hover:bg-[#FFF8E8] active:bg-[#FFF8E8]"
             >
-              पैकेज (Packages)
+              {t('पैकेज', 'Packages')}
             </button>
             <button
               onClick={() => handleLinkClick('/gallery')}
-              className="text-left px-3 py-2 rounded text-xs font-serif font-bold text-[#3B1D0B] hover:bg-[#FFF8E8]"
+              className="text-left px-4 py-3 min-h-[48px] rounded-xl text-sm font-serif font-bold text-[#3B1D0B] hover:bg-[#FFF8E8] active:bg-[#FFF8E8]"
             >
-              गैलरी (Gallery)
+              {t('गैलरी', 'Gallery')}
             </button>
             <button
               onClick={() => handleLinkClick('/blogs')}
-              className="text-left px-3 py-2 rounded text-xs font-serif font-bold text-[#3B1D0B] hover:bg-[#FFF8E8]"
+              className="text-left px-4 py-3 min-h-[48px] rounded-xl text-sm font-serif font-bold text-[#3B1D0B] hover:bg-[#FFF8E8] active:bg-[#FFF8E8]"
             >
-              ब्लॉग (Blog)
+              {t('ब्लॉग', 'Blog')}
             </button>
             <button
               onClick={() => handleLinkClick('/about')}
-              className="text-left px-3 py-2 rounded text-xs font-serif font-bold text-[#3B1D0B] hover:bg-[#FFF8E8]"
+              className="text-left px-4 py-3 min-h-[48px] rounded-xl text-sm font-serif font-bold text-[#3B1D0B] hover:bg-[#FFF8E8] active:bg-[#FFF8E8]"
             >
-              परिचय (About)
+              {t('परिचय', 'About')}
             </button>
           </div>
 
-          <div className="flex gap-2 pt-2">
+          <div className="flex flex-col gap-2 pt-2">
             <button
               onClick={() => handleLinkClick('/contact')}
-              className="flex-1 bg-[#9A1B1E] text-white text-center py-2.5 rounded-full font-serif font-bold text-xs shadow-xs"
+              className="w-full bg-[#9A1B1E] text-white text-center py-3.5 min-h-[52px] rounded-xl font-serif font-bold text-[15px] shadow-xs"
             >
-              पूजा बुक करें
+              {t('पूजा बुक करें', 'Book Puja Now')}
             </button>
             <button
               onClick={() => handleLinkClick('/contact')}
-              className="flex-1 bg-[#1F1F1F] text-white text-center py-2.5 rounded-full font-serif font-bold text-xs shadow-xs"
+              className="w-full bg-[#1F1F1F] text-white text-center py-3.5 min-h-[52px] rounded-xl font-serif font-bold text-[15px] shadow-xs"
             >
-              संपर्क करें
+              {t('संपर्क करें', 'Contact Us')}
             </button>
           </div>
         </div>

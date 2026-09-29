@@ -21,7 +21,7 @@ export const ContactSection: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.fullName || !formData.mobileNumber) {
-      alert('कृपया नाम एवं मोबाइल नंबर दर्ज करें।');
+      alert(t('Please enter name and mobile number.', 'कृपया नाम एवं मोबाइल नंबर दर्ज करें।'));
       return;
     }
     setIsSubmitted(true);
@@ -48,15 +48,15 @@ export const ContactSection: React.FC = () => {
   return (
     <section className="py-12 bg-[#FFF8E8] relative" id="contact">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Banner with 'संपर्क करें' matching bottom-center mockup */}
         <div className="text-center mb-8 relative">
           <div className="inline-block px-6 py-1.5 rounded-full bg-[#FFF0D4] border border-[#C89B3C]/40">
             <span className="font-serif font-bold text-base text-[#641E12]">
-              संपर्क करें
+              {t('संपर्क करें', 'Contact Us')}
             </span>
             <span className="text-[11px] font-serif text-[#C94F08] ml-2">
-              (पूजन/अनुष्ठान परामर्श)
+              {(t('puja-anushthan paramaarsh', 'Puja/Anushthan Consultation'))}
             </span>
           </div>
         </div>
@@ -64,7 +64,7 @@ export const ContactSection: React.FC = () => {
         {/* 2-Column Box matching exact layout of bottom center mockup */}
         <div className="bg-[#FFFDF7] rounded-2xl border border-[#C89B3C]/40 p-6 sm:p-8 shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-            
+
             {/* Left Column: Acharya info & Hotline */}
             <div className="md:col-span-5 space-y-4 text-xs font-serif">
               <div>
@@ -130,25 +130,25 @@ export const ContactSection: React.FC = () => {
             {/* Right Column: Form matching exact mockup fields */}
             <div className="md:col-span-7">
               <h4 className="font-serif font-bold text-xs text-[#641E12] mb-3">
-                पूजन/अनुष्ठान हेतु पूछताछ करें
+                {t('पूजन/अनुष्ठान हेतु पूछताछ करें', 'Inquire for Puja/Anushthan')}
               </h4>
 
               {isSubmitted ? (
                 <div className="bg-[#FFF8E8] border border-emerald-400 p-6 rounded-xl text-center space-y-2">
                   <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
                   <p className="font-serif font-bold text-sm text-[#3B1D0B]">
-                    आपकी enquiry प्राप्त हो गई है। शीघ्र संपर्क किया जाएगा।
+                    {t('आपकी enquiry प्राप्त हो गई है। शीघ्र संपर्क किया जाएगा।', 'Your enquiry has been received. We will contact you shortly.')}
                   </p>
                   <button
                     onClick={() => setIsSubmitted(false)}
                     className="text-xs text-[#C94F08] underline font-serif"
                   >
-                    अन्य संदेश भेजें
+                    {t('अन्य संदेश भेजें', 'Send Another Message')}
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-3 text-xs font-serif">
-                  
+
                   {/* Row 1: Name & Mobile */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
@@ -213,7 +213,7 @@ export const ContactSection: React.FC = () => {
                   <div>
                     <textarea
                       rows={2}
-                      placeholder="संदेश..."
+                      placeholder={t('संदेश...', 'Message...')}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className="w-full px-3 py-2 rounded border border-[#C89B3C]/40 bg-[#FFFDF7] text-xs font-sans focus:outline-none focus:border-[#C94F08]"
@@ -229,7 +229,7 @@ export const ContactSection: React.FC = () => {
                         onChange={(e) => setFormData({ ...formData, isCustomPuja: e.target.checked })}
                         className="w-3.5 h-3.5 text-[#C94F08]"
                       />
-                      <span>Request Custom Puja</span>
+                      <span>{t('Request Custom Puja', 'Request Custom Puja')}</span>
                     </label>
 
                     <label className="flex items-center gap-1.5 cursor-pointer">
@@ -239,7 +239,7 @@ export const ContactSection: React.FC = () => {
                         onChange={(e) => setFormData({ ...formData, isBookingSystem: e.target.checked })}
                         className="w-3.5 h-3.5 text-[#C94F08]"
                       />
-                      <span>Booking System</span>
+                      <span>{t('Booking System', 'Booking System')}</span>
                     </label>
                   </div>
 
@@ -249,16 +249,16 @@ export const ContactSection: React.FC = () => {
                       type="submit"
                       className="flex-1 py-2 px-4 rounded bg-[#D9610B] hover:bg-[#B84904] text-white font-serif font-bold text-xs shadow-xs transition-colors"
                     >
-                      पूजन/अनुष्ठान के लिए संपर्क करें
+                      {t('Contact for Puja/Anushthan', 'Contact for Puja/Anushthan')}
                     </button>
 
                     <button
                       type="button"
                       onClick={handleWhatsAppSend}
                       className="px-3 py-2 rounded bg-emerald-700 hover:bg-emerald-800 text-white font-serif text-xs font-bold transition-colors"
-                      title="WhatsApp पर भेजें"
+                      title={t('Send via WhatsApp', 'Send via WhatsApp')}
                     >
-                      WhatsApp
+                      {t('WhatsApp', 'WhatsApp')}
                     </button>
                   </div>
 

@@ -6,13 +6,50 @@
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
+    overflow-x: clip;
   }
 
   body {
     background-color: #FFF8E8;
     color: #2B2118;
-    font-family: "Noto Serif Devanagari", Georgia, serif;
+    font-family: "Noto Sans Devanagari", Inter, sans-serif;
+    overflow-x: clip;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
+
+  /* Anthropic editorial baseline: readable line-length + scale */
+  p {
+    line-height: 1.6;
+    max-width: 75ch;
+  }
+
+  h1, h2, h3 {
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* Android: minimum 44px touch targets for buttons/links */
+  button, a {
+    min-height: 0;
+    touch-action: manipulation;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Safe-area helpers for Android gesture nav + notches */
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+}
+
+.pb-safe {
+  padding-bottom: calc(0.5rem + var(--sab));
 }
 
 /* Marquee Ticker Animation */
@@ -63,10 +100,9 @@
 
 .subtle-pattern-bg {
   background-color: #FFF8E8;
-  background-image: radial-gradient(#C89B3C 0.75px, transparent 0.75px), radial-gradient(#E87512 0.75px, #FFF8E8 0.75px);
+  background-image: radial-gradient(rgba(200, 155, 60, 0.12) 0.75px, transparent 0.75px), radial-gradient(rgba(232, 117, 18, 0.1) 0.75px, transparent 0.75px);
   background-size: 30px 30px;
   background-position: 0 0, 15px 15px;
-  background-opacity: 0.05;
 }
 
 .special-anushthan-bg {
@@ -509,6 +545,11 @@
 
 /* Responsive adjustments for mobile */
 @media (max-width: 800px) {
+  /* Anthropic editorial rhythm on Android: tighter sections, single column */
+  .section {
+    padding: 32px 16px;
+  }
+
   .elastic-gallery {
     height: 420px;
     gap: 6px;
@@ -537,8 +578,8 @@
   }
 
   .floating-diya {
-    bottom: 68px;
-    right: 16px;
+    bottom: calc(84px + var(--sab));
+    right: 12px;
     width: 46px;
     height: 46px;
   }
@@ -680,6 +721,28 @@
 .stagger > .reveal.is-visible:nth-child(13) { animation-delay: 0.76s; }
 .stagger > .reveal.is-visible:nth-child(14) { animation-delay: 0.82s; }
 
+/* Android app-like fixes: prevent horizontal scroll, respect gesture nav */
+@media (max-width: 640px) {
+  main, footer, header {
+    overflow-x: clip;
+  }
+
+  /* Bottom nav clearance so CTAs/footer never hide behind it */
+  main {
+    padding-bottom: calc(72px + var(--sab));
+  }
+
+  /* Tap targets: AA + 44px minimum on mobile */
+  button, a {
+    -webkit-tap-highlight-color: rgba(200, 155, 60, 0.2);
+  }
+
+  /* Long Hindi strings should wrap, not overflow */
+  h1, h2, h3, p, span {
+    overflow-wrap: anywhere;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal,
   .reveal.is-visible,
@@ -693,6 +756,205 @@
   .diya-flame,
   .flower-orbit,
   .animate-marquee {
+    animation: none;
+  }
+}
+
+/* ---------- Sacred loading screen ---------- */
+.loader-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #fffbeb 0%, #fef3c7 50%, #fffdf5 100%);
+  z-index: 9999;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+.loader-screen.loader-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.spiritual-card {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out;
+  z-index: 2;
+}
+
+.glow-halo {
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.3) 0%, rgba(234, 88, 12, 0) 70%);
+  animation: loader-pulse-glow 3s ease-in-out infinite alternate;
+  transform: translateZ(-20px);
+}
+
+.ring-outer {
+  position: absolute;
+  inset: 0;
+  border: 3px solid transparent;
+  border-top-color: #ea580c;
+  border-right-color: #f97316;
+  border-radius: 50%;
+  animation: loader-spin 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+  transform: translateZ(10px);
+}
+
+.ring-middle {
+  position: absolute;
+  inset: 14px;
+  border: 2px dashed #f59e0b;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: loader-spin-reverse 4s linear infinite;
+  transform: translateZ(20px);
+}
+
+.rudraksha-center {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #9a3412;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 12px 30px -5px rgba(154, 52, 18, 0.45),
+    inset 0 0 0 3px rgba(254, 243, 199, 0.8);
+  transform: translateZ(40px);
+  transition: transform 0.2s ease;
+  user-select: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.rudraksha-center:hover {
+  transform: translateZ(55px) scale(1.05);
+}
+
+.bead-om {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 52px;
+  line-height: 1;
+  color: #fef3c7;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+.ripple-ring {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #ea580c;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ripple-active {
+  animation: loader-ripple 0.8s ease-out forwards;
+}
+
+.loader-footer {
+  margin-top: 40px;
+  text-align: center;
+  z-index: 2;
+}
+
+.loading-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #9a3412;
+  font-family: 'Noto Serif Devanagari', serif;
+}
+
+.hint-text {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: #c2410c;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+  font-family: 'Noto Sans Devanagari', sans-serif;
+}
+
+.progress-track {
+  width: 180px;
+  height: 4px;
+  background-color: #fde68a;
+  border-radius: 4px;
+  margin: 14px auto 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #ea580c, #f59e0b);
+  border-radius: 4px;
+  transition: width 0.1s linear;
+}
+
+.progress-counter {
+  margin-top: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ea580c;
+}
+
+@keyframes loader-spin {
+  0% { transform: translateZ(10px) rotate(0deg); }
+  100% { transform: translateZ(10px) rotate(360deg); }
+}
+
+@keyframes loader-spin-reverse {
+  0% { transform: translateZ(20px) rotate(0deg); }
+  100% { transform: translateZ(20px) rotate(-360deg); }
+}
+
+@keyframes loader-pulse-glow {
+  0% { transform: translateZ(-20px) scale(0.95); opacity: 0.4; }
+  100% { transform: translateZ(-20px) scale(1.3); opacity: 0.8; }
+}
+
+@keyframes loader-ripple {
+  0% { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-screen {
+    transition: none;
+  }
+  .ring-outer,
+  .ring-middle,
+  .glow-halo,
+  .ripple-active {
     animation: none;
   }
 }

@@ -1,35 +1,40 @@
 import React from 'react';
-import { Phone, MessageCircle, Mail, MapPin, ChevronRight, ArrowUp } from 'lucide-react';
-import { ACHARYA_PROFILE } from '../data/acharya';
+import { Phone, MessageCircle, Mail, MapPin, ChevronRight, ArrowUp, Lock } from 'lucide-react';
+import { useCMS } from '../lib/cmsStore';
 
 interface FooterProps {
   onNavigate: (path: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+  const cms = useCMS();
+  const profile = cms.profile;
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const quickLinks = [
-    { label: 'होम', path: '/' },
-    { label: 'हमारे बारे में', path: '/about' },
-    { label: 'कालसर्प पूजा', path: '/services/kalsarp-dosh-nivaran' },
-    { label: 'मंगल भात पूजा (मंगलनाथ व अंगारेश्वर मंदिर)', path: '/services/mangal-bhaat-puja' },
-    { label: 'नवग्रह शांति पूजा', path: '/services/navgraha-shanti' },
-    { label: 'केमद्रुम दोष निवारण पूजा', path: '/services/kemdrum-dosh' },
-    { label: 'गैलरी', path: '/gallery' },
-    { label: 'संपर्क करें', path: '/contact' },
+    { label: t('होम', 'Home'), path: '/' },
+    { label: t('के बारे में', 'About'), path: '/about' },
+    { label: t('कालसर्प दोष निवारण पूजा', 'Kalsarp Dosh Nivaran Puja'), path: '/services/kalsarp-dosh-nivaran' },
+    { label: t('मंगल भात पूजा (मंगलनाथ मंदिर)', 'Mangal Bhaat Puja (Mangalnath Temple)'), path: '/services/mangal-bhaat-puja' },
+    { label: t('नवग्रह शांति अनुष्ठान', 'Navgrah Shanti Anushthan'), path: '/services/navgraha-shanti' },
+    { label: t('केमद्रुम दोष निवारण पूजा', 'Kemdrum Dosh Nivaran Puja'), path: '/services/kemdrum-dosh' },
+    { label: t('गैलरी', 'Gallery'), path: '/gallery' },
+    { label: t('ब्लॉग', 'Blog'), path: '/blogs' },
+    { label: t('संपर्क करें', 'Contact Us'), path: '/contact' },
+    { label: t('व्यवस्थापक पोर्टल', 'Admin CMS'), path: '/admin' },
   ];
 
   const ourServices = [
-    { label: 'गुरु चांडाल दोष शांति पूजा', path: '/services/guru-chandal-dosh' },
-    { label: 'शनि चांडाल दोष निवारण पूजा', path: '/services/shani-chandal-dosh' },
-    { label: 'विष दोष निवारण पूजा', path: '/services/vish-dosh-nivaran' },
-    { label: 'अर्क विवाह एवं कुंभ विवाह', path: '/services/ark-vivah-kumbh-vivah' },
-    { label: 'महामृत्युंजय जाप एवं अनुष्ठान', path: '/services/mahamrityunjay-jaap' },
-    { label: 'आध्यात्मिक कथा पैकेज', path: '/special-anushthan' },
-    { label: 'विशेष पैकेज', path: '/special-anushthan' },
+    { label: t('गुरु चांडाल दोष शांति पूजा', 'Guru Chandal Dosh Shanti Puja'), path: '/services/guru-chandal-dosh' },
+    { label: t('शनि चांडाल दोष निवारण पूजा', 'Shani Chandal Dosh Nivaran Puja'), path: '/services/shani-chandal-dosh' },
+    { label: t('विष दोष निवारण पूजा', 'Vish Dosh Nivaran Puja'), path: '/services/vish-dosh-nivaran' },
+    { label: t('अर्क विवाह एवं कुंभ विवाह', 'Ark Vivah & Kumbh Vivah'), path: '/services/ark-vivah-kumbh-vivah' },
+    { label: t('महामृत्युंजय जाप एवं अनुष्ठान', 'Mahamrityunjay Jaap & Anushthan'), path: '/services/mahamrityunjay-jaap' },
+    { label: t('आध्यात्मिक कथा पैकेज', 'Spiritual Discourse Packages'), path: '/special-anushthan' },
+    { label: t('विशेष पैकेज', 'Special Packages'), path: '/special-anushthan' },
   ];
 
   const handleLinkClick = (path: string) => {
@@ -40,10 +45,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
     <footer className="bg-[#181818] text-[#D1D5DB] border-t-2 border-[#C89B3C]/50 pt-14 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Main 4-Column Grid exactly matching screenshot */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 pb-12 border-b border-[#333333]">
-          
+
           {/* Column 1: Logo & Mission Statement */}
           <div className="space-y-4">
             <div className="inline-block bg-white p-2.5 rounded-lg shadow-sm">
@@ -78,7 +83,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           {/* Column 2: त्वरित लिंक (Quick Links) */}
           <div className="space-y-3">
             <h3 className="text-base sm:text-lg font-bold font-serif text-[#F59E0B] tracking-wide relative inline-block pb-1.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:h-0.5 after:bg-[#D97706]">
-              त्वरित लिंक
+              {t('त्वरित लिंक', 'Quick Links')}
             </h3>
 
             <ul className="space-y-2 text-xs sm:text-[13px] font-sans text-[#D1D5DB] pt-1">
@@ -99,7 +104,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           {/* Column 3: हमारी सेवाएं (Our Services) */}
           <div className="space-y-3">
             <h3 className="text-base sm:text-lg font-bold font-serif text-[#F59E0B] tracking-wide relative inline-block pb-1.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:h-0.5 after:bg-[#D97706]">
-              हमारी सेवाएं
+              {t('हमारी सेवाएं', 'Our Services')}
             </h3>
 
             <ul className="space-y-2 text-xs sm:text-[13px] font-sans text-[#D1D5DB] pt-1">
@@ -120,46 +125,46 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           {/* Column 4: संपर्क जानकारी (Contact Info) */}
           <div className="space-y-3">
             <h3 className="text-base sm:text-lg font-bold font-serif text-[#F59E0B] tracking-wide relative inline-block pb-1.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:h-0.5 after:bg-[#D97706]">
-              संपर्क जानकारी
+              {t('संपर्क जानकारी', 'Contact Info')}
             </h3>
 
             <ul className="space-y-3 text-xs sm:text-[13px] font-sans text-[#E5E7EB] pt-1">
               <li>
                 <a
-                  href={`tel:${ACHARYA_PROFILE.contact.primaryPhone}`}
+                  href={`tel:${profile.contact.primaryPhone}`}
                   className="flex items-center gap-2.5 hover:text-[#F59E0B] transition-colors"
                 >
                   <Phone className="w-4 h-4 text-[#F59E0B] shrink-0" />
-                  <span>+91 {ACHARYA_PROFILE.contact.primaryPhone}</span>
+                  <span>+91 {profile.contact.primaryPhone}</span>
                 </a>
               </li>
 
               <li>
                 <a
-                  href={`https://wa.me/91${ACHARYA_PROFILE.contact.whatsappNumber}`}
+                  href={`https://wa.me/91${profile.contact.whatsappNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2.5 hover:text-[#F59E0B] transition-colors"
                 >
                   <MessageCircle className="w-4 h-4 text-[#F59E0B] shrink-0" />
-                  <span>+91 {ACHARYA_PROFILE.contact.whatsappNumber}</span>
+                  <span>+91 {profile.contact.whatsappNumber}</span>
                 </a>
               </li>
 
               <li>
                 <a
-                  href={`mailto:${ACHARYA_PROFILE.contact.email}`}
+                  href={`mailto:${profile.contact.email}`}
                   className="flex items-center gap-2.5 hover:text-[#F59E0B] transition-colors break-all"
                 >
                   <Mail className="w-4 h-4 text-[#F59E0B] shrink-0" />
-                  <span>{ACHARYA_PROFILE.contact.email}</span>
+                  <span>{profile.contact.email}</span>
                 </a>
               </li>
 
               <li>
                 <div className="flex items-start gap-2.5 text-[#D1D5DB]">
                   <MapPin className="w-4 h-4 text-[#F59E0B] shrink-0 mt-0.5" />
-                  <span>Ujjain (M.P.) — श्री महाकालेश्वर तीर्थ</span>
+                  <span>{profile.contact.postalLocation}</span>
                 </div>
               </li>
             </ul>
@@ -176,9 +181,18 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
         </div>
 
-        {/* Bottom Bar: Copyright and Back to Top */}
+        {/* Bottom Bar: Copyright and Back to Top and Admin Link */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-[#9CA3AF]">
-          <p>© 2026. {ACHARYA_PROFILE.name}. सर्वाधिकार सुरक्षित।</p>
+          <div className="flex items-center gap-3 flex-wrap">
+            <p>© 2026. {profile.name}. {t('सर्वाधिकार सुरक्षित', 'All rights reserved')}.</p>
+            <button
+              onClick={() => handleLinkClick('/admin')}
+              className="inline-flex items-center gap-1 text-gray-500 hover:text-amber-400 text-[11px] font-serif transition-colors px-2 py-0.5 rounded border border-gray-700/50 hover:border-amber-400/50"
+            >
+              <Lock className="w-3 h-3 text-amber-400" />
+              <span>{t('व्यवस्थापक पोर्टल', 'Admin Portal')}</span>
+            </button>
+          </div>
 
           <button
             onClick={scrollToTop}
@@ -187,9 +201,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <div className="w-6 h-6 rounded-full bg-[#262626] border border-[#C89B3C]/40 flex items-center justify-center">
               <ArrowUp className="w-3.5 h-3.5" />
             </div>
-            <span>Back to Top</span>
+            <span>{t('शीर्ष पर जाएं', 'Back to Top')}</span>
           </button>
         </div>
+
 
       </div>
     </footer>

@@ -1,13 +1,17 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
+import { useLanguage } from '../lib/languageContext';
 import { ACHARYA_PROFILE } from '../data/acharya';
 
 export const WhatsAppButton: React.FC = () => {
+  const { t } = useLanguage();
+  const message = t(
+    'प्रणाम शास्त्री जी, मैं उज्जैन में वैदिक पूजन/अनुष्ठान के लिए परामर्श व बुकिंग हेतु संपर्क कर रहा हूँ।',
+    'Pranam Shastri Ji, I want to enquire about Vedic Puja/Anushthan in Ujjain.'
+  );
   return (
     <a
-      href={`https://wa.me/91${ACHARYA_PROFILE.contact.whatsappNumber}?text=${encodeURIComponent(
-        'प्रणाम शास्त्री जी, मैं उज्जैन में वैदिक पूजन/अनुष्ठान के लिए परामर्श व बुकिंग हेतु संपर्क कर रहा हूँ।'
-      )}`}
+      href={`https://wa.me/91${ACHARYA_PROFILE.contact.whatsappNumber}?text=${encodeURIComponent(message)}`}
       target="_blank"
       rel="noopener noreferrer"
       className="hidden md:flex fixed bottom-6 right-6 z-50 items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-4 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-2 border-white/80 group"
