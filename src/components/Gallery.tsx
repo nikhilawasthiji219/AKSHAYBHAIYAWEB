@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Play, MapPin, LayoutGrid, Droplets, Flame, Landmark, UserRound, Sparkles } from 'lucide-react';
 import { useCMS } from '../lib/cmsStore';
+import { useLanguage } from '../lib/languageContext';
 import { GalleryItem } from '../types';
 import { Dock, DockIcon, DockItem, DockLabel } from '@/components/ui/dock';
 
@@ -16,6 +17,7 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
 
 export const Gallery: React.FC<{ showFilters?: boolean }> = ({ showFilters }) => {
   const cms = useCMS();
+  const { t } = useLanguage();
   const [filter, setFilter] = useState('all');
   const [selected, setSelected] = useState<GalleryItem | null>(null);
 
