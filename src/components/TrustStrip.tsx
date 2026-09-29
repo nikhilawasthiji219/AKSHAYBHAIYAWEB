@@ -1,7 +1,9 @@
 import React from 'react';
 import { Users, Award } from 'lucide-react';
+import { useLanguage } from '../lib/languageContext';
 
 export const TrustStrip: React.FC = () => {
+  const { t } = useLanguage();
   return (
     <section className="bg-[#FFF8E8] py-8 sm:py-10 border-b border-[#C89B3C]/20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

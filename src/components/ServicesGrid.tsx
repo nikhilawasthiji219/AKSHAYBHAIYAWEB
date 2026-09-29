@@ -2,6 +2,7 @@ import React from 'react';
 import { SERVICES_DATA } from '../data/services';
 import { VedicIcon } from './VedicIcon';
 import { Service } from '../types';
+import { useLanguage } from '../lib/languageContext';
 
 interface ServicesGridProps {
   onSelectService: (service: Service) => void;
@@ -13,6 +14,7 @@ export const ServicesGrid: React.FC<ServicesGridProps> = ({
   onSelectService,
   onBookService
 }) => {
+  const { t } = useLanguage();
   return (
     <section className="py-8 sm:py-12 bg-[#FFF8E8] relative" id="services">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

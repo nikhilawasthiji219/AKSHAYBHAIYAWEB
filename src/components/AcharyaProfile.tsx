@@ -1,5 +1,6 @@
 import React from 'react';
 import { GraduationCap, Award, MapPin, CheckCircle2, ArrowRight } from 'lucide-react';
+import { useLanguage } from '../lib/languageContext';
 import { ACHARYA_PROFILE } from '../data/acharya';
 
 interface AcharyaProfileProps {
@@ -8,6 +9,7 @@ interface AcharyaProfileProps {
 }
 
 export const AcharyaProfile: React.FC<AcharyaProfileProps> = ({ onContactClick }) => {
+  const { t } = useLanguage();
   return (
     <section className="py-16 bg-cream-light relative border-b border-gold/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,10 +17,10 @@ export const AcharyaProfile: React.FC<AcharyaProfileProps> = ({ onContactClick }
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
           <span className="text-xs font-bold text-saffron uppercase tracking-widest font-serif">
-            ॥ धर्मो रक्षति रक्षितः ॥
+              {t('ॐ धर्मो रक्षति रक्षितः', 'Om Dharo Rakshati RakshitaH')}
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif text-maroon">
-            आचार्य परिचय
+              {t('आचार्य परिचय', 'Acharya Introduction')}
           </h2>
           <div className="w-20 h-1 bg-gold mx-auto"></div>
         </div>
@@ -52,8 +54,8 @@ export const AcharyaProfile: React.FC<AcharyaProfileProps> = ({ onContactClick }
           <div className="lg:col-span-7 space-y-6">
             <div>
               <span className="text-xs font-semibold px-2.5 py-1 rounded bg-saffron/10 text-saffron-dark border border-saffron/20 font-serif">
-                श्री महाकालेश्वर तीर्थ, उज्जैन
-              </span>
+              {t('श्री महाकालेश्वर तीर्थ, उज्जैन', 'Shri Mahakaleshwar Dham, Ujjain')}
+          </span>
               <h3 className="text-2xl sm:text-3xl font-bold font-serif text-maroon mt-2">
                 {ACHARYA_PROFILE.name}
               </h3>
@@ -72,15 +74,15 @@ export const AcharyaProfile: React.FC<AcharyaProfileProps> = ({ onContactClick }
               <div className="flex items-start gap-3 bg-cream p-3.5 rounded-lg border border-gold/40">
                 <GraduationCap className="w-5 h-5 text-saffron flex-shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-saffron-dark font-sans">
-                    शिक्षा (Education)
-                  </h4>
+<h4 className="text-xs font-bold uppercase tracking-wider text-saffron-dark font-sans">
+              {t('शिक्षा (Education)', 'Education')}
+          </h4>
                   <p className="text-sm font-serif font-bold text-maroon mt-0.5">
-                    शास्त्री — व्याकरण
-                  </p>
-                  <p className="text-sm font-serif font-bold text-maroon">
-                    आचार्य — संस्कृत
-                  </p>
+              {t('शास्त्री — व्याकरण', 'Shastri - Grammar')}
+          </p>
+          <p className="text-sm font-serif font-bold text-maroon">
+              {t('आचार्य — संस्कृत', 'Acharya - Sanskrit')}
+          </p>
                 </div>
               </div>
 

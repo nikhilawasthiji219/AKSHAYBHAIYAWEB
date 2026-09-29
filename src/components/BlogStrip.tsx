@@ -1,12 +1,14 @@
 import React from 'react';
 import { BLOGS_DATA } from '../data/blogs';
 import { Blog } from '../types';
+import { useLanguage } from '../lib/languageContext';
 
 interface BlogStripProps {
   onSelectBlog: (blog: Blog) => void;
 }
 
 export const BlogStrip: React.FC<BlogStripProps> = ({ onSelectBlog }) => {
+  const { t } = useLanguage();
   // Matching the 5 blog cards in bottom-left of mockup
   const blogs = [
     { ...BLOGS_DATA[0], title: 'उज्जैन में रुद्राभिषेक का धार्मिक महत्व', img: '/images/blog_1.jpg' },

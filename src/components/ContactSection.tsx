@@ -3,8 +3,10 @@ import { SERVICES_DATA } from '../data/services';
 import { ACHARYA_PROFILE } from '../data/acharya';
 import { Phone, Mail, MapPin, CheckCircle2, MessageCircle } from 'lucide-react';
 import { ContactFormData } from '../types';
+import { useLanguage } from '../lib/languageContext';
 
 export const ContactSection: React.FC = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState<ContactFormData>({
     fullName: '',
     mobileNumber: '',

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useCMS } from '../lib/cmsStore';
+import { useLanguage } from '../lib/languageContext';
 import { Blog } from '../types';
 
 interface FlipBlogCardsProps {
@@ -10,6 +11,7 @@ interface FlipBlogCardsProps {
 
 export const FlipBlogCards: React.FC<FlipBlogCardsProps> = ({ onSelectBlog }) => {
   const cms = useCMS();
+  const { t } = useLanguage();
   const [active, setActive] = useState(0);
 
   // Read up to 5 blogs dynamically from CMS store

@@ -1,7 +1,9 @@
 import React from 'react';
 import { useCMS } from '../lib/cmsStore';
+import { useLanguage } from '../lib/languageContext';
 
 export const RitualAccents: React.FC = () => {
+  const { t } = useLanguage();
   const cms = useCMS();
   const whatsappNumber = cms.profile.contact.whatsappNumber;
 

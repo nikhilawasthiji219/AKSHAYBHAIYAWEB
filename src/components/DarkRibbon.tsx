@@ -1,10 +1,12 @@
 import { MapPin } from 'lucide-react';
+import { useLanguage } from '../lib/languageContext';
 
 interface DarkRibbonProps {
   onContactClick: () => void;
 }
 
 export const DarkRibbon: React.FC<DarkRibbonProps> = ({ onContactClick }) => {
+  const { t } = useLanguage();
   return (
     <section className="bg-[#2A1005] text-[#FFF8E8] py-4 border-y border-[#C89B3C]/30 relative overflow-hidden">
 

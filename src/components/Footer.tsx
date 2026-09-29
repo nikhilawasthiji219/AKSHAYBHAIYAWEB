@@ -1,6 +1,7 @@
 import React from 'react';
 import { Phone, MessageCircle, Mail, MapPin, ChevronRight, ArrowUp, Lock } from 'lucide-react';
 import { useCMS } from '../lib/cmsStore';
+import { useLanguage } from '../lib/languageContext';
 
 interface FooterProps {
   onNavigate: (path: string) => void;
@@ -9,6 +10,7 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const cms = useCMS();
   const profile = cms.profile;
+  const { t } = useLanguage();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
