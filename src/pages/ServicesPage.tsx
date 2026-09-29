@@ -19,8 +19,8 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
       {/* Top Scenic Banner: Exact panoramic temple skyline from the middle mockup */}
       <div className="relative w-full h-44 sm:h-52 md:h-60 overflow-hidden flex items-center justify-center border-b border-[#C89B3C]/30">
         <img
-          src="/photos/acharya_mahakal_temple.jpeg"
-          alt="हमारी सेवाएं"
+          src="/photos/mahakal_temple_banner.jpg"
+          alt="श्री महाकालेश्वर मंदिर उज्जैन"
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
         <div className="relative z-10 text-center space-y-1.5 bg-[#FFF8E8]/85 backdrop-blur-xs px-8 py-3 rounded-2xl border border-[#C89B3C]/40 shadow-sm">

@@ -5,22 +5,11 @@ import { BLOGS_DATA } from '../data/blogs';
 import { SERVICES_DATA } from '../data/services';
 import { ACHARYA_PROFILE } from '../data/acharya';
 
-const CMS_STORAGE_KEY = 'akshay_website_cms_v1';
+const CMS_STORAGE_KEY = 'akshay_website_cms_v2';
 const CMS_AUTH_KEY = 'akshay_admin_auth_v1';
 const CMS_EVENT = 'akshay_cms_updated';
 
-// Initial video item included in gallery
-const INITIAL_VIDEO_ITEM: GalleryItem = {
-  id: 'gal-video-1',
-  title: 'पूजन एवं अनुष्ठान वीडियो झलक',
-  category: 'वीडियो दर्शन',
-  categorySlug: 'video',
-  imageUrl: '/photos/acharya_havan.jpeg',
-  caption: 'आचार्य जी द्वारा संपन्न वैदिक अनुष्ठान की चलचित्र झलक',
-  location: 'उज्जैन, मध्य प्रदेश',
-  videoUrl: '/videos/acharya_puja_clip.mp4',
-  mediaType: 'video'
-};
+
 
 const DEFAULT_SETTINGS: SiteSettings = {
   announcementTicker: 'श्री महाकालेश्वर तीर्थ, उज्जैन में शास्त्रोक्त विधि से वैदिक अनुष्ठान एवं पूजन हेतु ऑनलाइन व ऑफलाइन सेवाएँ उपलब्ध हैं।',
@@ -29,11 +18,8 @@ const DEFAULT_SETTINGS: SiteSettings = {
 };
 
 const INITIAL_CMS_DATA: CMSData = {
-  gallery: [INITIAL_VIDEO_ITEM, ...GALLERY_DATA.map(item => ({ ...item, mediaType: 'image' as const }))],
-  categories: [
-    ...GALLERY_CATEGORIES,
-    { id: 'video', label: 'वीडियो दर्शन' }
-  ],
+  gallery: GALLERY_DATA.map(item => ({ ...item, mediaType: 'image' as const })),
+  categories: [...GALLERY_CATEGORIES],
   blogs: BLOGS_DATA,
   services: SERVICES_DATA,
   profile: ACHARYA_PROFILE,

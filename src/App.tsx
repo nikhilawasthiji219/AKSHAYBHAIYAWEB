@@ -5,6 +5,7 @@ import { WhatsAppButton } from './components/WhatsAppButton';
 import { RitualAccents } from './components/RitualAccents';
 import { Footer } from './components/Footer';
 import { Loader } from './components/Loader';
+import { BackgroundMusic } from './components/audio/BackgroundMusic';
 
 // Pages — lazy-split to keep initial bundle small (vendor-motion split in vite.config)
 const HomePage = lazy(() => import('./pages/HomePage').then((m) => ({ default: m.HomePage })));
@@ -311,6 +312,9 @@ export const App: React.FC = () => {
 
       {/* Mobile Bottom Navigation Bar */}
       {currentPath !== '/admin' && <MobileBottomBar currentPath={currentPath} onNavigate={navigate} />}
+
+      {/* Background devotional music — auto-starts on first interaction */}
+      {currentPath !== '/admin' && <BackgroundMusic />}
 
       {/* Dark Heritage Footer */}
       <Footer onNavigate={navigate} />
