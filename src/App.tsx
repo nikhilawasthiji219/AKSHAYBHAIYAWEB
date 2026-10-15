@@ -64,7 +64,7 @@ export const App: React.FC = () => {
               if (entry.isIntersecting) show(entry.target);
             });
           },
-          { threshold: 0, rootMargin: '0px 0px -60px 0px' }
+          { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
         )
       : null;
 

@@ -45,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#FFFDF7]/98 backdrop-blur-md shadow-md py-2 border-b border-[#C89B3C]/30'
+          ? 'bg-[#FFFDF7] backdrop-blur-md shadow-md py-2 border-b border-[#C89B3C]/30'
           : 'bg-[#FFFDF7] py-2.5 border-b border-[#C89B3C]/20'
       }`}
     >
