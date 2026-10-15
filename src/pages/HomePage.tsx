@@ -35,64 +35,57 @@ export const HomePage: React.FC<HomePageProps> = ({
       </div>
 
       {/* 3. 14 Services Grid (7x2) + Special Anushthan Card on the right */}
-      <div className="reveal">
-        <ServicesGrid
-          onSelectService={(s) => {
-            onSelectService(s);
-            onNavigate(`/services/${s.slug}`);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          onBookService={(s) => {
-            onSelectService(s);
-            onNavigate('/contact');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        />
-      </div>
+      {/* No outer .reveal wrapper — ServicesGrid contains per-card .reveal elements
+          inside a .stagger container, so each card animates independently. */}
+      <ServicesGrid
+        onSelectService={(s) => {
+          onSelectService(s);
+          onNavigate(`/services/${s.slug}`);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        onBookService={(s) => {
+          onSelectService(s);
+          onNavigate('/contact');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
 
       {/* 4. Elastic Accordion Gallery from website-ui-design with real ritual photos & interactive expanding panels */}
-      <div className="reveal">
-        <ElasticGallery
-          onSelectRitual={() => {
-            onNavigate('/gallery');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          onViewAll={() => {
-            onNavigate('/gallery');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        />
-      </div>
+      <ElasticGallery
+        onSelectRitual={() => {
+          onNavigate('/gallery');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        onViewAll={() => {
+          onNavigate('/gallery');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
 
       {/* 5. Dark Ribbon: Ramghat Ujjain with 'Contact Now' */}
-      <div className="reveal">
-        <DarkRibbon
-          onContactClick={() => {
-            onNavigate('/contact');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        />
-      </div>
+      <DarkRibbon
+        onContactClick={() => {
+          onNavigate('/contact');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
 
       {/* 6. 3D Interactive Flipping Blog Cards: हमारे लेख */}
-      <div className="reveal">
-        <FlipBlogCards
-          onSelectBlog={(b) => {
-            onSelectBlog(b);
-            onNavigate(`/blogs/${b.slug}`);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          onContactClick={() => {
-            onNavigate('/contact');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        />
-      </div>
+      {/* No outer .reveal — each article-card has .reveal individually inside .stagger */}
+      <FlipBlogCards
+        onSelectBlog={(b) => {
+          onSelectBlog(b);
+          onNavigate(`/blogs/${b.slug}`);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        onContactClick={() => {
+          onNavigate('/contact');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
 
       {/* 7. Contact / Enquiry Section */}
-      <div className="reveal">
-        <ContactSection />
-      </div>
+      <ContactSection />
 
     </div>
   );

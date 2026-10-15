@@ -528,14 +528,19 @@
   opacity: 0;
 }
 
+/* Once is-visible is set the element must ALWAYS be visible — opacity:1 here
+   acts as the persistent state after the animation ends (fill-mode: forwards
+   keeps the `to` keyframe so it won't snap back, and the explicit opacity:1
+   ensures no gap if the animation hasn't started yet). */
 .reveal.is-visible {
-  animation: revealUp 0.5s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  opacity: 1;
+  animation: revealUp 0.45s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
 }
 
 @keyframes revealUp {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -705,25 +710,32 @@
   left: 120%;
 }
 
-/* Staggered cascade for reveal children inside grids */
-.stagger > .reveal.is-visible:nth-child(1) { animation-delay: 0s; }
-.stagger > .reveal.is-visible:nth-child(2) { animation-delay: 0.05s; }
-.stagger > .reveal.is-visible:nth-child(3) { animation-delay: 0.1s; }
-.stagger > .reveal.is-visible:nth-child(4) { animation-delay: 0.15s; }
-.stagger > .reveal.is-visible:nth-child(5) { animation-delay: 0.2s; }
-.stagger > .reveal.is-visible:nth-child(6) { animation-delay: 0.25s; }
-.stagger > .reveal.is-visible:nth-child(7) { animation-delay: 0.3s; }
-.stagger > .reveal.is-visible:nth-child(8) { animation-delay: 0.35s; }
-.stagger > .reveal.is-visible:nth-child(9) { animation-delay: 0.4s; }
-.stagger > .reveal.is-visible:nth-child(10) { animation-delay: 0.45s; }
-.stagger > .reveal.is-visible:nth-child(11) { animation-delay: 0.5s; }
-.stagger > .reveal.is-visible:nth-child(12) { animation-delay: 0.55s; }
-.stagger > .reveal.is-visible:nth-child(13) { animation-delay: 0.6s; }
-.stagger > .reveal.is-visible:nth-child(14) { animation-delay: 0.65s; }
+/* Staggered cascade for reveal children inside grids.
+   Delays are intentionally short (0–0.35s) so the last card appears
+   well before the user has time to scroll past it, and opacity:1 on
+   .reveal.is-visible means the element is never invisible mid-delay. */
+.stagger > .reveal.is-visible:nth-child(1)  { animation-delay: 0s; }
+.stagger > .reveal.is-visible:nth-child(2)  { animation-delay: 0.04s; }
+.stagger > .reveal.is-visible:nth-child(3)  { animation-delay: 0.08s; }
+.stagger > .reveal.is-visible:nth-child(4)  { animation-delay: 0.12s; }
+.stagger > .reveal.is-visible:nth-child(5)  { animation-delay: 0.16s; }
+.stagger > .reveal.is-visible:nth-child(6)  { animation-delay: 0.20s; }
+.stagger > .reveal.is-visible:nth-child(7)  { animation-delay: 0.24s; }
+.stagger > .reveal.is-visible:nth-child(8)  { animation-delay: 0.28s; }
+.stagger > .reveal.is-visible:nth-child(9)  { animation-delay: 0.32s; }
+.stagger > .reveal.is-visible:nth-child(10) { animation-delay: 0.36s; }
+.stagger > .reveal.is-visible:nth-child(11) { animation-delay: 0.40s; }
+.stagger > .reveal.is-visible:nth-child(12) { animation-delay: 0.44s; }
+.stagger > .reveal.is-visible:nth-child(13) { animation-delay: 0.48s; }
+.stagger > .reveal.is-visible:nth-child(14) { animation-delay: 0.52s; }
 
 /* Android app-like fixes: prevent horizontal scroll, respect gesture nav */
 @media (max-width: 640px) {
-  main, footer, header {
+  /* NOTE: `header` is intentionally excluded from overflow-x:clip.
+     overflow:clip creates a new block formatting context which breaks
+     the z-50 stacking context, allowing page content to paint over
+     the sticky navbar. The Navbar drawer manages its own overflow. */
+  main, footer {
     overflow-x: clip;
   }
 
@@ -744,11 +756,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Content must always be visible — skip animation entirely */
   .reveal,
   .reveal.is-visible,
   .stagger > .reveal.is-visible {
     opacity: 1;
+    transform: none;
     animation: none;
+    animation-delay: 0s !important;
   }
 
   .kenburns,
