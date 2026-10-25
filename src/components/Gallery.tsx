@@ -58,7 +58,7 @@ export const Gallery: React.FC<{ showFilters?: boolean }> = ({ showFilters }) =>
               <button
                 key={c.id}
                 onClick={() => setFilter(c.id)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-serif font-bold border transition-all duration-200 shrink-0 whitespace-nowrap active:scale-95 ${filter === c.id
+                className={`inline-flex items-center px-3.5 py-2 min-h-[44px] rounded-full text-xs font-serif font-bold border transition-all duration-200 shrink-0 whitespace-nowrap active:scale-95 ${filter === c.id
                     ? 'bg-[#D9610B] text-white border-[#D9610B] shadow-xs'
                     : 'bg-[#FFFDF7] text-[#4A170C] border-[#C89B3C]/40 hover:border-[#C94F08]'
                   }`}

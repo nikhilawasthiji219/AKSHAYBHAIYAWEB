@@ -70,7 +70,7 @@ export const ServicesGrid: React.FC<ServicesGridProps> = ({
                 onClick={() => onBookService(SERVICES_DATA[0])}
                 className="cta-shimmer w-full py-3 px-3 min-h-[48px] rounded-xl bg-[#D9610B] hover:bg-[#B84904] active:bg-[#B84904] text-white font-serif text-sm font-bold shadow-xs transition-all tracking-wide"
               >
-                {t('Contact for Custom Puja', 'Contact for Custom Puja')}
+                {t('विशेष पूजन हेतु संपर्क करें', 'Contact for Custom Puja')}
               </button>
             </div>
           </div>

@@ -20,6 +20,7 @@ const ContactPage = lazy(() => import('./pages/ContactPage').then((m) => ({ defa
 const PrototypesPage = lazy(() => import('./pages/PrototypesPage').then((m) => ({ default: m.PrototypesPage })));
 const LegalPages = lazy(() => import('./pages/LegalPages').then((m) => ({ default: m.LegalPages })));
 const AdminPage = lazy(() => import('./pages/AdminPage').then((m) => ({ default: m.AdminPage })));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })));
 
 // Data & Reactive CMS Hook
 import { useCMS } from './lib/cmsStore';
@@ -33,8 +34,10 @@ export const App: React.FC = () => {
     return window.location.pathname || '/';
   });
 
-  const [selectedService, setSelectedService] = useState<Service>(() => cms.services[0]);
-  const [selectedBlog, setSelectedBlog] = useState<Blog>(() => cms.blogs[0]);
+  // Selection state is write-only: detail pages resolve their item from the URL
+  // slug + CMS data, which keeps deep links correct after CMS edits.
+  const [, setSelectedService] = useState<Service | null>(() => cms.services[0] ?? null);
+  const [, setSelectedBlog] = useState<Blog | null>(() => cms.blogs[0] ?? null);
   const [showLoader, setShowLoader] = useState(true);
   const handleLoaderFinish = useCallback(() => setShowLoader(false), []);
 
@@ -78,7 +81,10 @@ export const App: React.FC = () => {
       const vh = window.innerHeight;
       pending.forEach((el) => {
         const rect = el.getBoundingClientRect();
-        if (rect.top < vh - 40 && rect.bottom > 0) show(el);
+        // Reveal anything that is inside OR ABOVE the viewport. Elements that
+        // were skipped past (fast fling, deep link, restored scroll position)
+        // must never stay invisible.
+        if (rect.top < vh - 40) show(el);
       });
     };
 
@@ -185,7 +191,8 @@ export const App: React.FC = () => {
     // 4. Individual Service Detail
     if (currentPath.startsWith('/services/')) {
       const slug = currentPath.replace('/services/', '');
-      const matched = cms.services.find((s) => s.slug === slug) || selectedService || cms.services[0];
+      const matched = cms.services.find((s) => s.slug === slug);
+      if (!matched) return <NotFoundPage onNavigate={navigate} />;
       return (
         <ServiceDetailPage
           service={matched}
@@ -228,7 +235,8 @@ export const App: React.FC = () => {
     // 8. Individual Blog Detail
     if (currentPath.startsWith('/blogs/')) {
       const slug = currentPath.replace('/blogs/', '');
-      const matched = cms.blogs.find((b) => b.slug === slug) || selectedBlog || cms.blogs[0];
+      const matched = cms.blogs.find((b) => b.slug === slug);
+      if (!matched) return <NotFoundPage onNavigate={navigate} />;
       return (
         <BlogDetailPage
           blog={matched}
@@ -267,20 +275,8 @@ export const App: React.FC = () => {
       return <AdminPage onNavigate={navigate} />;
     }
 
-    // Fallback to Home
-    return (
-      <HomePage
-        onNavigate={navigate}
-        onSelectService={(s) => {
-          setSelectedService(s);
-          navigate(`/services/${s.slug}`);
-        }}
-        onSelectBlog={(b) => {
-          setSelectedBlog(b);
-          navigate(`/blogs/${b.slug}`);
-        }}
-      />
-    );
+    // Unknown route — show a real 404 instead of silently rendering Home
+    return <NotFoundPage onNavigate={navigate} />;
   };
 
   return (

@@ -4,6 +4,11 @@
 **Method:** Playwright (Chromium) against `npm run dev`, all 13 routes @ 1440×900 and 390×844, plus code review.
 **Screenshots:** `audit-output/` and `audit-output-2/` (desktop + mobile, full page)
 
+> **Status update (same day):** items 3–19 and 21–23 are fixed; item 20 was
+> already resolved in `package.json`. See `PROJECT_STATE.md` §3b for the exact
+> changes. Items **1 (real backend/database)** and **2 (CMS persistence)** remain
+> open pending a backend decision.
+
 ---
 
 ## ✅ What passed

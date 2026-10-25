@@ -1,9 +1,10 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 test.describe('Services', () => {
   test('lists all 14 services', async ({ page }) => {
     await page.goto('/services');
-    await expect(page.getByRole('heading', { name: /हमारी सेवाएं/ })).toBeVisible();
+    // Scope to <main>: the footer also contains a "हमारी सेवाएं" heading.
+    await expect(page.getByRole('main').getByRole('heading', { name: /हमारी सेवाएं/ })).toBeVisible();
     // 14 service cards each render an h4 with the service title
     await expect(page.locator('h4')).toHaveCount(14);
     await expect(page.getByText('रुद्राभिषेक')).toBeVisible();

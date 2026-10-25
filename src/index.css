@@ -416,7 +416,6 @@
   box-shadow: 0 0 0 5px #fff4d966, 0 0 26px #f1952f;
   z-index: 49;
   animation: diyaPulse 3s ease-in-out infinite;
-  display: block;
   cursor: pointer;
   transition: transform 0.2s ease;
 }
@@ -472,6 +471,17 @@
   background: linear-gradient(#ffbd48, #b94311);
   border-radius: 0 0 22px 22px;
   box-shadow: 0 4px 0 #7c250d;
+}
+
+/* Background-music toggle: sits above the mobile bottom bar, bottom-left on desktop */
+.music-toggle {
+  bottom: calc(80px + var(--sab));
+}
+
+@media (min-width: 768px) {
+  .music-toggle {
+    bottom: 1.25rem;
+  }
 }
 
 /* Floating Flower Petals */

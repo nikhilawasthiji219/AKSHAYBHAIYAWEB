@@ -45,7 +45,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   };
 
   return (
-    <footer className="bg-[#181818] text-[#D1D5DB] border-t-2 border-[#C89B3C]/50 pt-14 pb-24">
+    <footer className="bg-[#181818] text-[#D1D5DB] border-t-2 border-[#C89B3C]/50 pt-14 pb-32 md:pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Main 4-Column Grid exactly matching screenshot */}
@@ -74,7 +74,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </div>
 
             <p className="text-xs sm:text-sm text-[#9CA3AF] leading-relaxed font-sans pt-1">
-              Authentic Vedic Rituals, Puja, Spiritual Discourse, Astrology, Vastu and Spiritual Services in Ujjain.
+              {t(
+                'उज्जैन में प्रामाणिक वैदिक अनुष्ठान, पूजन, आध्यात्मिक प्रवचन, ज्योतिष, वास्तु एवं आध्यात्मिक सेवाएँ।',
+                'Authentic Vedic Rituals, Puja, Spiritual Discourse, Astrology, Vastu and Spiritual Services in Ujjain.'
+              )}
             </p>
 
             <div className="pt-2 text-xs text-[#C89B3C] font-serif">
@@ -88,12 +91,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               {t('त्वरित लिंक', 'Quick Links')}
             </h3>
 
-            <ul className="space-y-2 text-xs sm:text-[13px] font-sans text-[#D1D5DB] pt-1">
+            <ul className="space-y-0.5 text-xs sm:text-[13px] font-sans text-[#D1D5DB] pt-1">
               {quickLinks.map((item) => (
                 <li key={item.label}>
                   <button
                     onClick={() => handleLinkClick(item.path)}
-                    className="flex items-center gap-1.5 hover:text-[#F59E0B] transition-colors text-left group"
+                    className="flex items-center gap-1.5 min-h-[44px] py-1 hover:text-[#F59E0B] transition-colors text-left group"
                   >
                     <ChevronRight className="w-3.5 h-3.5 text-[#F59E0B] group-hover:translate-x-0.5 transition-transform shrink-0" />
                     <span>{item.label}</span>
@@ -109,12 +112,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               {t('हमारी सेवाएं', 'Our Services')}
             </h3>
 
-            <ul className="space-y-2 text-xs sm:text-[13px] font-sans text-[#D1D5DB] pt-1">
+            <ul className="space-y-0.5 text-xs sm:text-[13px] font-sans text-[#D1D5DB] pt-1">
               {ourServices.map((item) => (
                 <li key={item.label}>
                   <button
                     onClick={() => handleLinkClick(item.path)}
-                    className="flex items-center gap-1.5 hover:text-[#F59E0B] transition-colors text-left group"
+                    className="flex items-center gap-1.5 min-h-[44px] py-1 hover:text-[#F59E0B] transition-colors text-left group"
                   >
                     <ChevronRight className="w-3.5 h-3.5 text-[#F59E0B] group-hover:translate-x-0.5 transition-transform shrink-0" />
                     <span>{item.label}</span>
@@ -134,7 +137,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <li>
                 <a
                   href={`tel:${profile.contact.primaryPhone}`}
-                  className="flex items-center gap-2.5 hover:text-[#F59E0B] transition-colors"
+                  className="flex items-center gap-2.5 min-h-[44px] hover:text-[#F59E0B] transition-colors"
                 >
                   <Phone className="w-4 h-4 text-[#F59E0B] shrink-0" />
                   <span>+91 {profile.contact.primaryPhone}</span>
@@ -146,7 +149,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   href={`https://wa.me/91${profile.contact.whatsappNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2.5 hover:text-[#F59E0B] transition-colors"
+                  className="flex items-center gap-2.5 min-h-[44px] hover:text-[#F59E0B] transition-colors"
                 >
                   <MessageCircle className="w-4 h-4 text-[#F59E0B] shrink-0" />
                   <span>+91 {profile.contact.whatsappNumber}</span>
@@ -156,7 +159,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <li>
                 <a
                   href={`mailto:${profile.contact.email}`}
-                  className="flex items-center gap-2.5 hover:text-[#F59E0B] transition-colors break-all"
+                  className="flex items-center gap-2.5 min-h-[44px] hover:text-[#F59E0B] transition-colors break-all"
                 >
                   <Mail className="w-4 h-4 text-[#F59E0B] shrink-0" />
                   <span>{profile.contact.email}</span>
@@ -174,7 +177,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <div className="pt-3">
               <button
                 onClick={() => handleLinkClick('/contact')}
-                className="w-full bg-[#D97706] hover:bg-[#B45309] text-white py-2 px-4 rounded-lg font-serif font-bold text-xs transition-all shadow-sm"
+                className="w-full min-h-[44px] bg-[#D97706] hover:bg-[#B45309] text-white py-2 px-4 rounded-lg font-serif font-bold text-xs transition-all shadow-sm"
               >
                 पूजन परामर्श / संकल्प बुक करें
               </button>
@@ -189,7 +192,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <p>© 2026. {profile.name}. {t('सर्वाधिकार सुरक्षित', 'All rights reserved')}.</p>
             <button
               onClick={() => handleLinkClick('/admin')}
-              className="inline-flex items-center gap-1 text-gray-500 hover:text-amber-400 text-[11px] font-serif transition-colors px-2 py-0.5 rounded border border-gray-700/50 hover:border-amber-400/50"
+              className="inline-flex items-center gap-1 min-h-[44px] text-gray-500 hover:text-amber-400 text-[11px] font-serif transition-colors px-2 py-0.5 rounded border border-gray-700/50 hover:border-amber-400/50"
             >
               <Lock className="w-3 h-3 text-amber-400" />
               <span>{t('व्यवस्थापक पोर्टल', 'Admin Portal')}</span>
@@ -198,7 +201,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 text-[#F59E0B] hover:text-white transition-colors"
+            className="flex items-center gap-1.5 min-h-[44px] text-[#F59E0B] hover:text-white transition-colors"
           >
             <div className="w-6 h-6 rounded-full bg-[#262626] border border-[#C89B3C]/40 flex items-center justify-center">
               <ArrowUp className="w-3.5 h-3.5" />

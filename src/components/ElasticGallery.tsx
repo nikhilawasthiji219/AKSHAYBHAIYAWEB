@@ -26,9 +26,9 @@ export const ElasticGallery: React.FC<ElasticGalleryProps> = ({ onSelectRitual, 
           <button
             type="button"
             onClick={onViewAll}
-            className="flex items-center gap-1 text-[#d85f0d] font-bold text-xs hover:underline cursor-pointer ml-auto"
+            className="flex items-center gap-1 min-h-[44px] px-1 text-[#d85f0d] font-bold text-xs hover:underline cursor-pointer ml-auto"
           >
-            View All <ChevronRight size={14} />
+            सभी देखें <ChevronRight size={14} />
           </button>
         )}
       </div>

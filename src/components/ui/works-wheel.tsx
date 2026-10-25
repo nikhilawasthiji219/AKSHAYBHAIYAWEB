@@ -20,16 +20,16 @@ export interface WorksWheelProps extends Omit<React.ComponentPropsWithoutRef<"se
   action?: string;
 }
 
-const CARD_H = 0.38;
+const CARD_H = 0.30;
 const CARD_MAX_W = 0.34;
 const CARD_RATIO = 1.45;
 const STEP = 40;
 const DRUM = 2.22;
 const LENS = 2.7;
-const RING_R = 1.14;
+const RING_R = 1.02;
 const BOW = 1.82;
 const TITLE = 0.124;
-const INDEX = 0.04;
+const INDEX = 0.058;
 const CULL = 1.6;
 const WHEEL_UNITS = 900;
 const DRAG_UNITS = 420;
@@ -220,7 +220,7 @@ export function WorksWheel({ items, label = "हमारी गैलरी", a
       </div>
 
       <ol
-        className="text-[#7D2918]/70 absolute top-[7.5%] right-[2.5%] text-right leading-[1.75] font-serif"
+        className="text-[#7D2918]/75 hidden lg:block absolute top-1/2 -translate-y-1/2 right-6 text-right leading-[1.9] font-serif"
         style={{ fontSize: metrics.index }}
       >
         {items.map((item, i) => (
@@ -229,7 +229,7 @@ export function WorksWheel({ items, label = "हमारी गैलरी", a
               type="button"
               onClick={() => to(i + 1)}
               className={cn(
-                "focus-visible:outline-[#C94F08] cursor-pointer transition-colors outline-none focus-visible:outline-1",
+                "focus-visible:outline-[#C94F08] cursor-pointer transition-colors outline-none focus-visible:outline-1 py-1 px-1",
                 i === active && "text-[#C94F08] font-bold",
               )}
             >

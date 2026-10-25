@@ -11,8 +11,7 @@ tsconfig.tsbuildinfo
 # Test / audit artifacts
 playwright-report/
 test-results/
-audit-output/
-audit-output-2/
+audit-output*/
 blob-report/
 
 # Local backups

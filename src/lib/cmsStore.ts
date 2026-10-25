@@ -39,12 +39,14 @@ export function getCMSData(): CMSData {
       return INITIAL_CMS_DATA;
     }
     const parsed = JSON.parse(raw) as CMSData;
-    // Ensure all critical root arrays exist in case of partial saves
+    // Ensure all critical root arrays exist in case of partial saves.
+    // NOTE: an empty array is a valid, intentional state (the admin deleted every
+    // item), so only fall back to defaults when the key is missing / not an array.
     return {
-      gallery: Array.isArray(parsed.gallery) && parsed.gallery.length > 0 ? parsed.gallery : INITIAL_CMS_DATA.gallery,
+      gallery: Array.isArray(parsed.gallery) ? parsed.gallery : INITIAL_CMS_DATA.gallery,
       categories: Array.isArray(parsed.categories) ? parsed.categories : INITIAL_CMS_DATA.categories,
-      blogs: Array.isArray(parsed.blogs) && parsed.blogs.length > 0 ? parsed.blogs : INITIAL_CMS_DATA.blogs,
-      services: Array.isArray(parsed.services) && parsed.services.length > 0 ? parsed.services : INITIAL_CMS_DATA.services,
+      blogs: Array.isArray(parsed.blogs) ? parsed.blogs : INITIAL_CMS_DATA.blogs,
+      services: Array.isArray(parsed.services) ? parsed.services : INITIAL_CMS_DATA.services,
       profile: parsed.profile && parsed.profile.name ? { ...INITIAL_CMS_DATA.profile, ...parsed.profile } : INITIAL_CMS_DATA.profile,
       settings: parsed.settings ? { ...DEFAULT_SETTINGS, ...parsed.settings } : DEFAULT_SETTINGS,
       lastUpdated: parsed.lastUpdated || new Date().toISOString()
@@ -120,6 +122,7 @@ export function updateGalleryItem(id: string, updates: Partial<GalleryItem>): bo
 export function deleteGalleryItem(id: string): boolean {
   const current = getCMSData();
   const filtered = current.gallery.filter(g => g.id !== id);
+  if (filtered.length === current.gallery.length) return false;
   saveCMSData({ gallery: filtered });
   return true;
 }
@@ -149,6 +152,7 @@ export function updateBlog(id: string, updates: Partial<Blog>): boolean {
 export function deleteBlog(id: string): boolean {
   const current = getCMSData();
   const filtered = current.blogs.filter(b => b.id !== id);
+  if (filtered.length === current.blogs.length) return false;
   saveCMSData({ blogs: filtered });
   return true;
 }
@@ -178,6 +182,7 @@ export function updateService(id: string, updates: Partial<Service>): boolean {
 export function deleteService(id: string): boolean {
   const current = getCMSData();
   const filtered = current.services.filter(s => s.id !== id);
+  if (filtered.length === current.services.length) return false;
   saveCMSData({ services: filtered });
   return true;
 }
@@ -202,16 +207,60 @@ export function updateSettings(updates: Partial<SiteSettings>): void {
 
 export function exportBackupJSON(): string {
   const data = getCMSData();
-  return JSON.stringify(data, null, 2);
+  // Never export the admin credential inside a shareable backup file.
+  const safeSettings = { ...data.settings };
+  delete safeSettings.adminPasswordHash;
+  return JSON.stringify({ ...data, settings: safeSettings }, null, 2);
 }
 
 export function importBackupJSON(jsonStr: string): { success: boolean; error?: string } {
   try {
     const parsed = JSON.parse(jsonStr);
-    if (!parsed.gallery || !parsed.blogs || !parsed.services || !parsed.profile) {
-      return { success: false, error: 'अमान्य फ़ाइल: आवश्यक डेटा फ़ील्ड अनुपस्थित हैं।' };
+
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      return { success: false, error: 'अमान्य फ़ाइल: बैकअप में JSON ऑब्जेक्ट होना चाहिए।' };
     }
-    saveCMSData(parsed);
+    if (
+      !Array.isArray(parsed.gallery) ||
+      !Array.isArray(parsed.blogs) ||
+      !Array.isArray(parsed.services)
+    ) {
+      return { success: false, error: 'अमान्य फ़ाइल: gallery, blogs एवं services सूचियाँ अनुपस्थित हैं।' };
+    }
+    if (!parsed.profile || typeof parsed.profile.name !== 'string' || !parsed.profile.name.trim()) {
+      return { success: false, error: 'अमान्य फ़ाइल: प्रोफ़ाइल (profile.name) अनुपस्थित या अमान्य है।' };
+    }
+
+    const hasBadGalleryItem = parsed.gallery.some(
+      (g: unknown) => !g || typeof (g as GalleryItem).id !== 'string' || typeof (g as GalleryItem).imageUrl !== 'string'
+    );
+    const hasBadBlog = parsed.blogs.some(
+      (b: unknown) => !b || typeof (b as Blog).id !== 'string' || typeof (b as Blog).slug !== 'string'
+    );
+    const hasBadService = parsed.services.some(
+      (s: unknown) => !s || typeof (s as Service).id !== 'string' || typeof (s as Service).slug !== 'string'
+    );
+    if (hasBadGalleryItem || hasBadBlog || hasBadService) {
+      return { success: false, error: 'अमान्य फ़ाइल: कुछ प्रविष्टियों में आवश्यक फ़ील्ड अनुपस्थित हैं।' };
+    }
+
+    const payload: Partial<CMSData> = {
+      gallery: parsed.gallery,
+      blogs: parsed.blogs,
+      services: parsed.services,
+      profile: parsed.profile
+    };
+    if (Array.isArray(parsed.categories)) payload.categories = parsed.categories;
+
+    if (parsed.settings && typeof parsed.settings === 'object') {
+      // Never let an imported file overwrite the admin credential, and keep any
+      // settings the file does not mention (merge over current values).
+      const safeSettings = { ...parsed.settings };
+      delete safeSettings.adminPasswordHash;
+      payload.settings = { ...getCMSData().settings, ...safeSettings };
+    }
+
+    saveCMSData(payload);
     return { success: true };
   } catch (err: any) {
     return { success: false, error: err.message || 'JSON पार्स करने में त्रुटि' };
@@ -234,8 +283,10 @@ export function checkAdminAuth(): boolean {
 
 export function loginAdmin(password: string): boolean {
   const cms = getCMSData();
-  const expected = cms.settings.adminPasswordHash || 'admin123';
-  if (password === expected || password === 'mahakal123' || password === 'admin') {
+  // NOTE: this is a client-side gate only (static site). Real protection needs
+  // a server session — see PROJECT_STATE.md. Do not add backdoor passwords here.
+  const expected = cms.settings.adminPasswordHash;
+  if (expected && password === expected) {
     sessionStorage.setItem(CMS_AUTH_KEY, 'authenticated');
     return true;
   }
@@ -248,12 +299,12 @@ export function logoutAdmin(): void {
 
 export function changeAdminPassword(oldPass: string, newPass: string): { success: boolean; message: string } {
   const cms = getCMSData();
-  const currentPass = cms.settings.adminPasswordHash || 'admin123';
-  if (oldPass !== currentPass && oldPass !== 'mahakal123' && oldPass !== 'admin') {
+  const currentPass = cms.settings.adminPasswordHash;
+  if (!currentPass || oldPass !== currentPass) {
     return { success: false, message: 'वर्तमान पासवर्ड गलत है।' };
   }
-  if (!newPass || newPass.trim().length < 4) {
-    return { success: false, message: 'नया पासवर्ड कम से कम 4 अक्षरों का होना चाहिए।' };
+  if (!newPass || newPass.trim().length < 8) {
+    return { success: false, message: 'नया पासवर्ड कम से कम 8 अक्षरों का होना चाहिए।' };
   }
   updateSettings({ adminPasswordHash: newPass.trim() });
   return { success: true, message: 'पासवर्ड सफलतापूर्वक बदल दिया गया है।' };

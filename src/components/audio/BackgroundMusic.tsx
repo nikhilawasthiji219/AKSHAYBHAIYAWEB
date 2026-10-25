@@ -168,7 +168,7 @@ export const BackgroundMusic: React.FC = () => {
       aria-label={muted ? 'संगीत चालू करें' : 'संगीत बंद करें'}
       title={muted ? 'संगीत चालू करें' : 'संगीत बंद करें'}
       className={`
-        fixed bottom-[4.5rem] md:bottom-5 left-3 z-50
+        fixed music-toggle left-3 z-50
         flex items-center gap-1.5 px-2.5 py-1.5 rounded-full
         bg-[#FFF8E8]/92 border border-[#C89B3C]/60
         shadow-md shadow-[#3B1D0B]/20 backdrop-blur-sm

@@ -84,7 +84,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
           {/* 1. Home */}
           <button
             onClick={() => handleLinkClick('/')}
-            className={`text-sm font-serif font-semibold transition-colors ${
+            className={`py-2 text-sm font-serif font-semibold transition-colors ${
               currentPath === '/' ? 'text-[#D9610B]' : 'text-[#3B1D0B] hover:text-[#D9610B]'
             }`}
           >
@@ -99,7 +99,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
           >
             <button
               onClick={() => handleLinkClick('/services')}
-              className={`flex items-center gap-1 text-sm font-serif font-semibold transition-colors ${
+              className={`flex items-center gap-1 py-2 text-sm font-serif font-semibold transition-colors ${
                 currentPath.startsWith('/services') ? 'text-[#D9610B]' : 'text-[#3B1D0B] hover:text-[#D9610B]'
               }`}
             >
@@ -153,7 +153,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
           >
             <button
               onClick={() => handleLinkClick('/special-anushthan')}
-              className={`flex items-center gap-1 text-sm font-serif font-semibold transition-colors ${
+              className={`flex items-center gap-1 py-2 text-sm font-serif font-semibold transition-colors ${
                 currentPath === '/special-anushthan' ? 'text-[#D9610B]' : 'text-[#3B1D0B] hover:text-[#D9610B]'
               }`}
             >
@@ -192,7 +192,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
           {/* 4. Blog */}
           <button
             onClick={() => handleLinkClick('/blogs')}
-            className={`text-sm font-serif font-semibold transition-colors ${
+            className={`py-2 text-sm font-serif font-semibold transition-colors ${
               currentPath.startsWith('/blogs') ? 'text-[#D9610B]' : 'text-[#3B1D0B] hover:text-[#D9610B]'
             }`}
           >
@@ -207,7 +207,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
           >
             <button
               onClick={() => handleLinkClick('/about')}
-              className={`flex items-center gap-1 text-sm font-serif font-semibold transition-colors ${
+              className={`flex items-center gap-1 py-2 text-sm font-serif font-semibold transition-colors ${
                 currentPath === '/about' ? 'text-[#D9610B]' : 'text-[#3B1D0B] hover:text-[#D9610B]'
               }`}
             >

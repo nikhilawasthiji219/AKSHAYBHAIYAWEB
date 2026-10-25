@@ -3,7 +3,7 @@ import {
   Lock, LogOut, Plus, Trash2, Edit3, Image as ImageIcon, Video, 
   FileText, Sparkles, Phone, Settings, Download, 
   Upload, RotateCcw, Check, AlertCircle, Eye, EyeOff, X, ArrowLeft,
-  ExternalLink
+  ExternalLink, ShieldAlert
 } from 'lucide-react';
 import { 
   useCMS, addGalleryItem, updateGalleryItem, deleteGalleryItem,
@@ -247,8 +247,11 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
   const handleDeleteGallery = (id: string, title: string) => {
     if (window.confirm(`क्या आप निश्चित हैं कि आप "${title}" को हटाना चाहते हैं?`)) {
-      deleteGalleryItem(id);
-      showToast('आइटम हटा दिया गया है।');
+      const removed = deleteGalleryItem(id);
+      showToast(
+        removed ? 'आइटम हटा दिया गया है।' : 'आइटम नहीं मिला — संभवतः पहले ही हटाया जा चुका है।',
+        removed ? 'success' : 'error'
+      );
     }
   };
 
@@ -338,8 +341,11 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
   const handleDeleteBlog = (id: string, title: string) => {
     if (window.confirm(`क्या आप निश्चित हैं कि आप "${title}" लेख को हटाना चाहते हैं?`)) {
-      deleteBlog(id);
-      showToast('ब्लॉग हटा दिया गया है।');
+      const removed = deleteBlog(id);
+      showToast(
+        removed ? 'ब्लॉग हटा दिया गया है।' : 'लेख नहीं मिला — संभवतः पहले ही हटाया जा चुका है।',
+        removed ? 'success' : 'error'
+      );
     }
   };
 
@@ -491,23 +497,26 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1.5">
+              <label htmlFor="admin-login-password" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1.5">
                 व्यवस्थापक पासवर्ड (Admin Password)
               </label>
               <div className="relative">
                 <input
+                  id="admin-login-password"
                   type={showPassword ? 'text' : 'password'}
                   value={passwordInput}
                   onChange={(e) => setPasswordInput(e.target.value)}
                   placeholder="पासवर्ड दर्ज करें..."
                   required
                   autoFocus
+                  autoComplete="current-password"
                   className="w-full px-4 py-3 rounded-xl border border-[#C89B3C]/50 focus:border-[#D9610B] focus:ring-2 focus:ring-[#D9610B]/20 outline-none text-sm font-sans"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-800 p-1"
+                  aria-label={showPassword ? 'पासवर्ड छिपाएँ' : 'पासवर्ड दिखाएँ'}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-800 p-1 min-w-[36px] min-h-[36px] flex items-center justify-center"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -530,10 +539,6 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
           </form>
 
           <div className="mt-6 pt-4 border-t border-[#F3E7CA] flex flex-col items-center gap-3 text-center">
-            <span className="text-[11px] text-[#7D2918] bg-[#FFF8E8] px-3 py-1 rounded-full border border-[#C89B3C]/40">
-              💡 डिफ़ॉल्ट पासवर्ड: <strong>admin123</strong>
-            </span>
-
             <button
               onClick={() => onNavigate('/')}
               className="inline-flex items-center gap-1.5 text-xs font-serif text-[#D9610B] hover:underline"
@@ -623,7 +628,16 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
       {/* Main Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-        
+
+        {cms.settings.adminPasswordHash === 'admin123' && (
+          <div className="rounded-2xl border border-amber-300 bg-amber-50 p-3 sm:p-4 flex items-start gap-2.5 text-[11px] sm:text-xs font-serif text-[#7D2918]">
+            <ShieldAlert className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 mt-0.5 text-amber-600" />
+            <span>
+              आप अभी <strong>डिफ़ॉल्ट पासवर्ड</strong> से लॉग इन हैं। लाइव साइट पर प्रकाशित करने से पहले नीचे
+              &ldquo;व्यवस्थापक पासवर्ड बदलें&rdquo; से नया पासवर्ड सेट करें।
+            </span>
+          </div>
+        )}
         {/* Quick Stats Overview */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
           <div className="bg-white rounded-2xl p-4 border border-[#C89B3C]/30 shadow-xs flex items-center gap-3">
@@ -1187,31 +1201,40 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               <form onSubmit={handleChangePassword} className="space-y-3 max-w-md">
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-current-password" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     वर्तमान पासवर्ड (Current Password)
                   </label>
                   <input
+                    id="admin-current-password"
                     type="password"
                     value={oldPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
                     required
+                    autoComplete="current-password"
                     placeholder="वर्तमान पासवर्ड..."
                     className="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm outline-none focus:border-[#D9610B]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-new-password" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     नया पासवर्ड (New Password)
                   </label>
                   <input
+                    id="admin-new-password"
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     required
-                    placeholder="नया पासवर्ड..."
+                    minLength={8}
+                    autoComplete="new-password"
+                    placeholder="नया पासवर्ड (कम से कम 8 अक्षर)..."
+                    aria-describedby="admin-new-password-hint"
                     className="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm outline-none focus:border-[#D9610B]"
                   />
+                  <p id="admin-new-password-hint" className="mt-1 text-[11px] text-gray-500 font-serif">
+                    कम से कम 8 अक्षरों का पासवर्ड चुनें।
+                  </p>
                 </div>
 
                 <button
@@ -1253,7 +1276,8 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
           <div className="bg-white rounded-3xl max-w-lg w-full p-6 border-2 border-[#C89B3C] shadow-2xl relative my-8">
             <button
               onClick={() => setIsGalleryModalOpen(false)}
-              className="absolute top-4 right-4 p-2 rounded-full text-gray-500 hover:bg-gray-100"
+              aria-label="बंद करें"
+              className="absolute top-4 right-4 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100"
             >
               <X className="w-5 h-5" />
             </button>
@@ -1466,7 +1490,8 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
           <div className="bg-white rounded-3xl max-w-2xl w-full p-6 border-2 border-[#C89B3C] shadow-2xl relative my-8 max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setIsBlogModalOpen(false)}
-              className="absolute top-4 right-4 p-2 rounded-full text-gray-500 hover:bg-gray-100"
+              aria-label="बंद करें"
+              className="absolute top-4 right-4 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100"
             >
               <X className="w-5 h-5" />
             </button>
@@ -1638,7 +1663,8 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
           <div className="bg-white rounded-3xl max-w-xl w-full p-6 border-2 border-[#C89B3C] shadow-2xl relative my-8 max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setIsServiceModalOpen(false)}
-              className="absolute top-4 right-4 p-2 rounded-full text-gray-500 hover:bg-gray-100"
+              aria-label="बंद करें"
+              className="absolute top-4 right-4 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100"
             >
               <X className="w-5 h-5" />
             </button>

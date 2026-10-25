@@ -12,13 +12,15 @@
 cd E:\AKSHAYBHAIYAWEB
 npm install
 npm run dev          # http://localhost:5173 (or 5174 if busy)
-npx tsc --noEmit     # typecheck
+npm run typecheck    # tsc --noEmit (also npm run lint)
 npm run build        # tsc -b && vite build
-npx playwright test --project=chromium   # existing E2E suite (13 tests, all passing)
+npm test             # Playwright: builds + serves preview on 4173, runs all specs
+npm run test:ui      # Playwright UI mode
 ```
 
-> ⚠️ `package.json` currently has **no** `lint`, `typecheck` or `test` scripts.
-> AGENTS.md requires them — add them (see §7, task P1).
+> `npm test` runs the suite against the **production build** (`vite preview`,
+> port 4173) for deterministic results. The audit specs use the dev server on
+> 5174 instead — see §7.
 
 ---
 
@@ -42,28 +44,29 @@ npx playwright test --project=chromium   # existing E2E suite (13 tests, all pas
 ```
 src/
 ├── App.tsx                      # hand-rolled router + scroll-reveal engine
-├── main.tsx                     # mounts App + RudrashtakamMusic  ← duplicate audio!
+├── main.tsx                     # mounts App only (single audio widget)
 ├── index.css                    # Tailwind + all custom Vedic styles + loader CSS
 ├── lib/
-│   ├── cmsStore.ts              # localStorage "CMS" (fake backend)  ← security issues
+│   ├── cmsStore.ts              # localStorage "CMS" (fake backend)
+│   ├── enquiry.ts               # ✅ shared validation + WhatsApp enquiry message/URL
 │   ├── languageContext.tsx      # hi/en toggle helper `t()`
 │   └── utils.ts                 # cn() = clsx + tailwind-merge
 ├── data/                        # services.ts (14), blogs.ts, gallery.ts, acharya.ts
 ├── components/
 │   ├── Loader.tsx               # ✅ redesigned (Om + circular progress + typing mantra)
-│   ├── BookingForm.tsx          # ✅ refactored to shadcn/ui (used only on SpecialAnushthan)
-│   ├── ContactSection.tsx       # ❌ old raw-HTML form, alert() validation, no real submit
+│   ├── BookingForm.tsx          # ✅ shadcn/ui form, submits to WhatsApp
+│   ├── ContactSection.tsx       # ✅ shadcn/ui form, labels + inline errors, WhatsApp submit
 │   ├── audio/BackgroundMusic.tsx    # plays /audio/background.mp3 (exists)
-│   ├── audio/RudrashtakamMusic.tsx  # plays /audio/rudrashtakam.mp3 (MISSING!)
 │   └── ui/                      # shadcn components: button, card, checkbox, dialog,
 │                                # input, label, select, sheet, textarea, dock, works-wheel
 └── pages/                       # Home, About, Services, ServiceDetail, SpecialAnushthan,
-                                 # Gallery, Blogs, BlogDetail, Contact, Legal, Prototypes, Admin
+                                 # Gallery, Blogs, BlogDetail, Contact, Legal, Prototypes,
+                                 # Admin, NotFound
 ```
 
 ### Routes (App.tsx)
 `/` · `/about` · `/services` · `/services/:slug` · `/special-anushthan` · `/gallery` · `/blogs` · `/blogs/:slug` · `/contact` · `/privacy-policy` · `/terms-and-conditions` · `/prototypes` · `/admin`
-Unknown → silently renders Home (no 404).
+Unknown route or unknown service/blog slug → `NotFoundPage` (404).
 
 ---
 
@@ -90,7 +93,48 @@ Unknown → silently renders Home (no 404).
 
 ---
 
+## 3b. ✅ FIXES APPLIED (session 2026-10-25, after backup)
+
+| # | Issue | What was done | Files |
+|---|---|---|---|
+| U1 | Reveal permanently hides fast-scrolled content | Sweep now reveals anything at/above the viewport (`rect.top < vh - 40`) | `src/App.tsx` |
+| U2/B3 | Duplicate music widget + 12 failed `/audio/rudrashtakam.mp3` requests | `RudrashtakamMusic` unmounted from `main.tsx`; component deleted | `src/main.tsx`, deleted `src/components/audio/RudrashtakamMusic.tsx` |
+| U4 | Mobile floating-widget pile-up | Removed `display:block` from `.floating-diya` so `hidden md:flex` works; music toggle uses `.music-toggle` (above 74 px bottom bar on mobile, `bottom-5` on desktop) | `src/index.css`, `src/components/audio/BackgroundMusic.tsx` |
+| U3 | Gallery wheel cards clipped / unreadable index | `CARD_H 0.38→0.30`, `RING_R 1.14→1.02`, `INDEX 0.04→0.058`; index list now vertically centred in the right gutter, hidden below `lg` | `src/components/ui/works-wheel.tsx` |
+| S1 | Password hint on public login | Removed `💡 डिफ़ॉल्ट पासवर्ड: admin123` | `src/pages/AdminPage.tsx` |
+| S2 | Hardcoded backdoors | Removed `mahakal123` / `admin` from `loginAdmin` + `changeAdminPassword`; min new password now 8 chars | `src/lib/cmsStore.ts` |
+| B4 | Empty arrays restored defaults | Only falls back when the key is missing / not an array | `src/lib/cmsStore.ts` |
+| B5 | Silent delete failures | `deleteGalleryItem` / `deleteBlog` / `deleteService` return `false` when nothing matched; the gallery & blog admin toasts show the real result | `src/lib/cmsStore.ts`, `src/pages/AdminPage.tsx` |
+| B6 | Shallow backup import | Validates arrays, `profile.name`, and required id/slug/imageUrl fields; imports only known keys | `src/lib/cmsStore.ts` |
+| B1 | Enquiries went nowhere | **WhatsApp-on-submit** for both forms via new shared helper; success copy says "WhatsApp opened, press Send" (no fake "received"); manual fallback link | new `src/lib/enquiry.ts`, `ContactSection.tsx`, `BookingForm.tsx` |
+| U5/U6/A2 | `alert()` + two form styles + no labels | `ContactSection` rebuilt on shadcn primitives with `<Label htmlFor>`, inline errors, `aria-invalid`/`aria-describedby`, 44 px controls | `src/components/ContactSection.tsx` |
+| — | Radix `SelectItem value=""` crash risk | Replaced with `__none__` sentinel in both forms | `BookingForm.tsx`, `ContactSection.tsx` |
+| A1 | Small tap targets | Footer quick/service/contact links 44 px, gallery filter pills 44 px, `View All` 44 px, desktop nav `py-2`, admin modal close 44 px | `Footer.tsx`, `Gallery.tsx`, `ElasticGallery.tsx`, `Navbar.tsx`, `AdminPage.tsx` |
+| A3 | English footer tagline in Hindi mode | Wrapped in `t()` | `Footer.tsx` |
+| — | Admin icon buttons had no accessible names | Added `aria-label` to modal close + password visibility buttons | `src/pages/AdminPage.tsx` |
+| P2 | No 404 | New `NotFoundPage`; unknown routes and unknown service/blog slugs now render it | new `src/pages/NotFoundPage.tsx`, `src/App.tsx` |
+| P3 | Stray mockup | Deleted `src/components/nnn/` | — |
+| P1 | npm scripts | `lint` / `typecheck` / `test` already present (lint = `tsc --noEmit`, no ESLint dependency) | `package.json` |
+| — | Tests | Contact spec now uses labels; added inline-validation, WhatsApp-payload and 404 tests; new `layout.spec.ts` guards against horizontal overflow on key routes | `tests/e2e/*.spec.ts` |
+| — | Flaky suite (dev-server stalls, loader race) | Suite runs against the **production preview** (build + `vite preview` on 4173, 4 workers, 60 s timeout); fixture waits for `main` to mount *then* `#loader` to detach (the old wait resolved instantly on an empty DOM, so clicks hit the overlay) | `playwright.config.ts`, new `tests/e2e/fixtures.ts` |
+| — | Tests depended on wa.me network | Popup tests replaced with `href` + stubbed `window.open` assertions; the real popup flow is covered by `scripts/audit/verify-fixes.spec.ts` (run manually against the dev server) | `tests/e2e/home.spec.ts`, `tests/e2e/contact.spec.ts` |
+| S1+ | Default password easy to forget | Admin dashboard shows a warning banner while the password is still `admin123`; password fields labelled + 8-char hint | `src/pages/AdminPage.tsx` |
+
+**Verification (end of this session):** `tsc --noEmit` ✅ · `npm run build` ✅ ·
+`npm test` → **66/66 passed** (22 specs × 3 projects: desktop Chromium, Pixel 5, iPhone 12) ·
+`scripts/audit/verify-fixes.spec.ts` ✅ (wheel geometry fits the stage, mobile music toggle
+sits above the bottom bar, contact submit opens WhatsApp with the Hindi message pre-filled).
+
+**Still open (needs a product decision):**
+- **B2 / S3 / S4** — the "CMS" is still `localStorage` + `sessionStorage` auth. Content is per-browser and auth is bypassable. Fixing properly needs a backend + database + server session (see §5).
+- **B1 hardening** — WhatsApp delivery depends on the visitor pressing Send in WhatsApp. A server-side copy (email/DB) would guarantee capture.
+
+---
+
 ## 4. OPEN ISSUES (prioritized, from AUDIT_REPORT.md)
+
+> Status: most UI/security/data-integrity items are fixed — see §3b. The tables
+> below are kept as the original audit record; items still open are marked ⏳.
 
 ### 🔴 Critical — Backend / Data
 | # | Issue | File / line | Fix idea |
@@ -140,27 +184,30 @@ Unknown → silently renders Home (no 404).
 
 ## 5. Decisions still needed from the user
 
-1. **Enquiry delivery:** (a) WhatsApp-only (free, instant, no infra) · (b) Formspree/Resend email · (c) full Vercel API + Postgres/Supabase. ⬅ **blocks B1/B2/S3/S4**
-2. **Admin security level:** remove hint + backdoors only (quick), or full hashed password + server auth (needs backend decision).
-3. **Keep or remove `RudrashtakamMusic`?** (duplicate of `BackgroundMusic`).
+1. **Enquiry delivery:** WhatsApp-on-submit is now implemented as the guaranteed path.
+   The remaining decision is whether to add a server-side copy: (a) keep WhatsApp-only
+   (free, no infra) · (b) Formspree/Resend email · (c) full Vercel API + Postgres/Supabase.
+2. **Admin security level:** hint + backdoors are removed, but auth is still client-side.
+   Real protection needs a server session (depends on #1).
+3. ~~Keep or remove `RudrashtakamMusic`?~~ → **removed** (missing mp3, duplicated BackgroundMusic).
 
 ---
 
-## 6. Suggested execution order (next session)
+## 6. Suggested execution order
 
 ```
-1. S1 remove password hint                      (1 line)
-2. S2 remove backdoors                          (small)
-3. U1 reveal sweep fix                          (1 line)   → biggest visual win
-4. U2 remove duplicate music widget             (1 line)
-5. B3 fix missing audio                         (1 line)
-6. B4/B5 cmsStore data integrity                (small)
-7. U3 gallery wheel sizing                      (medium)
-8. U4 mobile floating widgets                   (medium)
-9. U5/A2 unify ContactSection → shadcn form     (medium)
-10. A1/A3 accessibility + Hindi copy            (small)
-11. P1/P2/P3 process cleanup                    (small)
-12. B1/B2 real backend (needs decision)         (large)
+DONE  1. S1 remove password hint
+DONE  2. S2 remove backdoors
+DONE  3. U1 reveal sweep fix
+DONE  4. U2 remove duplicate music widget
+DONE  5. B3 missing audio (widget removed)
+DONE  6. B4/B5/B6 cmsStore data integrity
+DONE  7. U3 gallery wheel sizing
+DONE  8. U4 mobile floating widgets
+DONE  9. U5/A2 unify ContactSection → shadcn form + WhatsApp submit
+DONE 10. A1/A3 accessibility + Hindi copy
+DONE 11. P1/P2/P3 process cleanup (404, stray mockup, scripts)
+TODO 12. B2/S3 real backend + database + server auth (needs decision)
 ```
 
 ---
@@ -168,11 +215,17 @@ Unknown → silently renders Home (no 404).
 ## 7. Reusable audit commands
 
 ```powershell
-# start dev server (background)
+# E2E suite: builds the app and serves the production bundle on port 4173
+npm test
+
+# start dev server (background) — used by the audit config / manual checks
 npm run dev
 
-# full route audit (writes audit-output/report.json + screenshots)
+# full route audit (writes audit-output/report.json + screenshots, dev server on 5174)
 npx playwright test --config=playwright.audit.config.ts
+
+# targeted fix verification (wheel geometry, mobile widgets, real WhatsApp popup)
+npx playwright test scripts/audit/verify-fixes.spec.ts --config=playwright.audit.config.ts --reporter=line
 
 # reveal-engine debug (prints JSON to console)
 npx playwright test scripts/audit/debug-reveal.spec.ts --config=playwright.audit.config.ts --reporter=list
@@ -197,3 +250,7 @@ npx playwright test scripts/audit/debug-reveal.spec.ts --config=playwright.audit
 - `BookingForm` checkbox needs `checked as boolean` due to Radix typing.
 - `App.tsx` scroll-reveal uses `.reveal` + `.is-visible` + `.stagger` — any new section that should animate needs `className="reveal"`.
 - The site is fully client-side; there are no environment variables today.
+- **Enquiries:** both forms call `src/lib/enquiry.ts` (`validateEnquiry` → `sendEnquiryViaWhatsApp`). There is no server; WhatsApp is the delivery channel. Don't reintroduce a fake "we received your enquiry" success state.
+- **E2E tests:** import `test, expect` from `./fixtures`, not `@playwright/test` — the fixture waits for `#loader` to detach (the intro takes ~3.4 s and WebKit needs the longer timeout).
+- **Radix Select** forbids `value=""`; use the `__none__` sentinel (already done in both forms).
+- Admin auth is a client-side gate only (`localStorage` hash + `sessionStorage` flag). It is **not** real security — see §5.
