@@ -258,11 +258,13 @@ npx playwright test scripts/audit/debug-reveal.spec.ts --config=playwright.audit
 
 - Git commits hold every change (branch: `main`).
 - `3f66d31` + tag `backup-2026-10-25_1312` — state **before** the audit fixes.
-- `62e8f59` — **all audit fixes** (this session). Working tree clean.
-- Zip snapshot: `backups/akshay-website-backup-<timestamp>.zip`
-  (excludes `node_modules`, `dist`, `.git`, audit screenshots, local photo/video originals).
+- `62e8f59` — **all audit fixes**. `641e428` — deploy config, README, metadata.
+- Zip snapshots in `backups/` (git-ignored):
+  - `akshay-website-backup-2026-10-25_1312.zip` — pre-fix (20.6 MB)
+  - `akshay-website-backup-2026-10-25_postfix.zip` — current `HEAD`, made with
+    `git archive --format=zip --output=<dest> HEAD` (20.6 MB, 217 entries)
 - Restore: unzip into an empty folder → `npm install` → `npm run dev`.
-- Roll back the fixes only: `git revert 62e8f59` (or `git reset --hard 3f66d31`).
+- Roll back the fixes only: `git revert 641e428 62e8f59` (or `git reset --hard 3f66d31`).
 
 ---
 
@@ -278,3 +280,7 @@ npx playwright test scripts/audit/debug-reveal.spec.ts --config=playwright.audit
 - **E2E tests:** import `test, expect` from `./fixtures`, not `@playwright/test` — the fixture waits for `#loader` to detach (the intro takes ~3.4 s and WebKit needs the longer timeout).
 - **Radix Select** forbids `value=""`; use the `__none__` sentinel (already done in both forms).
 - Admin auth is a client-side gate only (`localStorage` hash + `sessionStorage` flag). It is **not** real security — see §5.
+- `audio/rudrashtakam.mp3` (repo root, tracked) is a duplicate of `public/audio/background.mp3`
+  and has **no** code references since `RudrashtakamMusic` was removed. Kept on purpose
+  (it is original media); delete only with the client's OK.
+- `public/` is ~18 MB of photos/video and is committed. Keep new assets compressed.
