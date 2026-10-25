@@ -17,6 +17,19 @@ test.describe('Services', () => {
     await expect(page.locator('h1')).toHaveText(/रुद्राभिषेक/);
   });
 
+  test('deep link to a service detail page resolves from the URL', async ({ page }) => {
+    // Guards the SPA fallback (vercel.json / public/_redirects) and slug routing:
+    // a shared or refreshed detail URL must render the page, not the 404.
+    await page.goto('/services/rudrabhishek');
+    await expect(page.locator('h1')).toHaveText(/रुद्राभिषेक/);
+    await expect(page.getByText(/यह पृष्ठ नहीं मिला/)).toHaveCount(0);
+  });
+
+  test('unknown service slug renders the 404 page', async ({ page }) => {
+    await page.goto('/services/koi-seva-nahi-hai');
+    await expect(page.getByRole('heading', { name: '404' })).toBeVisible();
+  });
+
   test('special anushthan book button navigates to contact', async ({ page }) => {
     await page.goto('/services');
     await page.getByRole('button', { name: /अपने विशेष पूजन/ }).click();

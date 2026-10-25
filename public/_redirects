@@ -1,0 +1,5 @@
+# SPA fallback for Netlify.
+# The app uses client-side routing (/services/:slug, /blogs/:slug, …), so any
+# unknown path must serve index.html instead of a 404 — otherwise refreshing a
+# detail page or opening a shared link breaks.
+/*  /index.html  200

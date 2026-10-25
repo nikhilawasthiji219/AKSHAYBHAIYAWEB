@@ -12,4 +12,11 @@ test.describe('Blogs', () => {
     await page.getByRole('button', { name: /संपूर्ण लेख पढ़ें|Read More/ }).first().click();
     await expect(page).toHaveURL(/\/blogs\/rudrabhishek-ujjain-mahatva/);
   });
+
+  test('deep link to a blog post resolves from the URL', async ({ page }) => {
+    // Shared/refreshed blog URLs must render the post, not the 404.
+    await page.goto('/blogs/rudrabhishek-ujjain-mahatva');
+    await expect(page.getByRole('heading', { name: /रुद्राभिषेक/ }).first()).toBeVisible();
+    await expect(page.getByText(/यह पृष्ठ नहीं मिला/)).toHaveCount(0);
+  });
 });

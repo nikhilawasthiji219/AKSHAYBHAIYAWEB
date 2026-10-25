@@ -33,7 +33,7 @@ npm run test:ui      # Playwright UI mode
 | Backend | **None exists** (despite AGENTS.md saying "API routes") |
 | Database | **None** — content stored in browser `localStorage` |
 | Auth | Client-side only (`sessionStorage` flag) |
-| Hosting target | Vercel / Netlify |
+| Hosting target | Vercel / Netlify — static `dist/`; SPA fallback configured |
 | Path alias | `@/*` → `./src/*` |
 | Tailwind colors | saffron `#E87512`, gold `#C89B3C`, cream `#FFF8E8`, maroon `#641E12`, charcoal `#2B2118` |
 | Fonts | Noto Serif Devanagari (headings), Noto Sans Devanagari + Inter (body) |
@@ -119,9 +119,12 @@ Unknown route or unknown service/blog slug → `NotFoundPage` (404).
 | — | Flaky suite (dev-server stalls, loader race) | Suite runs against the **production preview** (build + `vite preview` on 4173, 4 workers, 60 s timeout); fixture waits for `main` to mount *then* `#loader` to detach (the old wait resolved instantly on an empty DOM, so clicks hit the overlay) | `playwright.config.ts`, new `tests/e2e/fixtures.ts` |
 | — | Tests depended on wa.me network | Popup tests replaced with `href` + stubbed `window.open` assertions; the real popup flow is covered by `scripts/audit/verify-fixes.spec.ts` (run manually against the dev server) | `tests/e2e/home.spec.ts`, `tests/e2e/contact.spec.ts` |
 | S1+ | Default password easy to forget | Admin dashboard shows a warning banner while the password is still `admin123`; password fields labelled + 8-char hint | `src/pages/AdminPage.tsx` |
+| P5 | Deep links would 404 on a static host | Added `vercel.json` (build + SPA rewrite) and `public/_redirects` (Netlify); deep-link + unknown-slug tests added | `vercel.json`, `public/_redirects`, `tests/e2e/services.spec.ts`, `tests/e2e/blogs.spec.ts` |
+| — | README described a Next.js app that does not exist | Rewritten for the actual React 19 + Vite stack, routes, deploy steps, enquiry flow and CMS caveats | `README.md` |
+| — | Thin social/search metadata | Added Twitter card, theme colour and `ProfessionalService` JSON-LD (name, phone, address, timings) | `index.html` |
 
 **Verification (end of this session):** `tsc --noEmit` ✅ · `npm run build` ✅ ·
-`npm test` → **66/66 passed** (22 specs × 3 projects: desktop Chromium, Pixel 5, iPhone 12) ·
+`npm test` → **75/75 passed** (25 specs × 3 projects: desktop Chromium, Pixel 5, iPhone 12) ·
 `scripts/audit/verify-fixes.spec.ts` ✅ (wheel geometry fits the stage, mobile music toggle
 sits above the bottom bar, contact submit opens WhatsApp with the Hindi message pre-filled).
 
@@ -182,14 +185,23 @@ sits above the bottom bar, contact submit opens WhatsApp with the Hindi message 
 
 ---
 
-## 5. Decisions still needed from the user
+## 5. Decisions
 
-1. **Enquiry delivery:** WhatsApp-on-submit is now implemented as the guaranteed path.
-   The remaining decision is whether to add a server-side copy: (a) keep WhatsApp-only
-   (free, no infra) · (b) Formspree/Resend email · (c) full Vercel API + Postgres/Supabase.
-2. **Admin security level:** hint + backdoors are removed, but auth is still client-side.
-   Real protection needs a server session (depends on #1).
+1. **Enquiry delivery — DECIDED (2026-10-25, user): WhatsApp-only.**
+   No backend, no database, no email service. Static hosting only. Both forms hand
+   the enquiry to WhatsApp with the message pre-filled; the visitor presses Send.
+   Accepted trade-off: an enquiry that is never sent is not captured anywhere.
+   Revisit only if the priest asks for an inbox/CRM — then add a form endpoint
+   (Formspree/Web3Forms) before reaching for a database.
+2. **Admin/CMS security — accepted limitation, for now.**
+   Hint + backdoors removed; the gate is still client-side (`sessionStorage` flag +
+   client-side password check, content in `localStorage`). It is a single-browser
+   content editor, **not** shared CMS and **not** a security boundary. Real fix
+   (server session + DB) is deferred with #1. Change the password from `admin123`
+   on first use — the dashboard warns until you do.
 3. ~~Keep or remove `RudrashtakamMusic`?~~ → **removed** (missing mp3, duplicated BackgroundMusic).
+4. **Hosting:** static `dist/`, Vercel or Netlify. `vercel.json` and
+   `public/_redirects` provide the SPA fallback — without it, deep links 404.
 
 ---
 
@@ -207,8 +219,17 @@ DONE  8. U4 mobile floating widgets
 DONE  9. U5/A2 unify ContactSection → shadcn form + WhatsApp submit
 DONE 10. A1/A3 accessibility + Hindi copy
 DONE 11. P1/P2/P3 process cleanup (404, stray mockup, scripts)
-TODO 12. B2/S3 real backend + database + server auth (needs decision)
+DONE 12. Deployment config (SPA fallback), README rewrite, JSON-LD/OG meta
+DEFERRED 13. B2/S3 real backend + database + server auth — user chose WhatsApp-only
 ```
+
+**Launch checklist**
+1. `npm run build` → deploy `dist/` to Vercel (auto via `vercel.json`) or Netlify
+   (publish `dist`; `public/_redirects` ships the fallback).
+2. Open `/admin`, log in with `admin123`, immediately set a real password.
+3. Verify on a phone: open a service detail URL directly (deep link must load, not 404),
+   submit the enquiry form, confirm WhatsApp opens pre-filled.
+4. When a domain exists: make `og:image` + canonical absolute (currently relative).
 
 ---
 

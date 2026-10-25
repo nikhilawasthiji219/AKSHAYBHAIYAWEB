@@ -6,8 +6,11 @@
 
 > **Status update (same day):** items 3–19 and 21–23 are fixed; item 20 was
 > already resolved in `package.json`. See `PROJECT_STATE.md` §3b for the exact
-> changes. Items **1 (real backend/database)** and **2 (CMS persistence)** remain
-> open pending a backend decision.
+> changes. Items **1 (real backend/database)** and **2 (CMS persistence)** are
+> **deferred by decision**: WhatsApp-on-submit is the delivery channel and the
+> admin CMS stays a single-browser tool until the priest asks for more (§5).
+> Static deploy config (`vercel.json`, `public/_redirects`) and a verified deep-link
+> fallback were added so client-side routes survive a refresh on the host.
 
 ---
 
