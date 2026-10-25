@@ -236,9 +236,12 @@ npx playwright test scripts/audit/debug-reveal.spec.ts --config=playwright.audit
 ## 8. Backup artifacts
 
 - Git commits hold every change (branch: `main`).
+- `3f66d31` + tag `backup-2026-10-25_1312` — state **before** the audit fixes.
+- `62e8f59` — **all audit fixes** (this session). Working tree clean.
 - Zip snapshot: `backups/akshay-website-backup-<timestamp>.zip`
   (excludes `node_modules`, `dist`, `.git`, audit screenshots, local photo/video originals).
 - Restore: unzip into an empty folder → `npm install` → `npm run dev`.
+- Roll back the fixes only: `git revert 62e8f59` (or `git reset --hard 3f66d31`).
 
 ---
 
