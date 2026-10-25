@@ -4,6 +4,13 @@ import { ACHARYA_PROFILE } from '../data/acharya';
 import { Send, CheckCircle2, MessageCircle, AlertCircle } from 'lucide-react';
 import { ContactFormData } from '../types';
 
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Textarea } from '@/components/ui/textarea';
+
 interface BookingFormProps {
   preselectedService?: string;
 }
@@ -73,7 +80,6 @@ export const BookingForm: React.FC<BookingFormProps> = ({ preselectedService }) 
 
   return (
     <div className="bg-cream-light rounded-2xl border-2 border-gold/50 p-6 sm:p-8 shadow-gold-md">
-      
       {/* Form Header */}
       <div className="text-center mb-6 space-y-1">
         <span className="text-xs font-bold text-saffron uppercase tracking-widest font-serif">
@@ -126,50 +132,47 @@ export const BookingForm: React.FC<BookingFormProps> = ({ preselectedService }) 
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
-          
           {/* Row 1: Name & Mobile */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold font-serif text-maroon mb-1">
+            <div className="space-y-2">
+              <Label className="text-xs font-bold font-serif text-maroon">
                 यजमान का नाम (Full Name) *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 value={formData.fullName}
                 onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                 placeholder="उदा. राहुल शर्मा"
-                className={`w-full px-3.5 py-2.5 rounded-lg bg-cream border text-sm font-sans focus:outline-none focus:ring-2 focus:ring-saffron/40 ${
+                className={`text-sm font-sans focus:ring-saffron/40 ${
                   errors.fullName ? 'border-red-500' : 'border-gold/40'
                 }`}
               />
               {errors.fullName && (
-                <p className="text-[11px] text-red-600 mt-1 flex items-center gap-1">
+                <p className="text-[11px] text-red-600 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.fullName}
                 </p>
               )}
             </div>
 
-            <div>
-              <label className="block text-xs font-bold font-serif text-maroon mb-1">
+            <div className="space-y-2 relative">
+              <Label className="text-xs font-bold font-serif text-maroon">
                 मोबाइल नंबर (Mobile Number) *
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-2.5 text-xs text-charcoal/60 font-sans font-bold">
-                  +91
-                </span>
-                <input
-                  type="tel"
-                  maxLength={10}
-                  value={formData.mobileNumber}
-                  onChange={(e) => setFormData({ ...formData, mobileNumber: e.target.value })}
-                  placeholder="9876543210"
-                  className={`w-full pl-11 pr-3.5 py-2.5 rounded-lg bg-cream border text-sm font-sans focus:outline-none focus:ring-2 focus:ring-saffron/40 ${
-                    errors.mobileNumber ? 'border-red-500' : 'border-gold/40'
-                  }`}
-                />
+              </Label>
+              <div className="absolute left-2.5 top-10 text-xs text-charcoal/60 font-sans font-bold">
+                +91
               </div>
+              <Input
+                type="tel"
+                maxLength={10}
+                value={formData.mobileNumber}
+                onChange={(e) => setFormData({ ...formData, mobileNumber: e.target.value })}
+                placeholder="9876543210"
+                className={`w-full pl-10 pr-3.5 py-2.5 rounded-lg bg-cream border text-sm font-sans focus:ring-saffron/40 ${
+                  errors.mobileNumber ? 'border-red-500' : 'border-gold/40'
+                }`}
+              />
               {errors.mobileNumber && (
-                <p className="text-[11px] text-red-600 mt-1 flex items-center gap-1">
+                <p className="text-[11px] text-red-600 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.mobileNumber}
                 </p>
               )}
@@ -178,53 +181,59 @@ export const BookingForm: React.FC<BookingFormProps> = ({ preselectedService }) 
 
           {/* Row 2: DOB & Birth Time (Optional, useful for Kundali & Vedic Muhurat) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold font-serif text-maroon mb-1">
+            <div className="space-y-2">
+              <Label className="text-xs font-bold font-serif text-maroon">
                 जन्म तिथि (DOB - यदि ज्ञात हो)
-              </label>
-              <input
+              </Label>
+              <Input
                 type="date"
                 value={formData.dateOfBirth}
                 onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-lg bg-cream border border-gold/40 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-saffron/40"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-cream border border-gold/40 text-sm font-sans focus:ring-saffron/40"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-bold font-serif text-maroon mb-1">
+            <div className="space-y-2">
+              <Label className="text-xs font-bold font-serif text-maroon">
                 जन्म समय (Birth Time - यदि ज्ञात हो)
-              </label>
-              <input
+              </Label>
+              <Input
                 type="time"
                 value={formData.birthTime}
                 onChange={(e) => setFormData({ ...formData, birthTime: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-lg bg-cream border border-gold/40 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-saffron/40"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-cream border border-gold/40 text-sm font-sans focus:ring-saffron/40"
               />
             </div>
           </div>
 
           {/* Row 3: Required Service Dropdown */}
-          <div>
-            <label className="block text-xs font-bold font-serif text-maroon mb-1">
+          <div className="space-y-2">
+            <Label className="text-xs font-bold font-serif text-maroon">
               अपेक्षित पूजन / अनुष्ठान (Required Puja / Service) *
-            </label>
-            <select
+            </Label>
+            <Select
               value={formData.serviceRequired}
-              onChange={(e) => setFormData({ ...formData, serviceRequired: e.target.value })}
+              onValueChange={(value) => setFormData({ ...formData, serviceRequired: value })}
               disabled={formData.isCustomPuja}
-              className={`w-full px-3.5 py-2.5 rounded-lg bg-cream border text-sm font-serif focus:outline-none focus:ring-2 focus:ring-saffron/40 ${
-                formData.isCustomPuja ? 'bg-stone-200 text-stone-500 cursor-not-allowed' : 'text-charcoal'
-              } ${errors.serviceRequired ? 'border-red-500' : 'border-gold/40'}`}
             >
-              <option value="">-- पूजन का चयन करें --</option>
-              {SERVICES_DATA.map((srv) => (
-                <option key={srv.id} value={srv.title}>
-                  {srv.title}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger
+                className={`w-full px-3.5 py-2.5 rounded-lg bg-cream border text-sm font-serif focus:ring-saffron/40 ${
+                  formData.isCustomPuja ? 'bg-stone-200 text-stone-500 cursor-not-allowed' : 'text-charcoal'
+                } ${errors.serviceRequired ? 'border-red-500' : 'border-gold/40'}`}
+              >
+                <SelectValue placeholder="-- पूजन का चयन करें --" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">-- पूजन का चयन करें --</SelectItem>
+                {SERVICES_DATA.map((srv) => (
+                  <SelectItem key={srv.id} value={srv.title}>
+                    {srv.title}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             {errors.serviceRequired && (
-              <p className="text-[11px] text-red-600 mt-1 flex items-center gap-1">
+              <p className="text-[11px] text-red-600 flex items-center gap-1">
                 <AlertCircle className="w-3 h-3" /> {errors.serviceRequired}
               </p>
             )}
@@ -233,11 +242,12 @@ export const BookingForm: React.FC<BookingFormProps> = ({ preselectedService }) 
           {/* Checkboxes specified in prompt */}
           <div className="flex flex-wrap items-center gap-6 py-1">
             <label className="flex items-center gap-2 cursor-pointer select-none">
-              <input
-                type="checkbox"
+              <Checkbox
                 checked={formData.isCustomPuja}
-                onChange={(e) => setFormData({ ...formData, isCustomPuja: e.target.checked })}
-                className="w-4 h-4 rounded text-saffron focus:ring-saffron border-gold/50"
+                onCheckedChange={(checked) =>
+                  setFormData({ ...formData, isCustomPuja: checked as boolean })
+                }
+                className="rounded text-saffron focus:ring-saffron border-gold/50"
               />
               <span className="text-xs font-serif font-bold text-maroon">
                 ☐ Request Custom Puja (विशेष संकल्प आधारित पूजन)
@@ -245,11 +255,12 @@ export const BookingForm: React.FC<BookingFormProps> = ({ preselectedService }) 
             </label>
 
             <label className="flex items-center gap-2 cursor-pointer select-none">
-              <input
-                type="checkbox"
+              <Checkbox
                 checked={formData.isBookingSystem}
-                onChange={(e) => setFormData({ ...formData, isBookingSystem: e.target.checked })}
-                className="w-4 h-4 rounded text-saffron focus:ring-saffron border-gold/50"
+                onCheckedChange={(checked) =>
+                  setFormData({ ...formData, isBookingSystem: checked as boolean })
+                }
+                className="rounded text-saffron focus:ring-saffron border-gold/50"
               />
               <span className="text-xs font-serif font-semibold text-charcoal/80">
                 ☐ Booking System (सीधे परामर्श व समय निर्धारण)
@@ -258,28 +269,28 @@ export const BookingForm: React.FC<BookingFormProps> = ({ preselectedService }) 
           </div>
 
           {/* Message / Sankalp */}
-          <div>
-            <label className="block text-xs font-bold font-serif text-maroon mb-1">
+          <div className="space-y-2">
+            <Label className="text-xs font-bold font-serif text-maroon">
               संदेश / पारिवारिक मनोरथ (Message)
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               rows={3}
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               placeholder="अपनी समस्या, अभीष्ट तिथि या विशेष मनोरथ लिखें..."
-              className="w-full px-3.5 py-2.5 rounded-lg bg-cream border border-gold/40 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-saffron/40"
+              className="w-full px-3.5 py-2.5 rounded-lg bg-cream border border-gold/40 text-sm font-sans focus:ring-saffron/40"
             />
           </div>
 
           {/* CTA Buttons */}
           <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
-            <button
+            <Button
               type="submit"
               className="w-full sm:flex-1 py-3.5 px-6 rounded-lg bg-saffron hover:bg-saffron-dark text-white font-serif font-bold text-base shadow-saffron-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
             >
               <Send className="w-4 h-4" />
               <span>पूजन/अनुष्ठान के लिए संपर्क करें</span>
-            </button>
+            </Button>
 
             <button
               type="button"
@@ -294,10 +305,8 @@ export const BookingForm: React.FC<BookingFormProps> = ({ preselectedService }) 
           <p className="text-[11px] text-center text-charcoal/60 font-sans">
             🔒 आपकी समस्त व्यक्तिगत व धार्मिक जानकारी पूर्णतः सुरक्षित एवं गोपनीय रखी जाती है।
           </p>
-
         </form>
       )}
-
     </div>
   );
 };

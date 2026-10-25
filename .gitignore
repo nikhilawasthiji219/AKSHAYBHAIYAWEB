@@ -3,6 +3,20 @@ node_modules/
 dist/
 tsconfig.tsbuildinfo
 *.log
+.vite/
+.env
+.env.*
+!.env.example
+
+# Test / audit artifacts
+playwright-report/
+test-results/
+audit-output/
+audit-output-2/
+blob-report/
+
+# Local backups
+/backups/
 
 # Large local source assets (optimized versions live in public/)
 /photo/
