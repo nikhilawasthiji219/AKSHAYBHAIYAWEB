@@ -299,12 +299,15 @@ npx playwright test scripts/audit/debug-reveal.spec.ts --config=playwright.audit
 - Git commits hold every change (branch: `main`).
 - `3f66d31` + tag `backup-2026-10-25_1312` — state **before** the audit fixes.
 - `62e8f59` — **all audit fixes**. `641e428` — deploy config, README, metadata.
+- `6d8121b` — docs. `9ee75b3` — **ESLint + a11y pass (current HEAD)**.
 - Zip snapshots in `backups/` (git-ignored):
   - `akshay-website-backup-2026-10-25_1312.zip` — pre-fix (20.6 MB)
-  - `akshay-website-backup-2026-10-25_postfix.zip` — current `HEAD`, made with
-    `git archive --format=zip --output=<dest> HEAD` (20.6 MB, 217 entries)
+  - `akshay-website-backup-2026-10-25_postfix.zip` — state after `641e428` (20.6 MB)
+  - `akshay-website-backup-2026-10-26_lint-a11y.zip` — state after `9ee75b3` (20.6 MB)
+  - All zips are made with `git archive --format=zip --output=<dest> HEAD`.
 - Restore: unzip into an empty folder → `npm install` → `npm run dev`.
-- Roll back the fixes only: `git revert 641e428 62e8f59` (or `git reset --hard 3f66d31`).
+- Roll back the audit fixes only: `git revert 9ee75b3 6d8121b 641e428 62e8f59`
+  (or `git reset --hard 3f66d31` for a full pre-fix state).
 
 ---
 
