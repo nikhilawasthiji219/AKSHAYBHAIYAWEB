@@ -38,10 +38,11 @@ export const BlogStrip: React.FC<BlogStripProps> = ({ onSelectBlog }) => {
         {/* 5 Cards row */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
           {blogs.map((b, idx) => (
-            <div
+            <button
+              type="button"
               key={idx}
               onClick={() => onSelectBlog(b)}
-              className="bg-[#FFFDF7] rounded-lg border border-[#C89B3C]/35 overflow-hidden shadow-xs hover:shadow-md cursor-pointer transition-all duration-200 flex flex-col justify-between group"
+              className="bg-[#FFFDF7] rounded-lg border border-[#C89B3C]/35 overflow-hidden shadow-xs hover:shadow-md cursor-pointer transition-all duration-200 flex flex-col justify-between group text-left w-full"
             >
               <div>
                 <div className="h-28 w-full overflow-hidden">
@@ -62,7 +63,7 @@ export const BlogStrip: React.FC<BlogStripProps> = ({ onSelectBlog }) => {
                   Read More
                 </span>
               </div>
-            </div>
+            </button>
           ))}
         </div>
 

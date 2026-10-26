@@ -2,7 +2,7 @@
 
 > **Purpose:** If this AI session ends (token limit, new chat), read this file first.
 > It contains everything needed to continue without re-discovering the project.
-> **Last updated:** 2026-10-25
+> **Last updated:** 2026-10-26
 
 ---
 
@@ -12,11 +12,14 @@
 cd E:\AKSHAYBHAIYAWEB
 npm install
 npm run dev          # http://localhost:5173 (or 5174 if busy)
-npm run typecheck    # tsc --noEmit (also npm run lint)
+npm run lint         # ESLint (a11y + hooks + TS rules)
+npm run typecheck    # tsc --noEmit
 npm run build        # tsc -b && vite build
 npm test             # Playwright: builds + serves preview on 4173, runs all specs
 npm run test:ui      # Playwright UI mode
 ```
+
+> `lint` (ESLint) and `typecheck` (`tsc`) are **separate** checks — run both.
 
 > `npm test` runs the suite against the **production build** (`vite preview`,
 > port 4173) for deterministic results. The audit specs use the dev server on
@@ -134,6 +137,37 @@ sits above the bottom bar, contact submit opens WhatsApp with the Hindi message 
 
 ---
 
+## 3c. ✅ QUALITY GATE + A11Y PASS (session 2026-10-26)
+
+The repo had **no linter at all** (`lint` was just `tsc --noEmit`). Added ESLint (user approved
+the dependency) and fixed every finding — 67 problems → 0.
+
+| Area | What was done | Files |
+|---|---|---|
+| Lint tooling | New flat config: `@eslint/js` + `typescript-eslint` + `react-hooks` + `react-refresh` + `jsx-a11y`. Ignores `website-ui-design/`, `prototypes/`, `dist/`, `playwright-report/`, `test-results/`, `backups/`. Tests are exempt from `react-hooks/rules-of-hooks` (fixtures use hooks-like helpers). | new `eslint.config.js`, `package.json` |
+| Missing form labels | 32 admin fields given matching `htmlFor` / `id` pairs | `src/pages/AdminPage.tsx` |
+| Media Type "label" | It labels a radio **group**, not one control → `<span id>` + `role="radiogroup" aria-labelledby` | `src/pages/AdminPage.tsx` |
+| Nested interactive controls | Booking-form checkbox `<label>` wrapped a Radix `<Checkbox>` (button element) → `<div>` (the checkbox already has `aria-label`); also dropped the now-fake `cursor-pointer` | `src/components/BookingForm.tsx` |
+| Card `div onClick` → real buttons | Service cards, blog cards, related-article / related-service cards and the online-puja ticker are now `<button type="button">` (keyboard + screen-reader reachable, no `role`/`tabIndex` shims). Added `text-left w-full` so layout is unchanged. | `ServicesGrid.tsx`, `ServicesPage.tsx`, `BlogStrip.tsx`, `BlogDetailPage.tsx`, `ServiceDetailPage.tsx`, `OnlinePujaTicker.tsx` |
+| Nested clickable span | The "Read Full Article" link inside the flip-blog card was a `<span onClick>` inside a `<button>` (invalid nesting) → plain `<span>`; the card click already navigates | `src/components/FlipBlogCards.tsx` |
+| Modal backdrops | Click-outside handlers on static `<div>`s replaced with an absolute-positioned `<button aria-label="Close">` behind the dialog | `src/components/Gallery.tsx`, `src/components/ElasticGallery.tsx` |
+| `<video>` caption rule | Ritual clips are uploaded by the client and have no caption tracks → scoped `jsx-a11y/media-has-caption` disable with a comment (not a silent global off) | `Gallery.tsx`, `ElasticGallery.tsx` |
+| `<input autoFocus>` | Kept on the single-field admin login, wrapped in an explicit `eslint-disable` / `eslint-enable` block with the reason | `src/pages/AdminPage.tsx` |
+| Empty `catch` blocks | Commented (`/* storage may be blocked */`) instead of silently swallowing | `BackgroundMusic.tsx`, `languageContext.tsx` |
+| `any` in error handling | `catch (err: any)` → `unknown` + narrowing | `src/lib/cmsStore.ts` |
+| Crawler hygiene | New `robots.txt` disallowing `/admin` and `/prototypes` (matches the sitemap-less static build) | new `public/robots.txt` |
+| Dead dependencies | Removed unused runtime deps `bluebird`, `mz`, `sharp` (no references anywhere) | `package.json`, `package-lock.json` |
+| Docs | README + this file: `lint` is now ESLint, `typecheck` is `tsc` | `README.md`, `PROJECT_STATE.md` |
+
+**Verification:** `npx eslint .` → 0 problems ✅ · `npm run typecheck` → 0 ✅ ·
+`npm run build` → 0 ✅ · `npm test` → **75/75 passed** (2.0 min, after the markup changes).
+
+**Deliberately NOT changed:**
+- Unreferenced public assets (~4 MB: `mockup_*.jpg`, `WhatsApp Image *.jpeg`, root
+  `audio/rudrashtakam.mp3`) — flagged for the client, not deleted unasked.
+
+---
+
 ## 4. OPEN ISSUES (prioritized, from AUDIT_REPORT.md)
 
 > Status: most UI/security/data-integrity items are fixed — see §3b. The tables
@@ -202,6 +236,10 @@ sits above the bottom bar, contact submit opens WhatsApp with the Hindi message 
 3. ~~Keep or remove `RudrashtakamMusic`?~~ → **removed** (missing mp3, duplicated BackgroundMusic).
 4. **Hosting:** static `dist/`, Vercel or Netlify. `vercel.json` and
    `public/_redirects` provide the SPA fallback — without it, deep links 404.
+5. **Linting — ESLint 9 (pinned).** User approved the dev dependency on 2026-10-26.
+   `npm run lint` = `eslint .`; `npm run typecheck` = `tsc --noEmit` (both must pass).
+   **Keep eslint on `^9`**: `eslint-plugin-jsx-a11y` has no ESLint 10 peer range yet
+   (installing `eslint@10` fails with ERESOLVE). Revisit when that plugin ships support.
 
 ---
 
@@ -236,8 +274,10 @@ DEFERRED 13. B2/S3 real backend + database + server auth — user chose WhatsApp
 ## 7. Reusable audit commands
 
 ```powershell
-# E2E suite: builds the app and serves the production bundle on port 4173
-npm test
+# Quality gate — all three must be green before calling a task done
+npm run lint         # ESLint: a11y, hooks, TS rules
+npm run typecheck    # tsc --noEmit
+npm test             # builds the app and serves the production bundle on port 4173
 
 # start dev server (background) — used by the audit config / manual checks
 npm run dev
@@ -284,3 +324,13 @@ npx playwright test scripts/audit/debug-reveal.spec.ts --config=playwright.audit
   and has **no** code references since `RudrashtakamMusic` was removed. Kept on purpose
   (it is original media); delete only with the client's OK.
 - `public/` is ~18 MB of photos/video and is committed. Keep new assets compressed.
+- **Lint:** `npm run lint` is ESLint, **not** tsc — run `npm run typecheck` too. ESLint stays
+  pinned to `^9` until `eslint-plugin-jsx-a11y` supports ESLint 10 (§5.5).
+- **Clickable cards must be `<button type="button">`**, not `div onClick` (jsx-a11y enforces
+  this). Add `text-left w-full` so they keep their old block layout.
+- **Modal backdrops:** use an absolute-positioned `<button aria-label="Close">` as the
+  click-outside target instead of `onClick` on the backdrop `div`.
+- Radix `<Checkbox>` renders a `<button>` — never wrap it in a `<label>`; use a plain
+  `<div>` (the checkbox carries its own `aria-label`).
+- Client-uploaded `<video>` elements intentionally carry `jsx-a11y/media-has-caption`
+  disables with a comment — do not remove the comment, and do not disable the rule globally.

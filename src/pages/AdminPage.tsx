@@ -501,6 +501,9 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                 व्यवस्थापक पासवर्ड (Admin Password)
               </label>
               <div className="relative">
+                {/* Deliberate: the login screen has a single field, so focusing it
+                    saves a tab stop and does not steal focus from other content. */}
+                {/* eslint-disable jsx-a11y/no-autofocus */}
                 <input
                   id="admin-login-password"
                   type={showPassword ? 'text' : 'password'}
@@ -520,6 +523,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
+                {/* eslint-enable jsx-a11y/no-autofocus */}
               </div>
             </div>
 
@@ -1001,10 +1005,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
             <form onSubmit={handleSaveProfile} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-profile-form-name" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     आचार्य जी का नाम (Full Name)
                   </label>
-                  <input
+                  <input id="admin-profile-form-name"
                     type="text"
                     value={profileForm.name}
                     onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
@@ -1014,10 +1018,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-profile-form-title" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     पदवी / उपाधि (Title)
                   </label>
-                  <input
+                  <input id="admin-profile-form-title"
                     type="text"
                     value={profileForm.title}
                     onChange={(e) => setProfileForm({ ...profileForm, title: e.target.value })}
@@ -1029,10 +1033,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-profile-form-primary-phone" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     प्राथमिक फोन नंबर (Primary Phone)
                   </label>
-                  <input
+                  <input id="admin-profile-form-primary-phone"
                     type="text"
                     value={profileForm.primaryPhone}
                     onChange={(e) => setProfileForm({ ...profileForm, primaryPhone: e.target.value })}
@@ -1042,10 +1046,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-profile-form-secondary-phone" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     द्वितीय फोन नंबर (Secondary Phone)
                   </label>
-                  <input
+                  <input id="admin-profile-form-secondary-phone"
                     type="text"
                     value={profileForm.secondaryPhone}
                     onChange={(e) => setProfileForm({ ...profileForm, secondaryPhone: e.target.value })}
@@ -1054,10 +1058,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-serif font-bold text-emerald-800 mb-1">
+                  <label htmlFor="admin-profile-form-whatsapp-number" className="block text-xs font-serif font-bold text-emerald-800 mb-1">
                     WhatsApp नंबर (Direct Chat)
                   </label>
-                  <input
+                  <input id="admin-profile-form-whatsapp-number"
                     type="text"
                     value={profileForm.whatsappNumber}
                     onChange={(e) => setProfileForm({ ...profileForm, whatsappNumber: e.target.value })}
@@ -1069,10 +1073,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-profile-form-email" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     ईमेल (Email Address)
                   </label>
-                  <input
+                  <input id="admin-profile-form-email"
                     type="email"
                     value={profileForm.email}
                     onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
@@ -1081,10 +1085,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-profile-form-experience-years" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     अनुभव वर्ष (Experience Years)
                   </label>
-                  <input
+                  <input id="admin-profile-form-experience-years"
                     type="text"
                     value={profileForm.experienceYears}
                     onChange={(e) => setProfileForm({ ...profileForm, experienceYears: e.target.value })}
@@ -1094,10 +1098,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-profile-form-postal-location" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   तीर्थ क्षेत्र / कर्मक्षेत्र (Temple / Location)
                 </label>
-                <input
+                <input id="admin-profile-form-postal-location"
                   type="text"
                   value={profileForm.postalLocation}
                   onChange={(e) => setProfileForm({ ...profileForm, postalLocation: e.target.value })}
@@ -1106,10 +1110,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-profile-form-home-address" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   घर / आश्रम का पूरा पता (Address)
                 </label>
-                <input
+                <input id="admin-profile-form-home-address"
                   type="text"
                   value={profileForm.homeAddress}
                   onChange={(e) => setProfileForm({ ...profileForm, homeAddress: e.target.value })}
@@ -1118,10 +1122,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-profile-form-tagline" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   शीर्ष टैगलाइन (Tagline)
                 </label>
-                <textarea
+                <textarea id="admin-profile-form-tagline"
                   rows={2}
                   value={profileForm.tagline}
                   onChange={(e) => setProfileForm({ ...profileForm, tagline: e.target.value })}
@@ -1130,10 +1134,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-serif font-bold text-[#D9610B] mb-1">
+                <label htmlFor="admin-profile-form-announcement-ticker" className="block text-xs font-serif font-bold text-[#D9610B] mb-1">
                   घोषणा पट्टी / टिकर संदेश (Announcement Ticker)
                 </label>
-                <input
+                <input id="admin-profile-form-announcement-ticker"
                   type="text"
                   value={profileForm.announcementTicker}
                   onChange={(e) => setProfileForm({ ...profileForm, announcementTicker: e.target.value })}
@@ -1290,10 +1294,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               
               {/* Media Type Selection */}
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1.5">
+                <span id="admin-gallery-media-type-label" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1.5">
                   मीडिया प्रकार (Media Type)
-                </label>
-                <div className="flex items-center gap-4">
+                </span>
+                <div className="flex items-center gap-4" role="radiogroup" aria-labelledby="admin-gallery-media-type-label">
                   <label className="inline-flex items-center gap-2 text-xs font-serif font-bold cursor-pointer">
                     <input
                       type="radio"
@@ -1319,10 +1323,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               {/* Title */}
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-gallery-form-title" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   शीर्षक (Title) *
                 </label>
-                <input
+                <input id="admin-gallery-form-title"
                   type="text"
                   value={galleryForm.title}
                   onChange={(e) => setGalleryForm({ ...galleryForm, title: e.target.value })}
@@ -1334,10 +1338,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               {/* Category */}
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-gallery-form-category-slug" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   श्रेणी (Category)
                 </label>
-                <select
+                <select id="admin-gallery-form-category-slug"
                   value={galleryForm.categorySlug}
                   onChange={(e) => {
                     const slug = e.target.value;
@@ -1360,11 +1364,11 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               {/* Image Upload / URL */}
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-gallery-form-image-url" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   {galleryForm.mediaType === 'video' ? 'वीडियो थंबनेल फ़ोटो (Poster Photo)' : 'फ़ोटो फ़ाइल अथवा URL *'}
                 </label>
                 <div className="flex items-center gap-2">
-                  <input
+                  <input id="admin-gallery-form-image-url"
                     type="text"
                     value={galleryForm.imageUrl}
                     onChange={(e) => setGalleryForm({ ...galleryForm, imageUrl: e.target.value })}
@@ -1400,11 +1404,11 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               {/* Video URL (if video) */}
               {galleryForm.mediaType === 'video' && (
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-gallery-form-video-url" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     वीडियो फ़ाइल अथवा URL (Video File / URL) *
                   </label>
                   <div className="flex items-center gap-2">
-                    <input
+                    <input id="admin-gallery-form-video-url"
                       type="text"
                       value={galleryForm.videoUrl}
                       onChange={(e) => setGalleryForm({ ...galleryForm, videoUrl: e.target.value })}
@@ -1435,10 +1439,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               {/* Caption */}
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-gallery-form-caption" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   विवरण / कैप्शन (Caption)
                 </label>
-                <textarea
+                <textarea id="admin-gallery-form-caption"
                   rows={2}
                   value={galleryForm.caption}
                   onChange={(e) => setGalleryForm({ ...galleryForm, caption: e.target.value })}
@@ -1449,10 +1453,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               {/* Location */}
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-gallery-form-location" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   स्थान (Location)
                 </label>
-                <input
+                <input id="admin-gallery-form-location"
                   type="text"
                   value={galleryForm.location}
                   onChange={(e) => setGalleryForm({ ...galleryForm, location: e.target.value })}
@@ -1503,10 +1507,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
             <form onSubmit={handleSaveBlog} className="space-y-4">
               
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-blog-form-title" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   ब्लॉग शीर्षक (Title) *
                 </label>
-                <input
+                <input id="admin-blog-form-title"
                   type="text"
                   value={blogForm.title}
                   onChange={(e) => setBlogForm({ ...blogForm, title: e.target.value })}
@@ -1518,10 +1522,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-blog-form-category" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     श्रेणी (Category)
                   </label>
-                  <input
+                  <input id="admin-blog-form-category"
                     type="text"
                     value={blogForm.category}
                     onChange={(e) => setBlogForm({ ...blogForm, category: e.target.value })}
@@ -1531,10 +1535,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-blog-form-read-time" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     पढ़ने का समय (Read Time)
                   </label>
-                  <input
+                  <input id="admin-blog-form-read-time"
                     type="text"
                     value={blogForm.readTime}
                     onChange={(e) => setBlogForm({ ...blogForm, readTime: e.target.value })}
@@ -1544,10 +1548,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-blog-form-author" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     लेखक (Author)
                   </label>
-                  <input
+                  <input id="admin-blog-form-author"
                     type="text"
                     value={blogForm.author}
                     onChange={(e) => setBlogForm({ ...blogForm, author: e.target.value })}
@@ -1558,11 +1562,11 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               {/* Cover Image */}
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-blog-form-featured-image" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   कवर फ़ोटो (Featured Image)
                 </label>
                 <div className="flex items-center gap-2">
-                  <input
+                  <input id="admin-blog-form-featured-image"
                     type="text"
                     value={blogForm.featuredImage}
                     onChange={(e) => setBlogForm({ ...blogForm, featuredImage: e.target.value })}
@@ -1592,10 +1596,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               {/* Excerpt */}
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-blog-form-excerpt" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   संक्षिप्त सारांश (Excerpt) *
                 </label>
-                <textarea
+                <textarea id="admin-blog-form-excerpt"
                   rows={2}
                   value={blogForm.excerpt}
                   onChange={(e) => setBlogForm({ ...blogForm, excerpt: e.target.value })}
@@ -1607,10 +1611,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               {/* Content Paragraphs */}
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-blog-form-content" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   संपूर्ण लेख की सामग्री (Full Content - पैराग्राफ के बीच में दो बार Enter दबाएं) *
                 </label>
-                <textarea
+                <textarea id="admin-blog-form-content"
                   rows={7}
                   value={blogForm.content}
                   onChange={(e) => setBlogForm({ ...blogForm, content: e.target.value })}
@@ -1622,10 +1626,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               {/* Key Takeaways */}
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-blog-form-key-takeaways" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   मुख्य निष्कर्ष व लाभ (Key Takeaways - प्रत्येक पंक्ति एक बिंदु बनेगी)
                 </label>
-                <textarea
+                <textarea id="admin-blog-form-key-takeaways"
                   rows={3}
                   value={blogForm.keyTakeaways}
                   onChange={(e) => setBlogForm({ ...blogForm, keyTakeaways: e.target.value })}
@@ -1675,10 +1679,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
             <form onSubmit={handleSaveService} className="space-y-4">
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-service-form-title" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   पूजा का नाम (Title) *
                 </label>
-                <input
+                <input id="admin-service-form-title"
                   type="text"
                   value={serviceForm.title}
                   onChange={(e) => setServiceForm({ ...serviceForm, title: e.target.value })}
@@ -1688,10 +1692,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-service-form-short-desc" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   संक्षिप्त विवरण (Short Description)
                 </label>
-                <textarea
+                <textarea id="admin-service-form-short-desc"
                   rows={2}
                   value={serviceForm.shortDesc}
                   onChange={(e) => setServiceForm({ ...serviceForm, shortDesc: e.target.value })}
@@ -1700,10 +1704,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-service-form-significance" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   धार्मिक महत्व (Significance)
                 </label>
-                <textarea
+                <textarea id="admin-service-form-significance"
                   rows={3}
                   value={serviceForm.significance}
                   onChange={(e) => setServiceForm({ ...serviceForm, significance: e.target.value })}
@@ -1712,10 +1716,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-service-form-methodology" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   शास्त्रोक्त विधि-विधान (Methodology)
                 </label>
-                <textarea
+                <textarea id="admin-service-form-methodology"
                   rows={3}
                   value={serviceForm.methodology}
                   onChange={(e) => setServiceForm({ ...serviceForm, methodology: e.target.value })}
@@ -1724,10 +1728,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                <label htmlFor="admin-service-form-benefits" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                   पूजन के मुख्य लाभ (Benefits - प्रत्येक पंक्ति में एक लाभ लिखें)
                 </label>
-                <textarea
+                <textarea id="admin-service-form-benefits"
                   rows={3}
                   value={serviceForm.benefits}
                   onChange={(e) => setServiceForm({ ...serviceForm, benefits: e.target.value })}
@@ -1737,10 +1741,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-service-form-suitable-time" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     शुभ समय / मुहूर्त
                   </label>
-                  <input
+                  <input id="admin-service-form-suitable-time"
                     type="text"
                     value={serviceForm.suitableTime}
                     onChange={(e) => setServiceForm({ ...serviceForm, suitableTime: e.target.value })}
@@ -1749,10 +1753,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
+                  <label htmlFor="admin-service-form-badge" className="block text-xs font-serif font-bold text-[#3B1D0B] mb-1">
                     बैज (Badge - जैसे 'अति लोकप्रिय')
                   </label>
-                  <input
+                  <input id="admin-service-form-badge"
                     type="text"
                     value={serviceForm.badge}
                     onChange={(e) => setServiceForm({ ...serviceForm, badge: e.target.value })}

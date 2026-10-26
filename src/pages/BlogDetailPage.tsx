@@ -159,10 +159,11 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {relatedBlogs.map((rel) => (
-              <div
+              <button
+                type="button"
                 key={rel.id}
                 onClick={() => onSelectRelated(rel)}
-                className="bg-cream-light p-4 rounded-xl border border-gold/40 hover:border-saffron hover:shadow-sm cursor-pointer transition-all space-y-1.5"
+                className="bg-cream-light p-4 rounded-xl border border-gold/40 hover:border-saffron hover:shadow-sm cursor-pointer transition-all space-y-1.5 text-left w-full"
               >
                 <span className="text-[10px] font-serif font-bold text-saffron-dark px-2 py-0.5 rounded bg-cream border border-gold/30">
                   {rel.category}
@@ -173,7 +174,7 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({
                 <p className="text-xs font-serif text-charcoal/70 line-clamp-2">
                   {rel.excerpt}
                 </p>
-              </div>
+              </button>
             ))}
           </div>
         </div>

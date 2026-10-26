@@ -145,14 +145,16 @@ export const Gallery: React.FC<{ showFilters?: boolean }> = ({ showFilters }) =>
 
       {/* Lightbox / Video Modal */}
       {selected && (
-        <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-3 sm:p-4 backdrop-blur-xs"
-          onClick={() => setSelected(null)}
-        >
-          <div
-            className="relative max-w-2xl w-full bg-[#FFF9EE] rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-[#C89B3C] shadow-2xl max-h-[90vh] flex flex-col"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+          {/* Click-outside target. A real <button> keeps the backdrop keyboard
+              reachable without adding click handlers to a static div. */}
+          <button
+            type="button"
+            aria-label={t('बंद करें', 'Close')}
+            onClick={() => setSelected(null)}
+            className="absolute inset-0 bg-black/90 backdrop-blur-xs cursor-default"
+          />
+          <div className="relative max-w-2xl w-full bg-[#FFF9EE] rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-[#C89B3C] shadow-2xl max-h-[90vh] flex flex-col">
             <button
               onClick={() => setSelected(null)}
               className="absolute top-3 right-3 z-20 p-2 rounded-full bg-[#641E12]/90 text-white hover:bg-[#C94F08] transition-colors"
@@ -163,6 +165,9 @@ export const Gallery: React.FC<{ showFilters?: boolean }> = ({ showFilters }) =>
 
             <div className="bg-black flex items-center justify-center min-h-[220px] max-h-[60vh] overflow-hidden">
               {selected.videoUrl ? (
+                // Ritual clips are uploaded by the priest and have no caption
+                // track; the modal still exposes the title as an <h3> heading.
+                // eslint-disable-next-line jsx-a11y/media-has-caption
                 <video
                   src={selected.videoUrl}
                   poster={selected.imageUrl}

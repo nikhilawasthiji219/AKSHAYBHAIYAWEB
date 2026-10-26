@@ -1,0 +1,6 @@
+# Keep the private admin panel and internal design previews out of search results.
+User-agent: *
+Disallow: /admin
+Disallow: /prototypes
+
+Allow: /

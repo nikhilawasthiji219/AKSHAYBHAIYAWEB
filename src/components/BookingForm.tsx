@@ -236,7 +236,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({ preselectedService }) 
 
           {/* Checkboxes */}
           <div className="flex flex-wrap items-center gap-6 py-1">
-            <label className="flex items-center gap-2 cursor-pointer select-none min-h-[44px]">
+            <div className="flex items-center gap-2 select-none min-h-[44px]">
               <Checkbox
                 checked={formData.isCustomPuja}
                 onCheckedChange={(checked) => update('isCustomPuja', checked as boolean)}
@@ -246,9 +246,9 @@ export const BookingForm: React.FC<BookingFormProps> = ({ preselectedService }) 
               <span className="text-xs font-serif font-bold text-maroon">
                 विशेष संकल्प आधारित पूजन (Custom Puja)
               </span>
-            </label>
+            </div>
 
-            <label className="flex items-center gap-2 cursor-pointer select-none min-h-[44px]">
+            <div className="flex items-center gap-2 select-none min-h-[44px]">
               <Checkbox
                 checked={formData.isBookingSystem}
                 onCheckedChange={(checked) => update('isBookingSystem', checked as boolean)}
@@ -258,7 +258,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({ preselectedService }) 
               <span className="text-xs font-serif font-semibold text-charcoal/80">
                 सीधे परामर्श व समय निर्धारण
               </span>
-            </label>
+            </div>
           </div>
 
           {/* Message / Sankalp */}

@@ -148,7 +148,7 @@ export const BackgroundMusic: React.FC = () => {
     if (!audio) return;
     setMuted(prev => {
       const next = !prev;
-      try { localStorage.setItem(LS_KEY, String(next)); } catch {}
+      try { localStorage.setItem(LS_KEY, String(next)); } catch { /* storage may be blocked */ }
       if (next) {
         fadeTo(0);
       } else {

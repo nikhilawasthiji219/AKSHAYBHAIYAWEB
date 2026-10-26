@@ -187,10 +187,11 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {relatedServices.map((rel) => (
-              <div
+              <button
+                type="button"
                 key={rel.id}
                 onClick={() => onSelectRelated(rel)}
-                className="bg-cream-light p-4 rounded-xl border border-gold/40 hover:border-saffron hover:shadow-sm cursor-pointer transition-all space-y-1"
+                className="bg-cream-light p-4 rounded-xl border border-gold/40 hover:border-saffron hover:shadow-sm cursor-pointer transition-all space-y-1 text-left w-full"
               >
                 <div className="w-8 h-8 rounded bg-cream border border-gold/40 flex items-center justify-center text-saffron mb-2">
                   <VedicIcon type={rel.iconType} className="w-4 h-4" />
@@ -201,7 +202,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 <p className="text-xs font-serif text-charcoal/70 line-clamp-2">
                   {rel.shortDesc}
                 </p>
-              </div>
+              </button>
             ))}
           </div>
         </div>

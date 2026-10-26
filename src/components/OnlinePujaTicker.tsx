@@ -13,7 +13,11 @@ export const OnlinePujaTicker: React.FC<OnlinePujaTickerProps> = ({ onNavigate }
 
   return (
     <div className="bg-[#B91C1C] text-white py-2.5 overflow-hidden border-y border-[#DC2626] shadow-sm select-none">
-      <div className="flex items-center cursor-pointer group" onClick={handleClick}>
+      <button
+        type="button"
+        className="flex items-center cursor-pointer group w-full text-left"
+        onClick={handleClick}
+      >
         <div className="flex animate-marquee whitespace-nowrap items-center text-xs sm:text-sm font-semibold tracking-wide">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="flex items-center mx-6 gap-3">
@@ -30,7 +34,7 @@ export const OnlinePujaTicker: React.FC<OnlinePujaTickerProps> = ({ onNavigate }
             </div>
           ))}
         </div>
-      </div>
+      </button>
     </div>
   );
 };

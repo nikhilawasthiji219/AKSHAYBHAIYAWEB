@@ -31,7 +31,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       localStorage.setItem(LANG_KEY, lang);
       // Set html lang attribute for accessibility / SEO
       document.documentElement.lang = lang === 'hi' ? 'hi' : 'en';
-    } catch {}
+    } catch {
+      /* localStorage can be unavailable (private mode / blocked cookies) */
+    }
   }, [lang]);
 
   const toggleLanguage = useCallback(() => {

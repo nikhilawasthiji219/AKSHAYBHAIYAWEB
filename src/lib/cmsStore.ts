@@ -262,8 +262,11 @@ export function importBackupJSON(jsonStr: string): { success: boolean; error?: s
 
     saveCMSData(payload);
     return { success: true };
-  } catch (err: any) {
-    return { success: false, error: err.message || 'JSON पार्स करने में त्रुटि' };
+  } catch (err) {
+    return {
+      success: false,
+      error: err instanceof Error && err.message ? err.message : 'JSON पार्स करने में त्रुटि',
+    };
   }
 }
 

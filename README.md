@@ -23,7 +23,8 @@ No backend, no database, no environment variables. Everything is static.
 ```powershell
 npm install
 npm run dev          # http://localhost:5173 (5174 if busy)
-npm run typecheck    # tsc --noEmit (same as npm run lint)
+npm run lint         # ESLint (a11y + hooks + TS rules)
+npm run typecheck    # tsc --noEmit
 npm run build        # tsc -b && vite build → dist/
 npm test             # builds, serves dist on 4173, runs the E2E suite
 npm run test:ui      # Playwright UI mode

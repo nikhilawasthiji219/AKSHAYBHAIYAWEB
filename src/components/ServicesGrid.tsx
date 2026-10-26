@@ -36,10 +36,11 @@ export const ServicesGrid: React.FC<ServicesGridProps> = ({
           {/* 14 Services Grid — 2-col on Android for 48px+ tap targets, 7-col on desktop */}
           <div className="stagger lg:col-span-9 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2.5 sm:gap-3">
             {SERVICES_DATA.map((service) => (
-              <div
+              <button
+                type="button"
                 key={service.id}
                 onClick={() => onSelectService(service)}
-                className="reveal bg-[#FFFDF7] rounded-2xl border border-[#C89B3C]/35 p-3 py-4 min-h-[118px] flex flex-col items-center justify-center text-center cursor-pointer hover:border-[#C94F08] hover:shadow-md active:scale-[0.98] transition-all duration-200 sm:aspect-[1/1.1] group"
+                className="reveal w-full bg-[#FFFDF7] rounded-2xl border border-[#C89B3C]/35 p-3 py-4 min-h-[118px] flex flex-col items-center justify-center text-center cursor-pointer hover:border-[#C94F08] hover:shadow-md active:scale-[0.98] transition-all duration-200 sm:aspect-[1/1.1] group"
               >
                 <div className="w-11 h-11 rounded-full flex items-center justify-center text-[#B24505] group-hover:scale-110 transition-transform mb-1.5">
                   <VedicIcon type={service.iconType} className="w-7 h-7 text-[#C94F08]" />
@@ -47,7 +48,7 @@ export const ServicesGrid: React.FC<ServicesGridProps> = ({
                 <h4 className="font-serif font-bold text-[13px] leading-snug text-[#3B1D0B] group-hover:text-[#C94F08]">
                   {service.title}
                 </h4>
-              </div>
+              </button>
             ))}
           </div>
 

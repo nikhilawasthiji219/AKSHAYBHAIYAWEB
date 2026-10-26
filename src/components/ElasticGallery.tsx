@@ -113,14 +113,15 @@ export const ElasticGallery: React.FC<ElasticGalleryProps> = ({ onSelectRitual, 
 
       {/* Video Modal */}
       {videoModal && (
-        <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
-          onClick={() => setVideoModal(null)}
-        >
-          <div
-            className="relative max-w-2xl w-full bg-[#FFF9EE] rounded-2xl overflow-hidden border-2 border-[#C89B3C] shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Click-outside target as a real button (keyboard reachable). */}
+          <button
+            type="button"
+            aria-label="वीडियो बंद करें"
+            onClick={() => setVideoModal(null)}
+            className="absolute inset-0 bg-black/90 cursor-default"
+          />
+          <div className="relative max-w-2xl w-full bg-[#FFF9EE] rounded-2xl overflow-hidden border-2 border-[#C89B3C] shadow-2xl">
             <button
               onClick={() => setVideoModal(null)}
               className="absolute top-3 right-3 z-10 p-2 rounded-full bg-[#641E12] text-white hover:bg-[#C94F08] transition-colors"
@@ -128,6 +129,8 @@ export const ElasticGallery: React.FC<ElasticGalleryProps> = ({ onSelectRitual, 
             >
               <X className="w-4 h-4" />
             </button>
+            {/* Ritual clips are client uploads with no caption track. */}
+            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <video
               src={videoModal.url}
               poster={videoModal.poster}

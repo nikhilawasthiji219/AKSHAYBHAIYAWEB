@@ -59,13 +59,7 @@ export const FlipBlogCards: React.FC<FlipBlogCardsProps> = ({ onSelectBlog }) =>
               <small>{article.category}</small>
               <h3>{article.title}</h3>
               <p className="line-clamp-3">{article.excerpt}</p>
-              <span
-                className="inline-flex items-center gap-1 font-bold text-xs text-white hover:underline mt-1 cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onSelectBlog(article);
-                }}
-              >
+              <span className="inline-flex items-center gap-1 font-bold text-xs text-white mt-1">
                 {t('संपूर्ण लेख पढ़ें', 'Read Full Article')} <ChevronRight size={14} />
               </span>
             </div>
