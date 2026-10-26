@@ -34,7 +34,7 @@ npm run test:ui      # Playwright UI mode
 | Owner | Vedic priest Acharya Akshay Bhaiya (शास्त्री अक्षय अवस्थी जी), Ujjain |
 | Stack | React 19 + TypeScript + Vite 6 + Tailwind CSS 3 |
 | Backend | **None exists** (despite AGENTS.md saying "API routes") |
-| Database | **None** — content stored in browser `localStorage` |
+| Database | **None** — content stored in browser `localStorage` (planned: Supabase + ImageKit, see `db/README.md`) |
 | Auth | Client-side only (`sessionStorage` flag) |
 | Hosting target | Vercel / Netlify — static `dist/`; SPA fallback configured |
 | Path alias | `@/*` → `./src/*` |
@@ -168,6 +168,49 @@ the dependency) and fixed every finding — 67 problems → 0.
 
 ---
 
+## 3d. ✅ DATA-LAYER PLAN + SUPABASE/IMAGEKIT PROTOTYPE (session 2026-10-26)
+
+Design work only — **nothing in `src/` changed**, the site still ships statically.
+The app build hash is identical before/after, which proves the prototype is not
+bundled.
+
+| Artifact | Purpose |
+|---|---|
+| `db/README.md` | `localStorage` → Postgres migration plan: table map, the 11 columns `services` still needs, 6 phases (each independently shippable), open decisions, and the baseline measurement queries to run the day the DB goes live. |
+| `db/migrations/0001_rituals.sql` | `rituals` table (6 columns, matching the agreed contract) + RLS + grants. Idempotent. **No secondary indexes on purpose** — see the comment block explaining why a 14-row table is worse off with them. |
+| `prototypes/supabase-rituals/` | Standalone `index.html` + `style.css` + `app.js` + `config.js` reference page: fetches rows, builds ImageKit URLs (`?tr=w-600,f-auto,q-80`), native lazy loading, loading/empty/error states. |
+| `.env.example` | The three variables the migration will need, with the `service_role` warning and the `VITE_` rename note. |
+
+Key design rules encoded there:
+
+- **`image_path` stores a file name only** (`mahakal-puja.jpg`), never a URL and
+  never bytes — that is what keeps the free data tier irrelevant. Absolute URLs
+  are still passed through so legacy rows survive a migration.
+- **RLS is what makes the public anon key safe.** The migration revokes all
+  grants then hands back `select` only; there is no write policy at all.
+- **`settings.adminPasswordHash` must NOT be migrated into a table** — it moves
+  to Supabase Auth. A hash in a publicly readable row is worse than none.
+- The prototype never uses `innerHTML`: rows are filled with `textContent` from a
+  `<template>`, so a malicious title cannot inject markup.
+
+**Verification:** a temporary Playwright harness (deleted afterwards) served the
+folder and stubbed both the CDN and `window.supabase`, so it ran **offline with no
+credentials** → **36/36 assertions passed**, covering: card count/order, the exact
+ImageKit URL, alt text, `loading="lazy"`, `decoding="async"`, reserved width,
+removal of empty `<img>`/description/meta, absolute-URL passthrough, `aria-busy`,
+row-count status text, the explicit `select` column list (never `*`), `order by id`
++ row cap, transform de-duplication, the query-error path (translated message +
+`42P01` in console, key never logged), the placeholder-config guard, and broken
+images being removed instead of showing broken icons.
+
+Also: `node --check` on both scripts, `npm run lint` / `typecheck` / `build` → 0.
+
+**Not done, by design:** no dependency added, no Supabase project created, no
+table created, nothing in `src/` reads the new files. The prototype is a
+reference implementation, not a running feature.
+
+---
+
 ## 4. OPEN ISSUES (prioritized, from AUDIT_REPORT.md)
 
 > Status: most UI/security/data-integrity items are fixed — see §3b. The tables
@@ -177,7 +220,7 @@ the dependency) and fixed every finding — 67 problems → 0.
 | # | Issue | File / line | Fix idea |
 |---|---|---|---|
 | B1 | Enquiry form saves nothing — only `setIsSubmitted(true)` | `ContactSection.tsx:29`, `BookingForm.tsx:58` | Add real endpoint (Vercel `/api/enquiry` + email via Resend/Nodemailer) **or** immediately open WhatsApp with prefilled message as the guaranteed path |
-| B2 | CMS is localStorage-only; edits invisible to other users; cache clear wipes them | `cmsStore.ts:8` | Real DB (Supabase/Postgres) or JSON file + API; needs decision |
+| B2 | CMS is localStorage-only; edits invisible to other users; cache clear wipes them | `cmsStore.ts:8` | Plan written — `db/README.md`; execution deferred (phases 1–5) |
 | B3 | `/audio/rudrashtakam.mp3` missing → 12 failed requests/page | `RudrashtakamMusic.tsx:20` | Delete widget OR add mp3 OR point to `/audio/background.mp3` |
 | B4 | Deleting all gallery/blogs/services restores defaults | `cmsStore.ts:44‑47` (`length > 0` checks) | Detect first run via separate `initialized` flag instead of `length` |
 | B5 | `delete*()` always returns `true` | `cmsStore.ts:120‑125,149‑154,178‑183` | Return `findIndex !== -1` result |
@@ -215,7 +258,7 @@ the dependency) and fixed every finding — 67 problems → 0.
 | P1 | No `lint` / `typecheck` / `test` npm scripts | Add: `"typecheck": "tsc --noEmit"`, `"test": "playwright test"`, `"lint": "eslint ."` (needs eslint install — ask first) |
 | P2 | No 404 route | Add fallback `NotFound` page |
 | P3 | Stray mockup `src/components/nnn/nnm.html` | Delete after confirming nothing imports it |
-| P4 | No `.env.example` | Create if/when env vars are introduced |
+| P4 | No `.env.example` | ✅ Done — created; documents the three future Supabase/ImageKit vars (the site itself still needs none) |
 
 ---
 
@@ -240,6 +283,19 @@ the dependency) and fixed every finding — 67 problems → 0.
    `npm run lint` = `eslint .`; `npm run typecheck` = `tsc --noEmit` (both must pass).
    **Keep eslint on `^9`**: `eslint-plugin-jsx-a11y` has no ESLint 10 peer range yet
    (installing `eslint@10` fails with ERESOLVE). Revisit when that plugin ships support.
+6. **Data architecture — DECIDED (2026-10-26): Supabase for text, ImageKit for images.**
+   Postgres holds short strings and image *file names* only; every pixel is served
+   by the ImageKit CDN (`?tr=w-600,f-auto,q-80`). Full plan in `db/README.md`,
+   schema in `db/migrations/0001_rituals.sql`, reference page in
+   `prototypes/supabase-rituals/`.
+   - The anon key is public **only because** RLS is enabled; the migration grants
+     `select` and nothing else.
+   - `settings.adminPasswordHash` is **not** migrated — admin auth becomes Supabase
+     Auth. Never ship `service_role` to the browser.
+   - `rituals` as specified lacks `slug`, which `/services/:slug` needs; add the 11
+     columns listed in `db/README.md` §4 **before** cutover.
+   - Migration is phased (§5 of that file); Phase 1 keeps the bundled data as a
+     fallback so a failed query cannot blank the site.
 
 ---
 
@@ -337,3 +393,14 @@ npx playwright test scripts/audit/debug-reveal.spec.ts --config=playwright.audit
   `<div>` (the checkbox carries its own `aria-label`).
 - Client-uploaded `<video>` elements intentionally carry `jsx-a11y/media-has-caption`
   disables with a comment — do not remove the comment, and do not disable the rule globally.
+- **`prototypes/` and `db/` are not part of the build.** `tsconfig.json` includes only
+  `src`, Vite only bundles `src` + `public`, and ESLint ignores both folders. Deleting
+  or editing them cannot break `npm run build` — the bundle hash stays identical.
+- **`prototypes/supabase-rituals/` needs `config.js` filled in** before it will load
+  data; with the committed placeholders it shows a clear "कॉन्फ़िगरेशन अधूरा है" message
+  instead of querying. Open the HTML file directly (classic scripts, no build step).
+- **Supabase anon key = public.** It is only safe because RLS is enabled; the
+  `rituals` migration grants `select` and no write policy. If that insert probe in
+  `db/README.md` §8 succeeds, treat it as a production incident.
+- `db/migrations/*.sql` have **not** been applied to any database. There is no
+  Supabase project yet — the SQL is a reviewed artifact, not a deployed schema.

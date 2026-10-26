@@ -1,0 +1,289 @@
+/*
+ * Rituals grid — standalone stylesheet.
+ *
+ * Deliberately dependency-free (no Tailwind build step) so the three files can
+ * be lifted into any project. Colours are lifted from the main site's palette
+ * (tailwind.config.js) so the prototype does not drift from the brand.
+ */
+
+:root {
+  --saffron: #e87512;
+  --saffron-dark: #c94f08;
+  --gold: #c89b3c;
+  --cream: #fff8e8;
+  --card: #fffdf7;
+  --maroon: #641e12;
+  --charcoal: #2b2118;
+
+  --border: rgb(200 155 60 / 0.35);
+  --border-hover: rgb(232 117 18 / 0.55);
+  --muted: rgb(43 33 24 / 0.68);
+
+  --radius: 14px;
+  --shadow: 0 1px 2px rgb(43 33 24 / 0.06);
+  --shadow-hover: 0 12px 26px -14px rgb(100 30 18 / 0.4);
+
+  --gutter: clamp(16px, 4vw, 32px);
+  --measure: 1120px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 420px at 50% -180px, rgb(232 117 18 / 0.12), transparent 70%),
+    var(--cream);
+  color: var(--charcoal);
+  font-family: 'Noto Sans Devanagari', 'Nirmala UI', 'Segoe UI', system-ui, -apple-system,
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ------------------------------------------------------------- page chrome */
+
+.page-header,
+main,
+.page-footer {
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.page-header {
+  padding-block: clamp(28px, 6vw, 56px) clamp(18px, 3vw, 28px);
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--saffron-dark);
+}
+
+.page-header h1 {
+  margin: 0 0 12px;
+  font-family: 'Noto Serif Devanagari', 'Nirmala UI', Georgia, serif;
+  font-size: clamp(1.5rem, 4.2vw, 2.25rem);
+  line-height: 1.25;
+  color: var(--maroon);
+  text-wrap: balance;
+}
+
+.lede {
+  max-width: 62ch;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: clamp(0.9rem, 2.2vw, 1rem);
+  text-wrap: pretty;
+}
+
+.page-footer {
+  padding-block: clamp(32px, 6vw, 56px);
+  margin-top: 8px;
+}
+
+.page-footer p {
+  margin: 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------- status */
+
+.status {
+  margin: 0 auto clamp(14px, 2vw, 22px);
+  max-width: 62ch;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.status--error {
+  color: #b42318;
+  font-weight: 600;
+}
+
+.status--empty {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------------ grid */
+
+.grid {
+  display: grid;
+  /* min(100%, 260px) keeps a single column from overflowing a 320px screen. */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: clamp(14px, 2.4vw, 22px);
+  padding-bottom: 8px;
+}
+
+/* ------------------------------------------------------------------ card */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* A 3:2 frame with object-fit means mixed photo ratios all line up. */
+.card__media {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: #f1e6cf;
+}
+
+.card__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px 16px;
+}
+
+.card__title {
+  margin: 0;
+  font-family: 'Noto Serif Devanagari', 'Nirmala UI', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: var(--maroon);
+}
+
+.card__desc {
+  margin: 0;
+  /* Three lines max keeps every card the same height without cutting words. */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: auto 0 0;
+  padding-top: 10px;
+}
+
+.card__meta-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 3px 9px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgb(200 155 60 / 0.08);
+  font-size: 0.72rem;
+}
+
+.card__meta dt {
+  color: var(--muted);
+}
+
+.card__meta dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--saffron-dark);
+}
+
+/* Hover effects are gated on a real pointer so touch devices don't get a
+   "stuck" hover state after a tap. */
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .card:hover .card__img {
+    transform: scale(1.03);
+  }
+}
+
+/* -------------------------------------------------------------- skeletons */
+
+.card--skeleton {
+  pointer-events: none;
+}
+
+.card--skeleton .card__media,
+.card--skeleton .card__line {
+  background: linear-gradient(100deg, #f1e6cf 30%, #faf3e3 50%, #f1e6cf 70%);
+  background-size: 200% 100%;
+  animation: rituals-shimmer 1.4s linear infinite;
+}
+
+.card--skeleton .card__line {
+  height: 12px;
+  border-radius: 6px;
+}
+
+.card--skeleton .card__line--short {
+  width: 55%;
+}
+
+@keyframes rituals-shimmer {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+/* --------------------------------------------------------------- a11y */
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 3px solid var(--saffron);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .card:hover,
+  .card:hover .card__img {
+    transform: none;
+  }
+}

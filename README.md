@@ -125,6 +125,22 @@ tests/e2e/                  # Playwright suite (imports ./fixtures, not @playwri
 scripts/audit/              # full-site audit + manual verification specs
 ```
 
+## Future data layer (not wired up)
+
+The site is static today. When the CMS needs to be shared across devices, the
+plan is **Supabase for text rows + ImageKit for images** — the database stores
+only short strings and image *file names*, so the 500 MB free tier is never the
+constraint:
+
+- `db/README.md` — the `localStorage` → Postgres migration plan, table map,
+  phases, open decisions and the baseline queries to run on day one.
+- `db/migrations/0001_rituals.sql` — the `rituals` table + RLS. Idempotent.
+- `prototypes/supabase-rituals/` — standalone reference page that reads the
+  table and builds ImageKit URLs. Not part of the build; open
+  `prototypes/supabase-rituals/index.html` directly, after filling in
+  `config.js`.
+- `.env.example` — the three variables that migration will need.
+
 ## Docs
 
 - `PROJECT_STATE.md` — handoff: decisions, fix log, commands, gotchas. **Read first.**
