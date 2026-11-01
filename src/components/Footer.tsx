@@ -58,7 +58,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <div className="w-10 h-10 rounded-full border border-[#C89B3C] flex items-center justify-center p-0.5 bg-[#FFF8E8] shrink-0">
                   <img
                     src="/images/logo_akshay_avasthi_256.png"
-                    alt="शास्त्री अक्षय अवस्थी जी"
+                    alt="आचार्य अक्षय अवस्थी"
                     className="w-full h-full object-contain rounded-full"
                   />
                 </div>

@@ -72,7 +72,7 @@ export const SpecialAnushthan: React.FC<SpecialAnushthanProps> = ({ onContactCli
 
           <a
             href={`https://wa.me/91${ACHARYA_PROFILE.contact.whatsappNumber}?text=${encodeURIComponent(
-              'प्रणाम शास्त्री जी, मैं अपने विशेष संकल्प/पूजन (Custom Anushthan) के संबंध में मार्गदर्शन चाहता हूँ।'
+              'प्रणाम आचार्य जी, मैं अपने विशेष संकल्प/पूजन (Custom Anushthan) के संबंध में मार्गदर्शन चाहता हूँ।'
             )}`}
             target="_blank"
             rel="noopener noreferrer"

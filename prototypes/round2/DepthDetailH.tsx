@@ -65,7 +65,7 @@ export const DepthDetailH: React.FC<{ onNavigate: (p: string) => void }> = () =>
                   <div className="flex flex-wrap gap-2 pt-1">
                     <a
                       href={`${WA}?text=${encodeURIComponent(
-                        `प्रणाम शास्त्री जी। मुझे "${s.title}" अनुष्ठान हेतु मुहूर्त एवं विधि-विधान जानकारी चाहिए।`
+                        `प्रणाम आचार्य जी। मुझे "${s.title}" अनुष्ठान हेतु मुहूर्त एवं विधि-विधान जानकारी चाहिए।`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

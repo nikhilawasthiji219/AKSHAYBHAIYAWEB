@@ -6,8 +6,8 @@ import { ACHARYA_PROFILE } from '../data/acharya';
 export const WhatsAppButton: React.FC = () => {
   const { t } = useLanguage();
   const message = t(
-    'प्रणाम शास्त्री जी, मैं उज्जैन में वैदिक पूजन/अनुष्ठान के लिए परामर्श व बुकिंग हेतु संपर्क कर रहा हूँ।',
-    'Pranam Shastri Ji, I want to enquire about Vedic Puja/Anushthan in Ujjain.'
+    'प्रणाम आचार्य जी, मैं उज्जैन में वैदिक पूजन/अनुष्ठान के लिए परामर्श व बुकिंग हेतु संपर्क कर रहा हूँ।',
+    'Pranam Acharya Ji, I want to enquire about Vedic Puja/Anushthan in Ujjain.'
   );
   return (
     <a

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>वैदिक अनुष्ठान एवं पूजन सेवाएँ — श्री महाकालेश्वर तीर्थ, उज्जैन</title>
+    <meta
+      name="description"
+      content="श्री महाकालेश्वर तीर्थ, उज्जैन में शास्त्रोक्त विधि से किए जाने वाले वैदिक अनुष्ठान एवं पूजन सेवाओं की सूची।"
+    />
+    <!-- Reference implementation only: never index it. -->
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <!--
+      UMD build (the package's "jsdelivr" entry is dist/umd/supabase.js) which
+      exposes window.supabase.createClient. Pinned to an exact version so a
+      floating "@2" cannot change behaviour mid-audit.
+      Production hardening: add integrity="sha384-…" + crossorigin="anonymous".
+    -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"
+      defer
+    ></script>
+
+    <!-- Loaded in this order: config → app. `defer` preserves document order. -->
+    <script src="config.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+
+  <body>
+    <header class="page-header">
+      <p class="eyebrow">श्री महाकालेश्वर तीर्थ · उज्जैन</p>
+      <h1>वैदिक अनुष्ठान एवं पूजन सेवाएँ</h1>
+      <p class="lede">
+        शास्त्रोक्त विधि से सम्पन्न किए जाने वाले अनुष्ठान। विवरण, अवधि एवं दक्षिणा
+        के लिए नीचे दी गई सूची देखें।
+      </p>
+    </header>
+
+    <main>
+      <!--
+        Single live region for loading / empty / error text. aria-live means a
+        screen reader announces the change without focus being moved.
+      -->
+      <p id="rituals-status" class="status" role="status" aria-live="polite">
+        सेवाएँ लोड हो रही हैं…
+      </p>
+
+      <div id="rituals-grid" class="grid" aria-busy="true"></div>
+
+      <noscript>
+        <p class="status status--error">
+          यह सूची देखने के लिए कृपया ब्राउज़र में JavaScript चालू करें।
+        </p>
+      </noscript>
+    </main>
+
+    <footer class="page-footer">
+      <p>
+        श्री महाकालेश्वर तीर्थ, उज्जैन · समस्त अनुष्ठान गुरु-शिष्य परम्परा एवं
+        शास्त्रीय विधि से सम्पन्न किए जाते हैं।
+      </p>
+    </footer>
+
+    <!--
+      The card markup lives in HTML rather than in a JavaScript string so it can
+      be reviewed and restyled independently. app.js clones this per row and
+      fills it with textContent, so database text can never inject markup.
+    -->
+    <template id="ritual-card">
+      <article class="card">
+        <div class="card__media">
+          <img
+            class="card__img"
+            alt=""
+            loading="lazy"
+            decoding="async"
+            width="600"
+            height="400"
+          />
+        </div>
+        <div class="card__body">
+          <h2 class="card__title"></h2>
+          <p class="card__desc"></p>
+          <dl class="card__meta">
+            <div class="card__meta-item">
+              <dt>अवधि</dt>
+              <dd class="card__duration"></dd>
+            </div>
+            <div class="card__meta-item">
+              <dt>दक्षिणा</dt>
+              <dd class="card__price"></dd>
+            </div>
+          </dl>
+        </div>
+      </article>
+    </template>
+  </body>
+</html>

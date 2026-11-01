@@ -1,8 +1,8 @@
-# Website UI Design — शास्त्री अक्षय अवस्थी जी
+# Website UI Design — आचार्य अक्षय अवस्थी
 
 ## 1. Brand Identity
 
-**Name:** शास्त्री अक्षय अवस्थी जी  
+**Name:** आचार्य अक्षय अवस्थी  
 **Professional Title:** वैदिक कर्मकांड एवं धार्मिक अनुष्ठान आचार्य  
 **Tagline:** वैदिक परंपराओं एवं शास्त्रोक्त विधि-विधान से पूजन, संस्कार एवं धार्मिक अनुष्ठान
 
@@ -62,7 +62,7 @@ Use a hamburger menu and a sticky bottom contact/WhatsApp action.
 
 ### Left content
 
-**शास्त्री अक्षय अवस्थी जी**
+**आचार्य अक्षय अवस्थी**
 
 **वैदिक कर्मकांड एवं धार्मिक अनुष्ठान आचार्य**
 
@@ -160,7 +160,7 @@ This section should have a subtle gold ornamental background and devotional imag
 # 8. About Acharya
 
 ## Name
-शास्त्री अक्षय अवस्थी जी
+आचार्य अक्षय अवस्थी
 
 ## Title
 वैदिक कर्मकांड एवं धार्मिक अनुष्ठान आचार्य
@@ -272,7 +272,7 @@ Do not display fixed pricing because:
 
 ## Contact Information
 
-**शास्त्री अक्षय अवस्थी जी**  
+**आचार्य अक्षय अवस्थी**  
 वैदिक कर्मकांड एवं धार्मिक अनुष्ठान आचार्य
 
 **Mobile / WhatsApp**
@@ -308,7 +308,7 @@ Footer should include:
 
 Suggested footer line:
 
-`© 2026 शास्त्री अक्षय अवस्थी जी — वैदिक कर्मकांड एवं धार्मिक अनुष्ठान`
+`© 2026 आचार्य अक्षय अवस्थी — वैदिक कर्मकांड एवं धार्मिक अनुष्ठान`
 
 ---
 
@@ -438,7 +438,7 @@ Suggested CTA variations:
 
 Homepage title:
 
-`शास्त्री अक्षय अवस्थी जी | वैदिक कर्मकांड एवं धार्मिक अनुष्ठान | उज्जैन`
+`आचार्य अक्षय अवस्थी | वैदिक कर्मकांड एवं धार्मिक अनुष्ठान | उज्जैन`
 
 Suggested keywords to naturally incorporate:
 - वैदिक कर्मकांड उज्जैन

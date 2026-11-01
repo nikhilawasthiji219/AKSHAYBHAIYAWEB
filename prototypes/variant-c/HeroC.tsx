@@ -6,7 +6,7 @@ export const HeroC: React.FC<{ onNavigate: (p: string) => void }> = ({ onNavigat
   <section className="bg-cream-light">
     <div className="max-w-5xl mx-auto px-4 py-12 text-center space-y-5">
       <p className="text-xs font-serif font-bold text-saffron-dark tracking-widest">॥ श्री महाकालेश्वराय नमः ॥</p>
-      <h1 className="font-sans text-4xl md:text-5xl font-bold text-charcoal">शास्त्री अक्षय अवस्थी जी</h1>
+      <h1 className="font-sans text-4xl md:text-5xl font-bold text-charcoal">आचार्य अक्षय अवस्थी</h1>
       <p className="font-sans text-base text-charcoal/80">वैदिक कर्मकांड एवं धार्मिक अनुष्ठान आचार्य — उज्जैन</p>
       <div className="flex flex-wrap justify-center gap-3 pt-2">
         <button

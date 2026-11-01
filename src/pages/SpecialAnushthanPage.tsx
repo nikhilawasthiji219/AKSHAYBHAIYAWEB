@@ -57,7 +57,7 @@ export const SpecialAnushthanPage: React.FC<SpecialAnushthanPageProps> = () => {
               </p>
 
               <p className="text-sm font-serif text-charcoal/80 leading-relaxed">
-                शास्त्री अक्षय अवस्थी जी के सान्निध्य में यजमान अपने ग्रह-दोष, कुल परंपरा अथवा मनोरथ के अनुसार अनुष्ठान का स्वरूप तय कर सकते हैं। जैसे:
+                आचार्य अक्षय अवस्थी के सान्निध्य में यजमान अपने ग्रह-दोष, कुल परंपरा अथवा मनोरथ के अनुसार अनुष्ठान का स्वरूप तय कर सकते हैं। जैसे:
               </p>
 
               <ul className="space-y-2 text-xs sm:text-sm font-serif text-maroon">
@@ -106,7 +106,7 @@ export const SpecialAnushthanPage: React.FC<SpecialAnushthanPageProps> = () => {
                 <p className="text-base font-bold font-sans text-maroon">+91 {ACHARYA_PROFILE.contact.primaryPhone}</p>
               </div>
               <a
-                href={`https://wa.me/91${ACHARYA_PROFILE.contact.whatsappNumber}?text=${encodeURIComponent('प्रणाम शास्त्री जी, मैं अपने विशेष संकल्प/पूजन हेतु संपर्क कर रहा हूँ।')}`}
+                href={`https://wa.me/91${ACHARYA_PROFILE.contact.whatsappNumber}?text=${encodeURIComponent('प्रणाम आचार्य जी, मैं अपने विशेष संकल्प/पूजन हेतु संपर्क कर रहा हूँ।')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold font-serif rounded-lg flex items-center gap-1.5 shadow-sm"

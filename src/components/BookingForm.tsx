@@ -77,7 +77,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({ preselectedService }) 
           </h4>
           <p className="text-base font-serif text-charcoal/90 max-w-md mx-auto">
             आपका विवरण तैयार है। कृपया WhatsApp में{' '}
-            <strong>Send</strong> दबाकर शास्त्री जी तक संदेश पहुँचाएँ। यदि WhatsApp
+            <strong>Send</strong> दबाकर आचार्य जी तक संदेश पहुँचाएँ। यदि WhatsApp
             नहीं खुला तो नीचे दिए लिंक का उपयोग करें।
           </p>
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -298,7 +298,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({ preselectedService }) 
           </div>
 
           <p className="text-[11px] text-center text-charcoal/60 font-sans">
-            🔒 भेजने पर WhatsApp खुलेगा — आपकी जानकारी सीधे शास्त्री जी तक पहुँचेगी।
+            🔒 भेजने पर WhatsApp खुलेगा — आपकी जानकारी सीधे आचार्य जी तक पहुँचेगी।
           </p>
         </form>
       )}

@@ -1,10 +1,10 @@
-import React, { useState, useEffect, Suspense, lazy, useCallback } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Navbar } from './components/Navbar';
 import { MobileBottomBar } from './components/MobileBottomBar';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import { RitualAccents } from './components/RitualAccents';
 import { Footer } from './components/Footer';
-import { Loader } from './components/Loader';
+import { HomePageSkeleton } from './components/Skeleton';
 import { BackgroundMusic } from './components/audio/BackgroundMusic';
 
 // Pages — lazy-split to keep initial bundle small (vendor-motion split in vite.config)
@@ -38,8 +38,6 @@ export const App: React.FC = () => {
   // slug + CMS data, which keeps deep links correct after CMS edits.
   const [, setSelectedService] = useState<Service | null>(() => cms.services[0] ?? null);
   const [, setSelectedBlog] = useState<Blog | null>(() => cms.blogs[0] ?? null);
-  const [showLoader, setShowLoader] = useState(true);
-  const handleLoaderFinish = useCallback(() => setShowLoader(false), []);
 
   // Sync browser back/forward buttons
   useEffect(() => {
@@ -281,8 +279,6 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col overflow-x-clip bg-cream text-charcoal font-sans antialiased selection:bg-gold-light selection:text-maroon">
-      {/* Sacred loading screen — first visit only */}
-      {showLoader && <Loader onFinish={handleLoaderFinish} />}
 
       {/* Sticky Responsive Header */}
       <Navbar currentPath={currentPath} onNavigate={navigate} />
@@ -291,9 +287,7 @@ export const App: React.FC = () => {
       <main className="flex-grow overflow-x-clip pb-20 md:pb-0">
         <Suspense
           fallback={
-            <div className="max-w-7xl mx-auto px-6 py-16 text-center font-serif text-maroon">
-              ॥ श्री महाकालेश्वराय नमः ॥ — लोड हो रहा है…
-            </div>
+            <HomePageSkeleton />
           }
         >
           {renderCurrentPage()}
