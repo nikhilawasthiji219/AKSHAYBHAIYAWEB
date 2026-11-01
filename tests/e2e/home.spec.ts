@@ -3,8 +3,8 @@ import { test, expect } from './fixtures';
 test.describe('Home page', () => {
   test('loads and shows hero heading with acharya name', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('h1').first()).toHaveText(/शास्त्री अक्षय अवस्थी जी/);
-    await expect(page).toHaveTitle(/शास्त्री अक्षय|अवस्थी|उज्जैन/);
+    await expect(page.locator('h1').first()).toHaveText(/आचार्य अक्षय अवस्थी/);
+    await expect(page).toHaveTitle(/आचार्य अक्षय|अवस्थी|उज्जैन/);
   });
 
   test('navigates to services page via hero CTA', async ({ page }) => {
@@ -49,7 +49,7 @@ test.describe('Home page', () => {
   test('reveals all sections after a fast scroll to the bottom', async ({ page }) => {
     await page.goto('/');
     // Hero has two responsive <h1>s (one hidden per breakpoint) — text check only.
-    await expect(page.locator('h1').first()).toHaveText(/शास्त्री अक्षय अवस्थी जी/);
+    await expect(page.locator('h1').first()).toHaveText(/आचार्य अक्षय अवस्थी/);
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await page.waitForTimeout(1000);
     await expect(page.locator('.reveal:not(.is-visible)')).toHaveCount(0);

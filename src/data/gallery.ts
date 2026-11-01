@@ -16,7 +16,7 @@ export const GALLERY_DATA: GalleryItem[] = [
     category: "आचार्य स्वरूप",
     categorySlug: "acharya-profile",
     imageUrl: "/photos/acharya_hero_saffron.jpeg",
-    caption: "वैदिक कर्मकांड एवं धार्मिक अनुष्ठान आचार्य शास्त्री अक्षय अवस्थी जी (उज्जैन)",
+    caption: "वैदिक कर्मकांड एवं धार्मिक अनुष्ठान आचार्य अक्षय अवस्थी (उज्जैन)",
     location: "उज्जैन, मध्य प्रदेश"
   },
   {
@@ -43,7 +43,7 @@ export const GALLERY_DATA: GalleryItem[] = [
     category: "आचार्य स्वरूप",
     categorySlug: "acharya-profile",
     imageUrl: "/photos/acharya_yellow_kurta.jpeg",
-    caption: "धार्मिक अनुष्ठानों के शास्त्रीय संकल्प हेतु सज्ज आचार्य शास्त्री अक्षय अवस्थी जी",
+    caption: "धार्मिक अनुष्ठानों के शास्त्रीय संकल्प हेतु सज्ज आचार्य अक्षय अवस्थी",
     location: "उज्जैन"
   },
   {
@@ -70,7 +70,7 @@ export const GALLERY_DATA: GalleryItem[] = [
     category: "रुद्राभिषेक एवं शिव पूजन",
     categorySlug: "rudrabhishek",
     imageUrl: "/photos/acharya_red_portrait.jpeg",
-    caption: "रुद्राक्ष माला एवं भस्म त्रिपुंड से सुशोभित शास्त्री जी",
+    caption: "रुद्राक्ष माला एवं भस्म त्रिपुंड से सुशोभित आचार्य जी",
     location: "उज्जैन"
   },
   {

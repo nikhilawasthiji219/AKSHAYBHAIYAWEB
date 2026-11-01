@@ -59,7 +59,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
           <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border-2 border-[#C89B3C] flex items-center justify-center p-0.5 bg-[#FFF8E8] shadow-xs shrink-0 group-hover:scale-105 transition-transform">
             <img
               src="/images/logo_akshay_avasthi_256.png"
-              alt="शास्त्री अक्षय अवस्थी जी"
+              alt="आचार्य अक्षय अवस्थी"
               className="w-full h-full object-contain rounded-full"
             />
           </div>

@@ -46,8 +46,8 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ currentPath, o
       <a
         href={`https://wa.me/91${ACHARYA_PROFILE.contact.whatsappNumber}?text=${encodeURIComponent(
           lang === 'hi'
-            ? 'प्रणाम शास्त्री जी, मैं उज्जैन में वैदिक पूजन/अनुष्ठान के लिए जानकारी प्राप्त करना चाहता हूँ।'
-            : 'Pranam Shastri Ji, I want to enquire about Vedic Puja/Anushthan in Ujjain.'
+            ? 'प्रणाम आचार्य जी, मैं उज्जैन में वैदिक पूजन/अनुष्ठान के लिए जानकारी प्राप्त करना चाहता हूँ।'
+            : 'Pranam Acharya Ji, I want to enquire about Vedic Puja/Anushthan in Ujjain.'
         )}`}
         target="_blank"
         rel="noopener noreferrer"

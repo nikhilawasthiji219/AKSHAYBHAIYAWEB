@@ -141,7 +141,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-300 text-xs font-serif text-maroon space-y-1">
             <p className="font-bold">मूल्य निर्धारण संबंधी सूचना:</p>
             <p className="text-charcoal/80">
-              प्रत्येक अनुष्ठान की सामग्री, अवधि एवं यजमान की आवश्यकता अलग होने के कारण निश्चित मूल्य प्रदर्शित नहीं किया गया है। शास्त्री जी से परामर्श उपरांत विधि और संकल्प के अनुसार विवरण दिया जाता है।
+              प्रत्येक अनुष्ठान की सामग्री, अवधि एवं यजमान की आवश्यकता अलग होने के कारण निश्चित मूल्य प्रदर्शित नहीं किया गया है। आचार्य जी से परामर्श उपरांत विधि और संकल्प के अनुसार विवरण दिया जाता है।
             </p>
           </div>
 
@@ -166,7 +166,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
               <a
                 href={`https://wa.me/91${ACHARYA_PROFILE.contact.whatsappNumber}?text=${encodeURIComponent(
-                  `प्रणाम शास्त्री जी, मैं "${service.title}" के बारे में विस्तृत जानकारी एवं बुकिंग हेतु संपर्क कर रहा हूँ।`
+                  `प्रणाम आचार्य जी, मैं "${service.title}" के बारे में विस्तृत जानकारी एवं बुकिंग हेतु संपर्क कर रहा हूँ।`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"

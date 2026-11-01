@@ -363,8 +363,8 @@ export const ContactSection: React.FC = () => {
                   </div>
 
                   <p className="text-[10px] text-[#3B1D0B]/55 font-sans text-center">
-                    🔒 {t('भेजने पर WhatsApp खुलेगा — जानकारी सीधे शास्त्री जी तक पहुँचेगी।',
-                          'Submitting opens WhatsApp so your enquiry reaches Shastri Ji directly.')}
+                    🔒 {t('भेजने पर WhatsApp खुलेगा — जानकारी सीधे आचार्य जी तक पहुँचेगी।',
+                          'Submitting opens WhatsApp so your enquiry reaches Acharya Ji directly.')}
                   </p>
 
                 </form>

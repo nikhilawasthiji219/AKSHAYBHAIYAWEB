@@ -1,6 +1,6 @@
-# शास्त्री अक्षय अवस्थी जी — Website
+# आचार्य अक्षय अवस्थी — Website
 
-Premium, responsive website for Vedic priest **आचार्य शास्त्री अक्षय अवस्थी जी**,
+Premium, responsive website for Vedic priest **आचार्य अक्षय अवस्थी**,
 based at श्री महाकालेश्वर तीर्थ, उज्जैन. Showcases 14+ Vedic services, blog posts,
 a photo gallery of rituals, and an enquiry form that hands off to WhatsApp.
 

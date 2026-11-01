@@ -10,7 +10,7 @@ import { SERVICES_DATA } from '../../src/data/services';
 
 const WA = 'https://wa.me/919300096938';
 const WA_MSG = encodeURIComponent(
-  'प्रणाम शास्त्री जी। मैं उज्जैन में वैदिक कर्मकांड / अनुष्ठान की बुकिंग हेतु जानकारी चाहता हूँ। शुभ मुहूर्त एवं आगे की प्रक्रिया का निर्देश करें।'
+  'प्रणाम आचार्य जी। मैं उज्जैन में वैदिक कर्मकांड / अनुष्ठान की बुकिंग हेतु जानकारी चाहता हूँ। शुभ मुहूर्त एवं आगे की प्रक्रिया का निर्देश करें।'
 );
 
 export const BookingBarE: React.FC<{ onNavigate: (p: string) => void }> = ({ onNavigate }) => {

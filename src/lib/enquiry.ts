@@ -50,7 +50,7 @@ export function buildEnquiryMessage(data: ContactFormData): string {
 - *सेवा/पूजन:* ${service}
 - *संदेश/संकल्प:* ${data.message.trim() || 'कोई अतिरिक्त संदेश नहीं'}
 
-*प्रणाम शास्त्री जी, कृपया मार्गदर्शन प्रदान करें।*`;
+*प्रणाम आचार्य जी, कृपया मार्गदर्शन प्रदान करें।*`;
 }
 
 export function buildWhatsAppUrl(data: ContactFormData): string {

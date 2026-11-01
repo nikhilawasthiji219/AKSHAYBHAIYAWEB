@@ -39,6 +39,24 @@ export function getCMSData(): CMSData {
       return INITIAL_CMS_DATA;
     }
     const parsed = JSON.parse(raw) as CMSData;
+    // Migration: refresh cached profile name if it still holds the old name
+    // after a source-of-truth rename, so returning visitors see the new name
+    // without manually clearing localStorage.
+    const OLD_PROFILE_NAME = "शास्त्री अक्षय अवस्थी जी";
+    if (
+      parsed.profile &&
+      typeof parsed.profile.name === "string" &&
+      parsed.profile.name === OLD_PROFILE_NAME
+    ) {
+      parsed.profile.name = INITIAL_CMS_DATA.profile.name;
+    }
+    if (
+      parsed.profile &&
+      typeof parsed.profile.englishName === "string" &&
+      parsed.profile.englishName === "Shastri Akshay Awasthi Ji"
+    ) {
+      parsed.profile.englishName = INITIAL_CMS_DATA.profile.englishName;
+    }
     // Ensure all critical root arrays exist in case of partial saves.
     // NOTE: an empty array is a valid, intentional state (the admin deleted every
     // item), so only fall back to defaults when the key is missing / not an array.

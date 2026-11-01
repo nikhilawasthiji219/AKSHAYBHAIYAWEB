@@ -11,7 +11,7 @@ export const HeroA: React.FC<{ onNavigate: (p: string) => void }> = ({ onNavigat
           <span className="text-xs font-serif font-bold text-maroon-deep tracking-wider">॥ श्री महाकालेश्वराय नमः ॥</span>
         </div>
         <h1 className="text-4xl md:text-5xl font-bold font-serif text-maroon-deep leading-tight">
-          शास्त्री अक्षय अवस्थी जी
+          आचार्य अक्षय अवस्थी
         </h1>
         <p className="text-xl font-serif text-[#8E2800] font-semibold">वैदिक कर्मकांड एवं धार्मिक अनुष्ठान आचार्य</p>
         <p className="text-sm font-serif">श्री महाकालेश्वर तीर्थ, उज्जैन — 15+ वर्षों का शास्त्रोक्त अनुभव</p>
@@ -31,7 +31,7 @@ export const HeroA: React.FC<{ onNavigate: (p: string) => void }> = ({ onNavigat
           </button>
         </div>
       </div>
-      <img src="/images/acharya_hero.png" alt="शास्त्री अक्षय अवस्थी जी" className="h-[420px] w-auto object-contain" loading="eager" />
+      <img src="/images/acharya_hero.png" alt="आचार्य अक्षय अवस्थी" className="h-[420px] w-auto object-contain" loading="eager" />
     </div>
   </section>
 );

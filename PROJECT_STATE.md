@@ -31,7 +31,7 @@ npm run test:ui      # Playwright UI mode
 
 | Item | Value |
 |---|---|
-| Owner | Vedic priest Acharya Akshay Bhaiya (शास्त्री अक्षय अवस्थी जी), Ujjain |
+| Owner | Vedic priest Acharya Akshay Bhaiya (आचार्य अक्षय अवस्थी), Ujjain |
 | Stack | React 19 + TypeScript + Vite 6 + Tailwind CSS 3 |
 | Backend | **None exists** (despite AGENTS.md saying "API routes") |
 | Database | **None** — content stored in browser `localStorage` (planned: Supabase + ImageKit, see `db/README.md`) |
@@ -83,7 +83,7 @@ Unknown route or unknown service/blog slug → `NotFoundPage` (404).
 2. **`BookingForm.tsx` refactored** to shadcn `Input/Label/Select/Checkbox/Textarea/Button`.
    - ⚠️ `Checkbox onCheckedChange` returns `boolean`; cast is used (`checked as boolean`).
 3. **`Loader.tsx` redesigned** (Om symbol, rotating rings, SVG circular progress, typing mantra
-   "श्री महाकालेश्वराय नमः", subtitle "शास्त्री अक्षय अवस्थी जी | उज्जैन", reduced-motion support).
+   "श्री महाकालेश्वराय नमः", subtitle "आचार्य अक्षय अवस्थी | उज्जैन", reduced-motion support).
    Old canvas/diya/rudraksha loader CSS was replaced in `src/index.css` under
    `/* ---------- Sacred loading screen (Vedic heritage redesign) ---------- */`.
 4. **Full E2E audit completed** → see `AUDIT_REPORT.md` + screenshots in `audit-output*/`.
